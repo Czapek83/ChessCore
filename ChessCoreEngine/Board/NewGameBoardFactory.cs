@@ -41,6 +41,8 @@ namespace ChessEngine.Engine
             result.Squares[62].Piece = new Piece(ChessPieceType.Knight, ChessPieceColor.White);
             result.Squares[63].Piece = new Piece(ChessPieceType.Rook, ChessPieceColor.White);
 
+            //TODO: Remove lines below
+            PieceMoves.InitiateChessPieceMotion();
             PieceValidMoves.GenerateValidMoves(result);
 
             return result;

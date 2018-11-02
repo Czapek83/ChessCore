@@ -50,9 +50,6 @@ namespace ChessEngine.Engine
 
         internal Board()
         {
-            //TODO: Remove line below
-            PieceMoves.InitiateChessPieceMotion();
-
             Squares = new Square[64];
 
             for (byte i = 0; i < 64; i++)
