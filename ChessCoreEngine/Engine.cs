@@ -198,7 +198,6 @@ namespace ChessEngine.Engine
             HumanPlayer = ChessPieceColor.White;
             OpeningBook = new List<OpeningMove>();
             CurrentGameBook = new List<OpeningMove>();
-            PieceMoves.InitiateChessPieceMotion();
             LoadOpeningBook();
         }
 

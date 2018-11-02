@@ -12,7 +12,7 @@ namespace ChessEngine.Engine
         }
     }
 
-    internal struct MoveArrays
+    internal static class MoveArrays
     {
         internal static PieceMoveSet[] BishopMoves1;
         internal static byte[] BishopTotalMoves1;
@@ -63,88 +63,71 @@ namespace ChessEngine.Engine
 
         internal static PieceMoveSet[] KingMoves;
         internal static byte[] KingTotalMoves;
-    }
 
-    internal static class PieceMoves
-    {
-        internal static bool Initiated;
+        #region StaticConstructor
 
-        private static byte Position(byte col, byte row)
+        static MoveArrays()
         {
-            return (byte)(col + (row * 8));
-        }
+            WhitePawnMoves = new PieceMoveSet[64];
+            WhitePawnTotalMoves = new byte[64];
 
-        #region IntitiateMotionMethods
+            BlackPawnMoves = new PieceMoveSet[64];
+            BlackPawnTotalMoves = new byte[64];
 
-        internal static void InitiateChessPieceMotion()
-        {
-            if (Initiated)
-            {
-                return;
-            }
+            KnightMoves = new PieceMoveSet[64];
+            KnightTotalMoves = new byte[64];
 
-            Initiated = true;
+            BishopMoves1 = new PieceMoveSet[64];
+            BishopTotalMoves1 = new byte[64];
 
-            MoveArrays.WhitePawnMoves = new PieceMoveSet[64];
-            MoveArrays.WhitePawnTotalMoves = new byte[64];
+            BishopMoves2 = new PieceMoveSet[64];
+            BishopTotalMoves2 = new byte[64];
 
-            MoveArrays.BlackPawnMoves = new PieceMoveSet[64];
-            MoveArrays.BlackPawnTotalMoves = new byte[64];
+            BishopMoves3 = new PieceMoveSet[64];
+            BishopTotalMoves3 = new byte[64];
 
-            MoveArrays.KnightMoves = new PieceMoveSet[64];
-            MoveArrays.KnightTotalMoves = new byte[64];
+            BishopMoves4 = new PieceMoveSet[64];
+            BishopTotalMoves4 = new byte[64];
 
-            MoveArrays.BishopMoves1 = new PieceMoveSet[64];
-            MoveArrays.BishopTotalMoves1 = new byte[64];
+            RookMoves1 = new PieceMoveSet[64];
+            RookTotalMoves1 = new byte[64];
 
-            MoveArrays.BishopMoves2 = new PieceMoveSet[64];
-            MoveArrays.BishopTotalMoves2 = new byte[64];
+            RookMoves2 = new PieceMoveSet[64];
+            RookTotalMoves2 = new byte[64];
 
-            MoveArrays.BishopMoves3 = new PieceMoveSet[64];
-            MoveArrays.BishopTotalMoves3 = new byte[64];
+            RookMoves3 = new PieceMoveSet[64];
+            RookTotalMoves3 = new byte[64];
 
-            MoveArrays.BishopMoves4 = new PieceMoveSet[64];
-            MoveArrays.BishopTotalMoves4 = new byte[64];
+            RookMoves4 = new PieceMoveSet[64];
+            RookTotalMoves4 = new byte[64];
 
-            MoveArrays.RookMoves1 = new PieceMoveSet[64];
-            MoveArrays.RookTotalMoves1 = new byte[64];
+            QueenMoves1 = new PieceMoveSet[64];
+            QueenTotalMoves1 = new byte[64];
 
-            MoveArrays.RookMoves2 = new PieceMoveSet[64];
-            MoveArrays.RookTotalMoves2 = new byte[64];
+            QueenMoves2 = new PieceMoveSet[64];
+            QueenTotalMoves2 = new byte[64];
 
-            MoveArrays.RookMoves3 = new PieceMoveSet[64];
-            MoveArrays.RookTotalMoves3 = new byte[64];
+            QueenMoves3 = new PieceMoveSet[64];
+            QueenTotalMoves3 = new byte[64];
 
-            MoveArrays.RookMoves4 = new PieceMoveSet[64];
-            MoveArrays.RookTotalMoves4 = new byte[64];
+            QueenMoves4 = new PieceMoveSet[64];
+            QueenTotalMoves4 = new byte[64];
 
-            MoveArrays.QueenMoves1 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves1 = new byte[64];
+            QueenMoves5 = new PieceMoveSet[64];
+            QueenTotalMoves5 = new byte[64];
 
-            MoveArrays.QueenMoves2 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves2 = new byte[64];
+            QueenMoves6 = new PieceMoveSet[64];
+            QueenTotalMoves6 = new byte[64];
 
-            MoveArrays.QueenMoves3 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves3 = new byte[64];
+            QueenMoves7 = new PieceMoveSet[64];
+            QueenTotalMoves7 = new byte[64];
 
-            MoveArrays.QueenMoves4 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves4 = new byte[64];
+            QueenMoves8 = new PieceMoveSet[64];
+            QueenTotalMoves8 = new byte[64];
 
-            MoveArrays.QueenMoves5 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves5 = new byte[64];
+            KingMoves = new PieceMoveSet[64];
+            KingTotalMoves = new byte[64];
 
-            MoveArrays.QueenMoves6 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves6 = new byte[64];
-
-            MoveArrays.QueenMoves7 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves7 = new byte[64];
-
-            MoveArrays.QueenMoves8 = new PieceMoveSet[64];
-            MoveArrays.QueenTotalMoves8 = new byte[64];
-
-            MoveArrays.KingMoves = new PieceMoveSet[64];
-            MoveArrays.KingTotalMoves = new byte[64];
-            
             SetMovesWhitePawn();
             SetMovesBlackPawn();
             SetMovesKnight();
@@ -154,39 +137,48 @@ namespace ChessEngine.Engine
             SetMovesKing();
         }
 
+        #endregion
+
+        #region PrivateHelperMethods
+
+        private static byte Position(byte col, byte row)
+        {
+            return (byte)(col + (row * 8));
+        }
+
         private static void SetMovesBlackPawn()
         {
             for (byte index = 8; index <= 55; index++)
             {
                 var moveset = new PieceMoveSet(new List<byte>());
-                
+
                 byte x = (byte)(index % 8);
                 byte y = (byte)((index / 8));
-                
+
                 //Diagonal Kill
                 if (y < 7 && x < 7)
                 {
                     moveset.Moves.Add((byte)(index + 8 + 1));
-                    MoveArrays.BlackPawnTotalMoves[index]++;
+                    BlackPawnTotalMoves[index]++;
                 }
                 if (x > 0 && y < 7)
                 {
                     moveset.Moves.Add((byte)(index + 8 - 1));
-                    MoveArrays.BlackPawnTotalMoves[index]++;
+                    BlackPawnTotalMoves[index]++;
                 }
-                
+
                 //One Forward
                 moveset.Moves.Add((byte)(index + 8));
-                MoveArrays.BlackPawnTotalMoves[index]++;
+                BlackPawnTotalMoves[index]++;
 
                 //Starting Position we can jump 2
                 if (y == 1)
                 {
                     moveset.Moves.Add((byte)(index + 16));
-                    MoveArrays.BlackPawnTotalMoves[index]++;
+                    BlackPawnTotalMoves[index]++;
                 }
 
-                MoveArrays.BlackPawnMoves[index] = moveset;
+                BlackPawnMoves[index] = moveset;
             }
         }
 
@@ -198,31 +190,31 @@ namespace ChessEngine.Engine
                 byte y = (byte)((index / 8));
 
                 var moveset = new PieceMoveSet(new List<byte>());
-               
+
                 //Diagonal Kill
                 if (x < 7 && y > 0)
                 {
                     moveset.Moves.Add((byte)(index - 8 + 1));
-                    MoveArrays.WhitePawnTotalMoves[index]++;
+                    WhitePawnTotalMoves[index]++;
                 }
                 if (x > 0 && y > 0)
                 {
                     moveset.Moves.Add((byte)(index - 8 - 1));
-                    MoveArrays.WhitePawnTotalMoves[index]++;
+                    WhitePawnTotalMoves[index]++;
                 }
 
                 //One Forward
                 moveset.Moves.Add((byte)(index - 8));
-                MoveArrays.WhitePawnTotalMoves[index]++;
+                WhitePawnTotalMoves[index]++;
 
                 //Starting Position we can jump 2
                 if (y == 6)
                 {
                     moveset.Moves.Add((byte)(index - 16));
-                    MoveArrays.WhitePawnTotalMoves[index]++;
+                    WhitePawnTotalMoves[index]++;
                 }
 
-                MoveArrays.WhitePawnMoves[index] = moveset;
+                WhitePawnMoves[index] = moveset;
             }
         }
 
@@ -235,7 +227,7 @@ namespace ChessEngine.Engine
                     byte index = (byte)(y + (x * 8));
 
                     var moveset = new PieceMoveSet(new List<byte>());
-                    
+
                     byte move;
 
                     if (y < 6 && x > 0)
@@ -245,7 +237,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -256,7 +248,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -267,7 +259,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -278,7 +270,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -289,7 +281,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -300,7 +292,7 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
@@ -311,10 +303,10 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
-                    
+
                     if (y < 7 && x < 6)
                     {
                         move = Position((byte)(y + 1), (byte)(x + 2));
@@ -322,11 +314,11 @@ namespace ChessEngine.Engine
                         if (move < 64)
                         {
                             moveset.Moves.Add(move);
-                            MoveArrays.KnightTotalMoves[index]++;
+                            KnightTotalMoves[index]++;
                         }
                     }
 
-                    MoveArrays.KnightMoves[index] = moveset;
+                    KnightMoves[index] = moveset;
                 }
             }
         }
@@ -352,10 +344,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.BishopTotalMoves1[index]++;
+                        BishopTotalMoves1[index]++;
                     }
 
-                    MoveArrays.BishopMoves1[index] = moveset;
+                    BishopMoves1[index] = moveset;
                     moveset = new PieceMoveSet(new List<byte>());
 
                     row = x;
@@ -368,10 +360,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.BishopTotalMoves2[index]++;
+                        BishopTotalMoves2[index]++;
                     }
 
-                    MoveArrays.BishopMoves2[index] = moveset;
+                    BishopMoves2[index] = moveset;
                     moveset = new PieceMoveSet(new List<byte>());
 
                     row = x;
@@ -384,10 +376,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.BishopTotalMoves3[index]++;
+                        BishopTotalMoves3[index]++;
                     }
 
-                    MoveArrays.BishopMoves3[index] = moveset;
+                    BishopMoves3[index] = moveset;
                     moveset = new PieceMoveSet(new List<byte>());
 
                     row = x;
@@ -400,10 +392,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.BishopTotalMoves4[index]++;
+                        BishopTotalMoves4[index]++;
                     }
 
-                    MoveArrays.BishopMoves4[index] = moveset;
+                    BishopMoves4[index] = moveset;
                 }
             }
         }
@@ -428,10 +420,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.RookTotalMoves1[index]++;
+                        RookTotalMoves1[index]++;
                     }
 
-                    MoveArrays.RookMoves1[index] = moveset;
+                    RookMoves1[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -443,10 +435,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.RookTotalMoves2[index]++;
+                        RookTotalMoves2[index]++;
                     }
 
-                    MoveArrays.RookMoves2[index] = moveset;
+                    RookMoves2[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -458,10 +450,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.RookTotalMoves3[index]++;
+                        RookTotalMoves3[index]++;
                     }
 
-                    MoveArrays.RookMoves3[index] = moveset;
+                    RookMoves3[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -473,10 +465,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.RookTotalMoves4[index]++;
+                        RookTotalMoves4[index]++;
                     }
 
-                    MoveArrays.RookMoves4[index] = moveset;
+                    RookMoves4[index] = moveset;
                 }
             }
         }
@@ -501,10 +493,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves1[index]++;
+                        QueenTotalMoves1[index]++;
                     }
 
-                    MoveArrays.QueenMoves1[index] = moveset;
+                    QueenMoves1[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -516,10 +508,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves2[index]++;
+                        QueenTotalMoves2[index]++;
                     }
 
-                    MoveArrays.QueenMoves2[index] = moveset;
+                    QueenMoves2[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -531,10 +523,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves3[index]++;
+                        QueenTotalMoves3[index]++;
                     }
 
-                    MoveArrays.QueenMoves3[index] = moveset;
+                    QueenMoves3[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -546,10 +538,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves4[index]++;
+                        QueenTotalMoves4[index]++;
                     }
 
-                    MoveArrays.QueenMoves4[index] = moveset;
+                    QueenMoves4[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -562,10 +554,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves5[index]++;
+                        QueenTotalMoves5[index]++;
                     }
 
-                    MoveArrays.QueenMoves5[index] = moveset;
+                    QueenMoves5[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -578,10 +570,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves6[index]++;
+                        QueenTotalMoves6[index]++;
                     }
 
-                    MoveArrays.QueenMoves6[index] = moveset;
+                    QueenMoves6[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -594,10 +586,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves7[index]++;
+                        QueenTotalMoves7[index]++;
                     }
 
-                    MoveArrays.QueenMoves7[index] = moveset;
+                    QueenMoves7[index] = moveset;
 
                     moveset = new PieceMoveSet(new List<byte>());
                     row = x;
@@ -610,10 +602,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.QueenTotalMoves8[index]++;
+                        QueenTotalMoves8[index]++;
                     }
 
-                    MoveArrays.QueenMoves8[index] = moveset;
+                    QueenMoves8[index] = moveset;
                 }
             }
         }
@@ -638,7 +630,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -650,7 +642,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -662,7 +654,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -674,7 +666,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -687,7 +679,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -700,7 +692,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
                     row = x;
@@ -713,7 +705,7 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
 
@@ -727,10 +719,10 @@ namespace ChessEngine.Engine
 
                         move = Position(col, row);
                         moveset.Moves.Add(move);
-                        MoveArrays.KingTotalMoves[index]++;
+                        KingTotalMoves[index]++;
                     }
 
-                    MoveArrays.KingMoves[index] = moveset;
+                    KingMoves[index] = moveset;
                 }
             }
         }
