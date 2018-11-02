@@ -11,9 +11,10 @@ class Program
 
 	private static void RunEngine()
 	{
-		bool ShowBoard = false;
+		bool ShowBoard = true;
 
-		var engine = new Engine();
+	    Board board = new NewGameBoardFactory().CreateBoard();
+		var engine = new Engine(board);
 
 
 
@@ -215,7 +216,7 @@ class Program
 						{
 							string fen = move.Substring(move.IndexOf(" "), move.Length - move.IndexOf(" ")).Trim();
 
-							engine.InitiateBoard(fen);
+                            engine = new Engine(new FenBoardFactory(fen).CreateBoard());
 						}
 
 						continue;

@@ -178,33 +178,16 @@ namespace ChessEngine.Engine
 
         #region Constructors
 
-        public Engine()
+        public Engine(Board board)
         {
             InitiateEngine();
-            InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        }
-
-        public Engine(string fen)
-        {
-            InitiateEngine();
-            InitiateBoard(fen);
+            ChessBoard = board;
         }
 
         public void NewGame()
         {
             InitiateEngine();
-            InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        }
-
-        public void InitiateBoard(string fen)
-        {
-            ChessBoard = new Board(fen);
-
-            if (!String.IsNullOrEmpty(fen))
-            {
-                PieceValidMoves.GenerateValidMoves(ChessBoard);
-                Evaluation.EvaluateBoardScore(ChessBoard);
-            }
+            ChessBoard = new NewGameBoardFactory().CreateBoard();
         }
 
         private void InitiateEngine()
