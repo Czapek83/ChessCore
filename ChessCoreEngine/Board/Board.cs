@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("ChessCoreEngine.Tests")]
 
@@ -10,7 +11,36 @@ namespace ChessEngine.Engine
         internal bool[] BlackAttackBoard { get; private set; }
         internal bool[] WhiteAttackBoard { get; private set; }
 
-        internal bool InsufficientMaterial;
+        internal bool InsufficientMaterial
+        {
+            get
+            {
+                var pieces = Squares.Where(y => y.Piece != null).Select(z => z.Piece);
+
+                if (pieces.Any(x => x.PieceType != ChessPieceType.Bishop 
+                && x.PieceType != ChessPieceType.Knight && x.PieceType != ChessPieceType.King))
+                    return false;
+
+                if (AreTwoKnightsOrLessOnly() || AreTwoBishopsOppositeOrOneBishopOnly())
+                    return true;
+
+                bool AreTwoKnightsOrLessOnly()
+                {
+                    return pieces.Count(x => x.PieceType == ChessPieceType.Knight) <= 2
+                        && !pieces.Any(y => y.PieceType != ChessPieceType.Knight && y.PieceType != ChessPieceType.King);
+                }
+
+                bool AreTwoBishopsOppositeOrOneBishopOnly()
+                {
+                    return pieces.Count(x => x.PieceType == ChessPieceType.Bishop && x.PieceColor == ChessPieceColor.White) <= 1
+                        && pieces.Count(x => x.PieceType == ChessPieceType.Bishop && x.PieceColor == ChessPieceColor.Black) <= 1
+                        && !pieces.Any(y => y.PieceType != ChessPieceType.Bishop && y.PieceType != ChessPieceType.King);
+                }
+
+                return false;
+            }
+        }
+
         internal int Score;
         internal ulong ZobristHash;             
         //Game Over Flags

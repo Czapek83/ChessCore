@@ -66,8 +66,7 @@ namespace ChessEngine.Engine
             -50,-30,-30,-30,-30,-30,-30,-50
         };
 
-        private static int EvaluatePieceScore(Square square, byte position, bool endGamePhase,
-                                                ref byte knightCount, ref byte bishopCount, ref bool insufficientMaterial)
+        private static int EvaluatePieceScore(Square square, byte position, bool endGamePhase)
         {
             int score = 0;
 
@@ -97,8 +96,6 @@ namespace ChessEngine.Engine
 
             if (square.Piece.PieceType == ChessPieceType.Pawn)
             {
-                insufficientMaterial = false;
-
                 if (position % 8 == 0 || position % 8 == 7)
                 {
                     //Rook Pawns are worth 15% less because they can only attack one way
@@ -176,8 +173,6 @@ namespace ChessEngine.Engine
             }
             else if (square.Piece.PieceType == ChessPieceType.Knight)
             {
-                knightCount++;
-
                 score += KnightTable[index];
 
                 //In the end game remove a few points for Knights since they are worth less
@@ -189,14 +184,6 @@ namespace ChessEngine.Engine
             }
             else if (square.Piece.PieceType == ChessPieceType.Bishop)
             {
-                bishopCount++;
-
-                if (bishopCount >= 2)
-                {
-                    //2 Bishops receive a bonus
-                    score += 10;
-                }
-
                 //In the end game Bishops are worth more
                 if (endGamePhase)
                 {
@@ -205,14 +192,8 @@ namespace ChessEngine.Engine
 
                 score += BishopTable[index];
             }
-            else if (square.Piece.PieceType == ChessPieceType.Rook)
-            {
-                insufficientMaterial = false;
-            }
             else if (square.Piece.PieceType == ChessPieceType.Queen)
             {
-                insufficientMaterial = false;
-
                 if (square.Piece.Moved && !endGamePhase)
                 {
                     score -= 10;
@@ -250,8 +231,6 @@ namespace ChessEngine.Engine
             //Black Score - 
             //White Score +
             board.Score = 0;
-
-            bool insufficientMaterial = true;
 
             if (board.StaleMate)
             {
@@ -305,16 +284,6 @@ namespace ChessEngine.Engine
                 board.Score -= 10;
             }
 
-            byte blackBishopCount = 0;
-            byte whiteBishopCount = 0;
-
-            byte blackKnightCount = 0;
-            byte whiteKnightCount = 0;
-
-
-            byte knightCount = 0;
-
-
             blackPawnCount = new short[8];
             whitePawnCount = new short[8];
 
@@ -328,8 +297,7 @@ namespace ChessEngine.Engine
 
                 if (square.Piece.PieceColor == ChessPieceColor.White)
                 {
-                    board.Score += EvaluatePieceScore(square, x, board.EndGamePhase,
-                        ref whiteKnightCount, ref whiteBishopCount, ref insufficientMaterial);
+                    board.Score += EvaluatePieceScore(square, x, board.EndGamePhase);
 
                     if (square.Piece.PieceType == ChessPieceType.King)
                     {
@@ -351,8 +319,7 @@ namespace ChessEngine.Engine
                 }
                 else if (square.Piece.PieceColor == ChessPieceColor.Black)
                 {
-                    board.Score -= EvaluatePieceScore(square, x, board.EndGamePhase,
-                        ref blackKnightCount, ref blackBishopCount, ref insufficientMaterial);
+                    board.Score -= EvaluatePieceScore(square, x, board.EndGamePhase);
 
 
                     if (square.Piece.PieceType == ChessPieceType.King)
@@ -376,38 +343,15 @@ namespace ChessEngine.Engine
                    
                 }
 
-                if (square.Piece.PieceType == ChessPieceType.Knight)
-                {
-                    knightCount++;
-
-                    if (knightCount > 1)
-                    {
-                        insufficientMaterial = false;
-                    }
-                }
-
-                if ((blackBishopCount + whiteBishopCount) > 1)
-                {
-                    insufficientMaterial = false;
-                }
-                else if ((blackBishopCount + blackKnightCount) > 1)
-                {
-                    insufficientMaterial = false;
-                }
-                else if ((whiteBishopCount + whiteKnightCount) > 1)
-                {
-                    insufficientMaterial = false;
-                }
-
             }
 
-            if (insufficientMaterial)
-            {
-                board.Score = 0;
-                board.StaleMate = true;
-                board.InsufficientMaterial = true;
-                return;
-            }
+            //TODO: Update score, stalemate and return
+            //if (engine.insufficientMaterial)
+            //{
+            //    board.Score = 0;
+            //    board.StaleMate = true;
+            //    return;
+            //}
 
             if (board.EndGamePhase)
             {
