@@ -10,8 +10,6 @@ namespace ChessEngine.Engine
         {
             var result = new Board();
 
-            result.Squares = new Square[64];
-
             for (byte i = 0; i < 64; i++)
             {
                 result.Squares[i] = new Square();

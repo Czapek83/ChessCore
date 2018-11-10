@@ -12,8 +12,6 @@ namespace ChessEngine.Engine
 
             result.WhoseMove = ChessPieceColor.White;
 
-            result.Squares = new Square[64];
-
             result.Squares[0].Piece = new Piece(ChessPieceType.Rook, ChessPieceColor.Black);
             result.Squares[1].Piece = new Piece(ChessPieceType.Knight, ChessPieceColor.Black);
             result.Squares[2].Piece = new Piece(ChessPieceType.Bishop, ChessPieceColor.Black);
