@@ -345,13 +345,12 @@ namespace ChessEngine.Engine
 
             }
 
-            //TODO: Update score, stalemate and return
-            //if (engine.insufficientMaterial)
-            //{
-            //    board.Score = 0;
-            //    board.StaleMate = true;
-            //    return;
-            //}
+            if (board.InsufficientMaterial)
+            {
+                board.Score = 0;
+                board.StaleMate = true;
+                return;
+            }
 
             if (board.EndGamePhase)
             {
