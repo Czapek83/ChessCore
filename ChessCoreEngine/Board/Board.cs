@@ -7,8 +7,8 @@ namespace ChessEngine.Engine
     public sealed class Board
     {
         internal Square[] Squares { get; private set; }
-        internal bool[] BlackAttackBoard;
-        internal bool[] WhiteAttackBoard;
+        internal bool[] BlackAttackBoard { get; private set; }
+        internal bool[] WhiteAttackBoard { get; private set; }
 
         internal bool InsufficientMaterial;
         internal int Score;

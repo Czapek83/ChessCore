@@ -20,9 +20,6 @@ namespace ChessEngine.Engine
             result.BlackCanCastle = true;
             result.WhiteCanCastle = true;
 
-            result.WhiteAttackBoard = new bool[64];
-            result.BlackAttackBoard = new bool[64];
-
             return result;
         }
     }
