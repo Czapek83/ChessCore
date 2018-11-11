@@ -592,11 +592,6 @@ namespace ChessEngine.Engine
                 board.WhiteCanCastle = false;
             }
 
-            if (remainingPieces < 10)
-            {
-                board.EndGamePhase = true;
-            }
-
 
             if (board.WhoseMove == ChessPieceColor.White)
             {

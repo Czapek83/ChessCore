@@ -67,7 +67,13 @@ namespace ChessEngine.Engine
         internal bool BlackCanCastle;
         internal bool WhiteCanCastle;
 
-        internal bool EndGamePhase;
+        internal bool EndGamePhase
+        {
+            get
+            {
+                return Squares.Count(x => x.Piece != null) < 10;
+            }
+        }
 
         internal MoveContent LastMove;
 
@@ -144,8 +150,6 @@ namespace ChessEngine.Engine
                 WhiteAttackBoard[x] = board.WhiteAttackBoard[x];
                 BlackAttackBoard[x] = board.BlackAttackBoard[x];
             }
-
-            EndGamePhase = board.EndGamePhase;
 
             FiftyMove = board.FiftyMove;
             RepeatedMove = board.RepeatedMove;
@@ -342,7 +346,6 @@ namespace ChessEngine.Engine
         {
             Board clonedBoard = new Board(Squares);
 
-            clonedBoard.EndGamePhase = EndGamePhase;
             clonedBoard.WhoseMove = WhoseMove;
             clonedBoard.MoveCount = MoveCount;
             clonedBoard.FiftyMove = FiftyMove;

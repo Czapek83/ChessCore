@@ -60,5 +60,31 @@ namespace ChessEngine.Tests
             var board = new FenBoardFactory(fen).CreateBoard();
             board.InsufficientMaterial.Should().Be(false);
         }
+
+        [TestCase("5k2/8/8/8/8/8/6N1/6K1 b - - 0 17")]
+        [TestCase("5k2/8/8/8/8/8/5B2/6K1 b - - 0 45")]
+        [TestCase("5k2/8/8/8/8/8/8/6K1 b - - 0 111")]
+        [TestCase("5k2/5n2/8/8/8/8/5N2/6K1 b - - 5 97")]
+        [TestCase("5k2/4nn2/8/8/8/8/8/6K1 b - - 0 45")]
+        [TestCase("5k2/5b2/8/8/8/8/5B2/6K1 b - - 5 42")]
+        public void EndgameTests(string fen)
+        {
+            var board = new FenBoardFactory(fen).CreateBoard();
+            board.EndGamePhase.Should().Be(true);
+        }
+
+
+        [TestCase("r4k1r/8/4q3/8/8/8/4NNB1/R1B3K1 b - - 0 1")]
+        [TestCase("r5k1/5pp1/1pNp2bp/1P1P4/2q5/1R3P1P/3r2PK/3Q4 w - - 0 40")]
+        [TestCase("rn1r2k1/pp2bppp/6q1/3pP1N1/8/2N1B3/PP1Q1PbP/R4RK1 w - - 0 16")]
+        [TestCase("r2r2k1/2q1bppp/2p1p3/pp1n1b2/2nP4/2PNBN1P/PP2BPP1/R1Q2RK1 b - - 5 17")]
+        [TestCase("r2q1k2/3p1p2/p1p5/1p6/3P3Q/2P2PP1/PP3P2/R5K1 b - - 0 27")]
+        [TestCase("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2")]
+        [TestCase("rnbqkbnr/1p1p1ppp/p7/4p3/4P3/5N2/PPP2PPP/RNBQKB1R b KQkq - 1 5")]
+        public void NotEndgameTests(string fen)
+        {
+            var board = new FenBoardFactory(fen).CreateBoard();
+            board.EndGamePhase.Should().Be(false);
+        }
     }
 }
