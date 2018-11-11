@@ -229,7 +229,7 @@ namespace ChessEngine.Engine
 
             if (examineBoard.WhiteCheck || examineBoard.BlackCheck || positions.Count == 0)
             {
-                if (SearchForMate(examineBoard.WhoseMove, examineBoard, ref examineBoard.BlackMate, ref examineBoard.WhiteMate, ref examineBoard.StaleMate))
+                if (SearchForMate(examineBoard.WhoseMove, examineBoard, ref examineBoard.BlackMate, ref examineBoard.WhiteMate))
                 {
                     if (examineBoard.BlackMate)
                     {
@@ -571,7 +571,7 @@ namespace ChessEngine.Engine
             return positions;
         }
 
-        internal static bool SearchForMate(ChessPieceColor movingSide, Board examineBoard, ref bool blackMate, ref bool whiteMate, ref bool staleMate)
+        internal static bool SearchForMate(ChessPieceColor movingSide, Board examineBoard, ref bool blackMate, ref bool whiteMate)
         {
             bool foundNonCheckBlack = false;
             bool foundNonCheckWhite = false;
@@ -630,7 +630,6 @@ namespace ChessEngine.Engine
                 }
                 if (!examineBoard.WhiteMate && movingSide != ChessPieceColor.White)
                 {
-                    staleMate = true;
                     return true;
                 }
             }
@@ -644,7 +643,6 @@ namespace ChessEngine.Engine
                 }
                 if (!examineBoard.BlackMate && movingSide != ChessPieceColor.Black)
                 {
-                    staleMate = true;
                     return true;
                 }
             }

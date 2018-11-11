@@ -232,7 +232,7 @@ namespace ChessEngine.Engine
             //White Score +
             board.Score = 0;
 
-            if (board.StaleMate)
+            if (board.IsDraw)
             {
                 return;
             }
@@ -348,7 +348,6 @@ namespace ChessEngine.Engine
             if (board.InsufficientMaterial)
             {
                 board.Score = 0;
-                board.StaleMate = true;
                 return;
             }
 

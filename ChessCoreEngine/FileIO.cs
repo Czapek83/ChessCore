@@ -38,10 +38,6 @@ namespace ChessEngine.Engine
                         currentBoard.RepeatedMove = repeatedMoves;
                     }
                 }
-                if (currentBoard.RepeatedMove >= 3)
-                {
-                    currentBoard.StaleMate = true;
-                }
             }
             catch (Exception)
             {

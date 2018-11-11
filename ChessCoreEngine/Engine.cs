@@ -132,8 +132,7 @@ namespace ChessEngine.Engine
 
         public bool StaleMate
         {
-            get { return ChessBoard.StaleMate; }
-            set { ChessBoard.StaleMate = value; }
+            get { return ChessBoard.IsDraw; }
         }
         public bool RepeatedMove
         {
@@ -233,9 +232,9 @@ namespace ChessEngine.Engine
         private static bool CheckForMate(ChessPieceColor whosTurn, ref Board chessBoard)
         {
             Search.SearchForMate(whosTurn, chessBoard, ref chessBoard.BlackMate,
-                                 ref chessBoard.WhiteMate, ref chessBoard.StaleMate);
+                                 ref chessBoard.WhiteMate);
 
-            if (chessBoard.BlackMate || chessBoard.WhiteMate || chessBoard.StaleMate)
+            if (chessBoard.BlackMate || chessBoard.WhiteMate || chessBoard.IsDraw)
             {
                 return true;
             }
@@ -636,7 +635,7 @@ namespace ChessEngine.Engine
 
         public bool IsGameOver()
         {
-            if (ChessBoard.StaleMate)
+            if (ChessBoard.IsDraw)
             {
                 return true;
             }
@@ -662,7 +661,7 @@ namespace ChessEngine.Engine
 
         public bool IsTie()
         {
-            if (ChessBoard.StaleMate)
+            if (ChessBoard.IsDraw)
             {
                 return true;
             }

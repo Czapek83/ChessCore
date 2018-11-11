@@ -42,13 +42,21 @@ namespace ChessEngine.Engine
         }
 
         internal int Score;
-        internal ulong ZobristHash;             
+        internal ulong ZobristHash { get; private set; }
         //Game Over Flags
         internal bool BlackCheck;
         internal bool BlackMate;
         internal bool WhiteCheck;
         internal bool WhiteMate;
-        internal bool StaleMate;
+        internal bool IsDraw
+        {
+            get
+            {
+                if (InsufficientMaterial || RepeatedMove >= 3 || FiftyMove >= 50)
+                    return true;
+                return false;
+            }
+        }
 
         internal byte FiftyMove;
         internal byte RepeatedMove;
@@ -153,7 +161,6 @@ namespace ChessEngine.Engine
 
             BlackCheck = board.BlackCheck;
             WhiteCheck = board.WhiteCheck;
-            StaleMate = board.StaleMate;
             WhiteMate = board.WhiteMate;
             BlackMate = board.BlackMate;
             WhoseMove = board.WhoseMove;
@@ -424,11 +431,6 @@ namespace ChessEngine.Engine
             else
             {
                 board.LastMove.PawnPromotedTo = ChessPieceType.None;
-            }
-
-            if ( board.FiftyMove >= 50)
-            {
-                board.StaleMate = true;
             }
 
             return board.LastMove;
