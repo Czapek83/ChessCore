@@ -13,8 +13,8 @@ class Program
 	{
 		bool ShowBoard = true;
 
-	    Board board = new NewGameBoardFactory().CreateBoard();
-		var engine = new Engine(board);
+	    Board board = Board.CreateNewGameBoard();
+        var engine = new Engine(board);
 
 
 
@@ -216,7 +216,7 @@ class Program
 						{
 							string fen = move.Substring(move.IndexOf(" "), move.Length - move.IndexOf(" ")).Trim();
 
-                            engine = new Engine(new FenBoardFactory(fen).CreateBoard());
+                            engine = new Engine(Board.CreateBoardFromFen(fen));
 						}
 
 						continue;

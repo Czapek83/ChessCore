@@ -13,7 +13,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void TestBoardExampleFenConstructor()
         {
-            var boardFromFen = new FenBoardFactory("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 41").CreateBoard();
+            var boardFromFen = Board.CreateBoardFromFen("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 41");
 
             boardFromFen.Squares[5].Piece.PieceColor.Should().Be(ChessPieceColor.Black);
             boardFromFen.Squares[5].Piece.PieceType.Should().Be(ChessPieceType.King);
@@ -32,7 +32,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", 0)]
         public void TestFiftyMoveFromFen(string fen, byte fiftyMoves)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.FiftyMove.Should().Be(fiftyMoves);
         }
 
@@ -44,7 +44,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", 13)]
         public void TestMoveNumberFromFen(string fen, byte moveNumbers)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.MoveCount.Should().Be(moveNumbers);
         }
 
@@ -56,7 +56,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", ChessPieceColor.White)]
         public void TestWhoseMoveFromFen(string fen, ChessPieceColor whoseMove)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.WhoseMove.Should().Be(whoseMove);
         }
 
@@ -68,7 +68,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", false)]
         public void TestCanWhiteCastleFromFen(string fen, bool whiteCanCastle)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.WhiteCanCastle.Should().Be(whiteCanCastle);
         }
 
@@ -80,7 +80,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", true)]
         public void TestCanBlackCastleFromFen(string fen, bool blackCanCastle)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.BlackCanCastle.Should().Be(blackCanCastle);
         }
 
@@ -93,7 +93,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", true)]
         public void TestWhiteCastledFromFen(string fen, bool whiteCastled)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.WhiteCastled.Should().Be(whiteCastled);
         }
 
@@ -105,7 +105,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", false)]
         public void TestCanBlackCastledFromFen(string fen, bool blackCastled)
         {
-            var board = new FenBoardFactory(fen).CreateBoard();
+            var board = Board.CreateBoardFromFen(fen);
             board.BlackCastled.Should().Be(blackCastled);
         }
     }

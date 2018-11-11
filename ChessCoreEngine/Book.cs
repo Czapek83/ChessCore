@@ -13882,7 +13882,7 @@ namespace ChessEngine.Engine
 
         private static bool IsValidMove(byte srcPos, byte dstPos, string fen)
         {
-            Board chessBoard = new FenBoardFactory(fen).CreateBoard();
+            Board chessBoard = Board.CreateBoardFromFen(fen);
             PieceValidMoves.GenerateValidMoves(chessBoard);
 
 

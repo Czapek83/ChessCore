@@ -186,7 +186,7 @@ namespace ChessEngine.Engine
         public void NewGame()
         {
             InitiateEngine();
-            ChessBoard = new NewGameBoardFactory().CreateBoard();
+            ChessBoard = Board.CreateNewGameBoard();
         }
 
         private void InitiateEngine()

@@ -43,7 +43,7 @@ namespace ChessEngine.Engine
 
         private static Engine PuzzleKnightBishopCandidate()
         {
-            Engine engine = new Engine(new EmptyBoardFactory().CreateBoard());
+            Engine engine = new Engine(Board.CreateEmptyBoard());
 
             Random random = new Random(DateTime.Now.Second);
 
@@ -86,7 +86,7 @@ namespace ChessEngine.Engine
 
         private static Engine PuzzleRookCandidate()
         {
-            Engine engine = new Engine(new EmptyBoardFactory().CreateBoard());
+            Engine engine = new Engine(Board.CreateEmptyBoard());
 
             Random random = new Random(DateTime.Now.Second);
 
@@ -122,7 +122,7 @@ namespace ChessEngine.Engine
 
         private static Engine PuzzleKingPawnCandidate()
         {
-            Engine engine = new Engine(new EmptyBoardFactory().CreateBoard());
+            Engine engine = new Engine(Board.CreateEmptyBoard());
 
             Random random = new Random(DateTime.Now.Second);
 
