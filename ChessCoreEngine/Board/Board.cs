@@ -75,6 +75,8 @@ namespace ChessEngine.Engine
             }
         }
 
+        internal byte FiftyMove { get; private set; }
+
         internal int Score;
         
         //Game Over Flags
@@ -82,9 +84,7 @@ namespace ChessEngine.Engine
         internal bool BlackMate;
         internal bool WhiteCheck;
         internal bool WhiteMate;
-        
 
-        internal byte FiftyMove;
         internal byte RepeatedMove;
 
         internal bool BlackCastled;
