@@ -18,10 +18,11 @@ namespace ChessEngine.Engine
             var result = new Board();
 
             byte index = 0;
-            byte spc = 0;
 
             result.WhiteCastled = true;
             result.BlackCastled = true;
+            result.WhiteCanCastle = false;
+            result.BlackCanCastle = false;
 
             byte spacers = 0;
 
@@ -122,7 +123,7 @@ namespace ChessEngine.Engine
             foreach (char c in _fen)
             {
 
-                if (index < 64 && spc == 0)
+                if (index < 64 && spacers == 0)
                 {
                     if (c == '1' && index < 63)
                     {
@@ -234,12 +235,11 @@ namespace ChessEngine.Engine
                     }
                     else if (c == ' ')
                     {
-                        spc++;
+                        spacers++;
                     }
                 }
                 else
                 {
-
                     if (c == 'K')
                     {
                         if (result.Squares[60].Piece != null)
@@ -259,7 +259,7 @@ namespace ChessEngine.Engine
                         }
 
                         result.WhiteCastled = false;
-
+                        result.WhiteCanCastle = true;
                     }
                     else if (c == 'Q')
                     {
@@ -278,7 +278,7 @@ namespace ChessEngine.Engine
                                 result.Squares[56].Piece.Moved = false;
                             }
                         }
-
+                        result.WhiteCanCastle = true;
                         result.WhiteCastled = false;
                     }
                     else if (c == 'k')
@@ -300,6 +300,7 @@ namespace ChessEngine.Engine
                         }
 
                         result.BlackCastled = false;
+                        result.BlackCanCastle = true;
                     }
                     else if (c == 'q')
                     {
@@ -320,6 +321,7 @@ namespace ChessEngine.Engine
                         }
 
                         result.BlackCastled = false;
+                        result.BlackCanCastle = true;
                     }
                     else if (c == ' ')
                     {
