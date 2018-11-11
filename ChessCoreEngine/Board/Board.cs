@@ -77,6 +77,8 @@ namespace ChessEngine.Engine
 
         internal byte FiftyMove { get; private set; }
 
+        internal MoveContent LastMove { get; private set; }
+
         internal int Score;
         
         //Game Over Flags
@@ -92,9 +94,6 @@ namespace ChessEngine.Engine
 
         internal bool BlackCanCastle;
         internal bool WhiteCanCastle;
-
-        
-        internal MoveContent LastMove;
 
         //Who initated En Passant
         internal ChessPieceColor EnPassantColor;
