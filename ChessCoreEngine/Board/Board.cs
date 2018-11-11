@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("ChessCoreEngine.Tests")]
@@ -10,6 +11,17 @@ namespace ChessEngine.Engine
         internal Square[] Squares { get; private set; }
         internal bool[] BlackAttackBoard { get; private set; }
         internal bool[] WhiteAttackBoard { get; private set; }
+
+        internal ulong ZobristHash { get; private set; }
+        internal bool IsDraw
+        {
+            get
+            {
+                if (InsufficientMaterial || RepeatedMove >= 3 || FiftyMove >= 50)
+                    return true;
+                return false;
+            }
+        }
 
         internal bool InsufficientMaterial
         {
@@ -40,23 +52,37 @@ namespace ChessEngine.Engine
                 return false;
             }
         }
+        internal bool EndGamePhase
+        {
+            get
+            {
+                return Squares.Count(x => x.Piece != null) < 10;
+            }
+        }
+
+        internal byte WhiteKingPosition
+        {
+            get
+            {
+                return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(ChessPieceColor.White));
+            }
+        }
+        internal byte BlackKingPosition
+        {
+            get
+            {
+                return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(ChessPieceColor.Black));
+            }
+        }
 
         internal int Score;
-        internal ulong ZobristHash { get; private set; }
+        
         //Game Over Flags
         internal bool BlackCheck;
         internal bool BlackMate;
         internal bool WhiteCheck;
         internal bool WhiteMate;
-        internal bool IsDraw
-        {
-            get
-            {
-                if (InsufficientMaterial || RepeatedMove >= 3 || FiftyMove >= 50)
-                    return true;
-                return false;
-            }
-        }
+        
 
         internal byte FiftyMove;
         internal byte RepeatedMove;
@@ -67,20 +93,9 @@ namespace ChessEngine.Engine
         internal bool BlackCanCastle;
         internal bool WhiteCanCastle;
 
-        internal bool EndGamePhase
-        {
-            get
-            {
-                return Squares.Count(x => x.Piece != null) < 10;
-            }
-        }
-
+        
         internal MoveContent LastMove;
 
-        internal byte WhiteKingPosition;
-        internal byte BlackKingPosition;
-
-        
         //Who initated En Passant
         internal ChessPieceColor EnPassantColor;
         //Positions liable to En Passant
@@ -159,9 +174,6 @@ namespace ChessEngine.Engine
 
             WhiteCanCastle = board.WhiteCanCastle;
             BlackCanCastle = board.BlackCanCastle;
-
-            WhiteKingPosition = board.WhiteKingPosition;
-            BlackKingPosition = board.BlackKingPosition;
 
             BlackCheck = board.BlackCheck;
             WhiteCheck = board.WhiteCheck;
@@ -335,6 +347,13 @@ namespace ChessEngine.Engine
             }
 
             return;
+        }
+
+        private Square GetKingSquare(ChessPieceColor chessPieceColor)
+        {
+            return Squares.First(x => x.Piece != null
+                    && x.Piece.PieceType == ChessPieceType.King
+                    && x.Piece.PieceColor == chessPieceColor);
         }
 
         #endregion

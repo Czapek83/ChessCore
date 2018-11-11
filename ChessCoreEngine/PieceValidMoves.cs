@@ -567,7 +567,6 @@ namespace ChessEngine.Engine
                                 {
                                     board.WhiteCanCastle = false;
                                 }
-                                board.WhiteKingPosition = x;
                             }
                             else
                             {
@@ -575,7 +574,6 @@ namespace ChessEngine.Engine
                                 {
                                     board.BlackCanCastle = false;
                                 }
-                                board.BlackKingPosition = x;
                             }
 
                             break;
