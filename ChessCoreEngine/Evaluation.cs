@@ -66,35 +66,35 @@ namespace ChessEngine.Engine
             -50,-30,-30,-30,-30,-30,-30,-50
         };
 
-        private static int EvaluatePieceScore(Square square, byte position, bool endGamePhase)
+        private static int EvaluatePieceScore(Piece piece, byte position, bool endGamePhase)
         {
             int score = 0;
 
             byte index = position;
 
-            if (square.Piece.PieceColor == ChessPieceColor.Black)
+            if (piece.PieceColor == ChessPieceColor.Black)
             {
                 index = (byte)(63-position);
             }
 
             //Calculate Piece Values
-            score += square.Piece.PieceValue;
-            score += square.Piece.DefendedValue;
-            score -= square.Piece.AttackedValue;
+            score += piece.PieceValue;
+            score += piece.DefendedValue;
+            score -= piece.AttackedValue;
 
             //Double Penalty for Hanging Pieces
-            if (square.Piece.DefendedValue < square.Piece.AttackedValue)
+            if (piece.DefendedValue < piece.AttackedValue)
             {
-                score -= ((square.Piece.AttackedValue - square.Piece.DefendedValue)* 10);
+                score -= ((piece.AttackedValue - piece.DefendedValue)* 10);
             }
 
             //Add Points for Mobility
-            if (square.Piece.ValidMoves != null)
+            if (piece.ValidMoves != null)
             {
-                score += square.Piece.ValidMoves.Count;
+                score += piece.ValidMoves.Count;
             }
 
-            if (square.Piece.PieceType == ChessPieceType.Pawn)
+            if (piece.PieceType == ChessPieceType.Pawn)
             {
                 if (position % 8 == 0 || position % 8 == 7)
                 {
@@ -105,7 +105,7 @@ namespace ChessEngine.Engine
                 //Calculate Position Values
                 score += PawnTable[index];
 
-                if (square.Piece.PieceColor == ChessPieceColor.White)
+                if (piece.PieceColor == ChessPieceColor.White)
                 {
                     if (whitePawnCount[position % 8] > 0)
                     {
@@ -115,22 +115,22 @@ namespace ChessEngine.Engine
 
                     if (position >= 8 && position <= 15)
                     {
-                        if (square.Piece.AttackedValue == 0)
+                        if (piece.AttackedValue == 0)
                         {
                             whitePawnCount[position % 8] += 50;
 
-                            if (square.Piece.DefendedValue != 0)
+                            if (piece.DefendedValue != 0)
                                 whitePawnCount[position % 8] += 50;
                         }
                     }
                     else if (position >= 16 && position <= 23)
                     {
-                        if (square.Piece.AttackedValue == 0)
+                        if (piece.AttackedValue == 0)
                         {
                             whitePawnCount[position % 8] += 25;
 
 
-                            if (square.Piece.DefendedValue != 0)
+                            if (piece.DefendedValue != 0)
                                 whitePawnCount[position % 8] += 25;
                         }
                     }
@@ -147,22 +147,22 @@ namespace ChessEngine.Engine
 
                     if (position >= 48 && position <= 55)
                     {
-                        if (square.Piece.AttackedValue == 0)
+                        if (piece.AttackedValue == 0)
                         {
                             blackPawnCount[position % 8] += 200;
 
-                            if (square.Piece.DefendedValue != 0)
+                            if (piece.DefendedValue != 0)
                                 blackPawnCount[position % 8] += 50;
                         }
                     }
                     //Pawns in 6th Row that are not attacked are worth more points.
                     else if (position >= 40 && position <= 47)
                     {
-                        if (square.Piece.AttackedValue == 0)
+                        if (piece.AttackedValue == 0)
                         {
                             blackPawnCount[position % 8] += 100;
 
-                            if (square.Piece.DefendedValue != 0)
+                            if (piece.DefendedValue != 0)
                                 blackPawnCount[position % 8] += 25;
                         }
                     }
@@ -171,7 +171,7 @@ namespace ChessEngine.Engine
                     
                 }
             }
-            else if (square.Piece.PieceType == ChessPieceType.Knight)
+            else if (piece.PieceType == ChessPieceType.Knight)
             {
                 score += KnightTable[index];
 
@@ -182,7 +182,7 @@ namespace ChessEngine.Engine
                 }
 
             }
-            else if (square.Piece.PieceType == ChessPieceType.Bishop)
+            else if (piece.PieceType == ChessPieceType.Bishop)
             {
                 //In the end game Bishops are worth more
                 if (endGamePhase)
@@ -192,18 +192,18 @@ namespace ChessEngine.Engine
 
                 score += BishopTable[index];
             }
-            else if (square.Piece.PieceType == ChessPieceType.Queen)
+            else if (piece.PieceType == ChessPieceType.Queen)
             {
-                if (square.Piece.Moved && !endGamePhase)
+                if (piece.Moved && !endGamePhase)
                 {
                     score -= 10;
                 }
             }
-            else if (square.Piece.PieceType == ChessPieceType.King)
+            else if (piece.PieceType == ChessPieceType.King)
             {
-                if (square.Piece.ValidMoves != null)
+                if (piece.ValidMoves != null)
                 {
-                    if (square.Piece.ValidMoves.Count < 2)
+                    if (piece.ValidMoves.Count < 2)
                     {
                         score -= 5;
                     }
@@ -226,62 +226,60 @@ namespace ChessEngine.Engine
             return score;
         }
 
-        internal static void EvaluateBoardScore(Board board)
+        internal static int EvaluateBoardScore(EvaluationParameters evaluationParameters, Board board)
         {
             //Black Score - 
             //White Score +
-            board.Score = 0;
+            int result = 0;
 
-            if (board.IsDraw)
+            if (evaluationParameters.IsDraw)
             {
-                return;
+                return 0;
             }
-            if (board.FiftyMove >= 50)
+            if (evaluationParameters.FiftyMove >= 50)
             {
-                return;
+                return 0;
             }
-            if (board.RepeatedMove >= 3)
+            if (evaluationParameters.RepeatedMove >= 3)
             {
-                return;
+                return 0;
             }
-            if (board.BlackMate)
+            if (evaluationParameters.BlackMate)
             {
-                board.Score = 32767;
-                return;
+                return 32767;
             }
-            if (board.WhiteMate)
+            if (evaluationParameters.WhiteMate)
             {
-                board.Score = -32767;
-                return;
+                return -32767;
             }
-            if (board.BlackCheck)
+            if (evaluationParameters.BlackCheck)
             {
-                board.Score += 70;
-                if (board.EndGamePhase)
-                    board.Score += 10;
+                result += 70;
+                if (evaluationParameters.EndGamePhase)
+                    result += 10;
             }
-            else if (board.WhiteCheck)
+            else if (evaluationParameters.WhiteCheck)
             {
-                board.Score -= 70;
-                if (board.EndGamePhase)
-                    board.Score -= 10;
+                result -= 70;
+                if (evaluationParameters.EndGamePhase)
+                    result -= 10;
             }
-            if (board.BlackCastled)
+            if (evaluationParameters.BlackCastled)
             {
-                board.Score -= 50;
+                result -= 50;
             }
-            if (board.WhiteCastled)
+            if (evaluationParameters.WhiteCastled)
             {
-                board.Score += 50;
+                result += 50;
             }
             //Add a small bonus for tempo (turn)
-            if (board.WhoseMove == ChessPieceColor.White)
+            if (evaluationParameters.WhoseMove == ChessPieceColor.White)
             {
-                board.Score += 10;
+                result += 10;
             }
             else
             {
-                board.Score -= 10;
+                result -= 10;
             }
 
             blackPawnCount = new short[8];
@@ -297,7 +295,7 @@ namespace ChessEngine.Engine
 
                 if (square.Piece.PieceColor == ChessPieceColor.White)
                 {
-                    board.Score += EvaluatePieceScore(square, x, board.EndGamePhase);
+                    result += EvaluatePieceScore(square.Piece, x, evaluationParameters.EndGamePhase);
 
                     if (square.Piece.PieceType == ChessPieceType.King)
                     {
@@ -305,21 +303,21 @@ namespace ChessEngine.Engine
                         {
                             int pawnPos = x - 8;
 
-                            board.Score += CheckPawnWall(board, pawnPos, x);
+                            result += CheckPawnWall(board, pawnPos, x);
 
                             pawnPos = x - 7;
 
-                            board.Score += CheckPawnWall(board, pawnPos, x);
+                            result += CheckPawnWall(board, pawnPos, x);
 
                             pawnPos = x - 9;
 
-                            board.Score += CheckPawnWall(board, pawnPos, x);
+                            result += CheckPawnWall(board, pawnPos, x);
                         }
                     }
                 }
                 else if (square.Piece.PieceColor == ChessPieceColor.Black)
                 {
-                    board.Score -= EvaluatePieceScore(square, x, board.EndGamePhase);
+                    result -= EvaluatePieceScore(square.Piece, x, evaluationParameters.EndGamePhase);
 
 
                     if (square.Piece.PieceType == ChessPieceType.King)
@@ -328,15 +326,15 @@ namespace ChessEngine.Engine
                         {
                             int pawnPos = x + 8;
 
-                            board.Score -= CheckPawnWall(board, pawnPos, x);
+                            result -= CheckPawnWall(board, pawnPos, x);
 
                             pawnPos = x + 7;
 
-                            board.Score -= CheckPawnWall(board, pawnPos, x);
+                            result -= CheckPawnWall(board, pawnPos, x);
 
                             pawnPos = x + 9;
 
-                            board.Score -= CheckPawnWall(board, pawnPos, x);
+                            result -= CheckPawnWall(board, pawnPos, x);
                         }
 
                     }
@@ -345,182 +343,183 @@ namespace ChessEngine.Engine
 
             }
 
-            if (board.InsufficientMaterial)
+            if (evaluationParameters.InsufficientMaterial)
             {
-                board.Score = 0;
-                return;
+                return 0;
             }
 
-            if (board.EndGamePhase)
+            if (evaluationParameters.EndGamePhase)
             {
-                if (board.BlackCheck)
+                if (evaluationParameters.BlackCheck)
                 {
-                    board.Score += 10;
+                    result += 10;
                 }
-                else if (board.WhiteCheck)
+                else if (evaluationParameters.WhiteCheck)
                 {
-                    board.Score -= 10;
+                    result -= 10;
                 }
             }
             else
             {
-                if (!board.WhiteCanCastle && !board.WhiteCastled)
+                if (!evaluationParameters.WhiteCanCastle && !evaluationParameters.WhiteCastled)
                 {
-                    board.Score -= 50;
+                    result -= 50;
                 }
-                if (!board.BlackCanCastle && !board.BlackCastled)
+                if (!evaluationParameters.BlackCanCastle && !evaluationParameters.BlackCastled)
                 {
-                    board.Score += 50;
+                    result += 50;
                 }
             }
 
             //Black Isolated Pawns
             if (blackPawnCount[0] >= 1 && blackPawnCount[1] == 0)
             {
-                board.Score += 12;
+                result += 12;
             }
             if (blackPawnCount[1] >= 1 && blackPawnCount[0] == 0 &&
                 blackPawnCount[2] == 0)
             {
-                board.Score += 14;
+                result += 14;
             }
             if (blackPawnCount[2] >= 1 && blackPawnCount[1] == 0 &&
                 blackPawnCount[3] == 0)
             {
-                board.Score += 16;
+                result += 16;
             }
             if (blackPawnCount[3] >= 1 && blackPawnCount[2] == 0 &&
                 blackPawnCount[4] == 0)
             {
-                board.Score += 20;
+                result += 20;
             }
             if (blackPawnCount[4] >= 1 && blackPawnCount[3] == 0 &&
                 blackPawnCount[5] == 0)
             {
-                board.Score += 20;
+                result += 20;
             }
             if (blackPawnCount[5] >= 1 && blackPawnCount[4] == 0 &&
                 blackPawnCount[6] == 0)
             {
-                board.Score += 16;
+                result += 16;
             }
             if (blackPawnCount[6] >= 1 && blackPawnCount[5] == 0 &&
                 blackPawnCount[7] == 0)
             {
-                board.Score += 14;
+                result += 14;
             }
             if (blackPawnCount[7] >= 1 && blackPawnCount[6] == 0)
             {
-                board.Score += 12;
+                result += 12;
             }
 
             //White Isolated Pawns
             if (whitePawnCount[0] >= 1 && whitePawnCount[1] == 0)
             {
-                board.Score -= 12;
+                result -= 12;
             }
             if (whitePawnCount[1] >= 1 && whitePawnCount[0] == 0 &&
                 whitePawnCount[2] == 0)
             {
-                board.Score -= 14;
+                result -= 14;
             }
             if (whitePawnCount[2] >= 1 && whitePawnCount[1] == 0 &&
                 whitePawnCount[3] == 0)
             {
-                board.Score -= 16;
+                result -= 16;
             }
             if (whitePawnCount[3] >= 1 && whitePawnCount[2] == 0 &&
                 whitePawnCount[4] == 0)
             {
-                board.Score -= 20;
+                result -= 20;
             }
             if (whitePawnCount[4] >= 1 && whitePawnCount[3] == 0 &&
                 whitePawnCount[5] == 0)
             {
-                board.Score -= 20;
+                result -= 20;
             }
             if (whitePawnCount[5] >= 1 && whitePawnCount[4] == 0 &&
                 whitePawnCount[6] == 0)
             {
-                board.Score -= 16;
+                result -= 16;
             }
             if (whitePawnCount[6] >= 1 && whitePawnCount[5] == 0 &&
                 whitePawnCount[7] == 0)
             {
-                board.Score -= 14;
+                result -= 14;
             }
             if (whitePawnCount[7] >= 1 && whitePawnCount[6] == 0)
             {
-                board.Score -= 12;
+                result -= 12;
             }
 
             //Black Passed Pawns
             if (blackPawnCount[0] >= 1 && whitePawnCount[0] == 0)
             {
-                board.Score -= blackPawnCount[0];
+                result -= blackPawnCount[0];
             }
             if (blackPawnCount[1] >= 1 && whitePawnCount[1] == 0)
             {
-                board.Score -= blackPawnCount[1];
+                result -= blackPawnCount[1];
             }
             if (blackPawnCount[2] >= 1 && whitePawnCount[2] == 0)
             {
-                board.Score -= blackPawnCount[2];
+                result -= blackPawnCount[2];
             }
             if (blackPawnCount[3] >= 1 && whitePawnCount[3] == 0)
             {
-                board.Score -= blackPawnCount[3];
+                result -= blackPawnCount[3];
             }
             if (blackPawnCount[4] >= 1 && whitePawnCount[4] == 0)
             {
-                board.Score -= blackPawnCount[4];
+                result -= blackPawnCount[4];
             }
             if (blackPawnCount[5] >= 1 && whitePawnCount[5] == 0)
             {
-                board.Score -= blackPawnCount[5];
+                result -= blackPawnCount[5];
             }
             if (blackPawnCount[6] >= 1 && whitePawnCount[6] == 0)
             {
-                board.Score -= blackPawnCount[6];
+                result -= blackPawnCount[6];
             }
             if (blackPawnCount[7] >= 1 && whitePawnCount[7] == 0)
             {
-                board.Score -= blackPawnCount[7];
+                result -= blackPawnCount[7];
             }
 
             //White Passed Pawns
             if (whitePawnCount[0] >= 1 && blackPawnCount[1] == 0)
             {
-                board.Score += whitePawnCount[0];
+                result += whitePawnCount[0];
             }
             if (whitePawnCount[1] >= 1 && blackPawnCount[1] == 0)
             {
-                board.Score += whitePawnCount[1];
+                result += whitePawnCount[1];
             }
             if (whitePawnCount[2] >= 1 && blackPawnCount[2] == 0)
             {
-                board.Score += whitePawnCount[2];
+                result += whitePawnCount[2];
             }
             if (whitePawnCount[3] >= 1 && blackPawnCount[3] == 0)
             {
-                board.Score += whitePawnCount[3];
+                result += whitePawnCount[3];
             }
             if (whitePawnCount[4] >= 1 && blackPawnCount[4] == 0)
             {
-                board.Score += whitePawnCount[4];
+                result += whitePawnCount[4];
             }
             if (whitePawnCount[5] >= 1 && blackPawnCount[5] == 0)
             {
-                board.Score += whitePawnCount[5];
+                result += whitePawnCount[5];
             }
             if (whitePawnCount[6] >= 1 && blackPawnCount[6] == 0)
             {
-                board.Score += whitePawnCount[6];
+                result += whitePawnCount[6];
             }
             if (whitePawnCount[7] >= 1 && blackPawnCount[7] == 0)
             {
-                board.Score += whitePawnCount[7];
+                result += whitePawnCount[7];
             }
+
+            return result;
         }
 
         private static int CheckPawnWall(Board board, int pawnPos, int kingPos)
@@ -554,5 +553,23 @@ namespace ChessEngine.Engine
 
             return 0;
         }
+    }
+
+    public class EvaluationParameters
+    {
+        public bool IsDraw { get; internal set; }
+        public int FiftyMove { get; internal set; }
+        public int RepeatedMove { get; internal set; }
+        public bool BlackMate { get; internal set; }
+        public bool WhiteMate { get; internal set; }
+        public bool BlackCheck { get; internal set; }
+        public bool EndGamePhase { get; internal set; }
+        public bool WhiteCheck { get; internal set; }
+        public bool BlackCastled { get; internal set; }
+        public bool WhiteCastled { get; internal set; }
+        public ChessPieceColor WhoseMove { get; internal set; }
+        public bool InsufficientMaterial { get; internal set; }
+        public bool WhiteCanCastle { get; internal set; }
+        public bool BlackCanCastle { get; internal set; }
     }
 }

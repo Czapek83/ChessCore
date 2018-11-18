@@ -79,7 +79,7 @@ namespace ChessEngine.Engine
                     Board.MovePiece(board, x, dst, ChessPieceType.Queen);
 
                     //We Generate Valid Moves for Board
-                    PieceValidMoves.GenerateValidMoves(board);
+                    board.GenerateValidMoves();
 
                     
                     if (board.BlackCheck && movingSide == ChessPieceColor.Black)
@@ -93,7 +93,7 @@ namespace ChessEngine.Engine
                     } 
 
                     //We calculate the board score
-                    Evaluation.EvaluateBoardScore(board);
+                    board.Score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
                     //Invert Score to support Negamax
                     board.Score = SideToMoveScore(board.Score, GetOppositeColor(movingSide));

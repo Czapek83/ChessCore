@@ -175,7 +175,7 @@ namespace ChessEngine.Engine
                     Board.MovePiece(board, x, dst, ChessPieceType.Queen);
 
                     //We Generate Valid Moves for Board
-                    PieceValidMoves.GenerateValidMoves(board);
+                    board.GenerateValidMoves();
 
                     //Invalid Move
                     if (board.WhiteCheck && examineBoard.WhoseMove == ChessPieceColor.White)
@@ -190,7 +190,7 @@ namespace ChessEngine.Engine
                     }
 
                     //We calculate the board score
-                    Evaluation.EvaluateBoardScore(board);
+                    board.Score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
                     //Invert Score to support Negamax
                     board.Score = SideToMoveScore(board.Score, board.WhoseMove);
@@ -264,7 +264,7 @@ namespace ChessEngine.Engine
                 Board.MovePiece(board, move.SrcPosition, move.DstPosition, ChessPieceType.Queen);
 
                 //We Generate Valid Moves for Board
-                PieceValidMoves.GenerateValidMoves(board);
+                board.GenerateValidMoves();
 
                 if (board.BlackCheck)
                 {
@@ -320,7 +320,7 @@ namespace ChessEngine.Engine
             nodesSearched++;
 
             //Evaluate Score
-            Evaluation.EvaluateBoardScore(examineBoard);
+            examineBoard.Score = Evaluation.EvaluateBoardScore(examineBoard.GetEvaluationParameters(), examineBoard);
 
             //Invert Score to support Negamax
             examineBoard.Score = SideToMoveScore(examineBoard.Score, examineBoard.WhoseMove);
@@ -365,7 +365,7 @@ namespace ChessEngine.Engine
                 Board.MovePiece(board, move.SrcPosition, move.DstPosition, ChessPieceType.Queen);
 
                 //We Generate Valid Moves for Board
-                PieceValidMoves.GenerateValidMoves(board);
+                board.GenerateValidMoves();
 
                 if (board.BlackCheck)
                 {
@@ -599,7 +599,7 @@ namespace ChessEngine.Engine
                     Board.MovePiece(board, x, dst, ChessPieceType.Queen);
 
                     //We Generate Valid Moves for Board
-                    PieceValidMoves.GenerateValidMoves(board);
+                    board.GenerateValidMoves();
 
                     if (board.BlackCheck == false)
                     {

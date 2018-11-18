@@ -272,8 +272,8 @@ namespace ChessEngine.Engine
                 ChessBoard = new Board(UndoChessBoard);
                 CurrentGameBook = new List<OpeningMove>(UndoGameBook);
 
-                PieceValidMoves.GenerateValidMoves(ChessBoard);
-                Evaluation.EvaluateBoardScore(ChessBoard);
+                ChessBoard.GenerateValidMoves();
+                ChessBoard.Score = Evaluation.EvaluateBoardScore(ChessBoard.GetEvaluationParameters(), ChessBoard);
             }
         }
 
@@ -393,12 +393,12 @@ namespace ChessEngine.Engine
 
         public void GenerateValidMoves()
         {
-            PieceValidMoves.GenerateValidMoves(ChessBoard);
+            ChessBoard.GenerateValidMoves();
         }
 
         public int EvaluateBoardScore()
         {
-            Evaluation.EvaluateBoardScore(ChessBoard);
+            ChessBoard.Score = Evaluation.EvaluateBoardScore(ChessBoard.GetEvaluationParameters(), ChessBoard);
             return ChessBoard.Score;
         }
 
@@ -694,8 +694,8 @@ namespace ChessEngine.Engine
 
             ChessBoard.LastMove.GeneratePGNString(ChessBoard);
 
-            PieceValidMoves.GenerateValidMoves(ChessBoard);
-            Evaluation.EvaluateBoardScore(ChessBoard);
+            ChessBoard.GenerateValidMoves();
+            ChessBoard.Score = Evaluation.EvaluateBoardScore(ChessBoard.GetEvaluationParameters(), ChessBoard);
 
             //If there is a check in place, check if this is still true;
             if (piece.PieceColor == ChessPieceColor.White)
@@ -704,7 +704,7 @@ namespace ChessEngine.Engine
                 {
                     //Invalid Move
                     ChessBoard = new Board(PreviousChessBoard);
-                    PieceValidMoves.GenerateValidMoves(ChessBoard);
+                    ChessBoard.GenerateValidMoves();
                     return false;
                 }
             }
@@ -714,7 +714,7 @@ namespace ChessEngine.Engine
                 {
                     //Invalid Move
                     ChessBoard = new Board(PreviousChessBoard);
-                    PieceValidMoves.GenerateValidMoves(ChessBoard);
+                    ChessBoard.GenerateValidMoves();
                     return false;
                 }
             }
@@ -910,8 +910,8 @@ namespace ChessEngine.Engine
                 sqr.Piece.AttackedValue = 0;
             }
 
-            PieceValidMoves.GenerateValidMoves(ChessBoard);
-            Evaluation.EvaluateBoardScore(ChessBoard);
+            ChessBoard.GenerateValidMoves();
+            ChessBoard.Score = Evaluation.EvaluateBoardScore(ChessBoard.GetEvaluationParameters(), ChessBoard);
 
             PieceTakenAdd(ChessBoard.LastMove);
 
