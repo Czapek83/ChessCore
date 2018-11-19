@@ -106,24 +106,46 @@ namespace ChessCoreEngine.Tests
             Evaluation.whitePawnCount.Should().OnlyContain(x => x == 0);
         }
 
-        [TestCase(0, true, 260, ChessPieceColor.White)]
-        [TestCase(0, false, 270, ChessPieceColor.White)]
-        [TestCase(11, false, 320, ChessPieceColor.White)]
-        [TestCase(11, true, 310, ChessPieceColor.White)]
-        [TestCase(63, true, 260, ChessPieceColor.Black)]
-        [TestCase(63, false, 270, ChessPieceColor.Black)]
-        [TestCase(52, false, 320, ChessPieceColor.Black)]
-        [TestCase(52, true, 310, ChessPieceColor.Black)]
-        public void EvaluatePieceScore_Knight(byte position, bool isEndgame,
-            int expectedScore, ChessPieceColor chessPieceColor)
+        [Test]
+        public void EvaluatePieceScores_Knight()
         {
-            var piece = new Piece(ChessPieceType.Knight, chessPieceColor);
+            for (byte position = 0; position < Evaluation.KnightTable.Length; position++)
+            {
+                var whitePiece = new Piece(ChessPieceType.Knight, ChessPieceColor.White);
+                var whitePieceEndgameScore = Evaluation.EvaluatePieceScore(whitePiece, position, true);
+                var whitePieceNotEndgameScore = Evaluation.EvaluatePieceScore(whitePiece, position, false);
+                whitePieceEndgameScore.Should().Be(320+Evaluation.KnightTable[position] - 10);
+                whitePieceNotEndgameScore.Should().Be(320 + Evaluation.KnightTable[position]);
 
-            var score = Evaluation.EvaluatePieceScore(piece, position, isEndgame);
+                byte blackPosition = (byte) (63 - position);
 
-            score.Should().Be(expectedScore);
+                var blackPiece = new Piece(ChessPieceType.Knight, ChessPieceColor.Black);
+                var blackPieceEndgameScore = Evaluation.EvaluatePieceScore(blackPiece, blackPosition, true);
+                var blackPieceNotEndgameScore = Evaluation.EvaluatePieceScore(blackPiece, blackPosition, false);
+                blackPieceEndgameScore.Should().Be(320 + Evaluation.KnightTable[position] - 10);
+                blackPieceNotEndgameScore.Should().Be(320 + Evaluation.KnightTable[position]);
+            }
         }
 
+        [Test]
+        public void EvaluatePieceScores_Bishop()
+        {
+            for (byte position = 0; position < Evaluation.BishopTable.Length; position++)
+            {
+                var whitePiece = new Piece(ChessPieceType.Bishop, ChessPieceColor.White);
+                var whitePieceEndgameScore = Evaluation.EvaluatePieceScore(whitePiece, position, true);
+                var whitePieceNotEndgameScore = Evaluation.EvaluatePieceScore(whitePiece, position, false);
+                whitePieceEndgameScore.Should().Be(325 + Evaluation.BishopTable[position] + 10);
+                whitePieceNotEndgameScore.Should().Be(325 + Evaluation.BishopTable[position]);
 
+                byte blackPosition = (byte)(63 - position);
+
+                var blackPiece = new Piece(ChessPieceType.Bishop, ChessPieceColor.Black);
+                var blackPieceEndgameScore = Evaluation.EvaluatePieceScore(blackPiece, blackPosition, true);
+                var blackPieceNotEndgameScore = Evaluation.EvaluatePieceScore(blackPiece, blackPosition, false);
+                blackPieceEndgameScore.Should().Be(325 + Evaluation.BishopTable[position] + 10);
+                blackPieceNotEndgameScore.Should().Be(325 + Evaluation.BishopTable[position]);
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace ChessEngine.Engine
         public static short[] blackPawnCount;
         public static short[] whitePawnCount;
       
-        private static readonly short[] PawnTable = new short[]
+        public static readonly short[] PawnTable = new short[]
         {
        	     0,  0,  0,  0,  0,  0,  0,  0,
             50, 50, 50, 50, 50, 50, 50, 50,
@@ -18,7 +18,7 @@ namespace ChessEngine.Engine
              0,  0,  0,  0,  0,  0,  0,  0
         };
 
-        private static readonly short[] KnightTable = new short[]
+        public static readonly short[] KnightTable = new short[]
         {
             -50,-40,-30,-30,-30,-30,-40,-50,
             -40,-20,  0,  0,  0,  0,-20,-40,
@@ -30,7 +30,7 @@ namespace ChessEngine.Engine
             -50,-30,-20,-30,-30,-20,-30,-50,
         };
 
-        private static readonly short[] BishopTable = new short[]
+        public static readonly short[] BishopTable = new short[]
         {
             -20,-10,-10,-10,-10,-10,-10,-20,
             -10,  0,  0,  0,  0,  0,  0,-10,
@@ -42,7 +42,7 @@ namespace ChessEngine.Engine
             -20,-10,-40,-10,-10,-40,-10,-20,
         };
 
-        private static readonly short[] KingTable = new short[]
+        public static readonly short[] KingTable = new short[]
         {
           -30, -40, -40, -50, -50, -40, -40, -30,
           -30, -40, -40, -50, -50, -40, -40, -30,
@@ -54,7 +54,7 @@ namespace ChessEngine.Engine
            20,  30,  10,   0,   0,  10,  30,  20
         };
 
-        private static readonly short[] KingTableEndGame = new short[]
+        public static readonly short[] KingTableEndGame = new short[]
         {
             -50,-40,-30,-20,-20,-30,-40,-50,
             -30,-20,-10,  0,  0,-10,-20,-30,
