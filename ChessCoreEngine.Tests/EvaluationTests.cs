@@ -147,5 +147,24 @@ namespace ChessCoreEngine.Tests
                 blackPieceNotEndgameScore.Should().Be(325 + Evaluation.BishopTable[position]);
             }
         }
+
+        [Test]
+        public void EvaluatePieceScores_Queen()
+        {
+            var movedQueen = new Piece(ChessPieceType.Queen, ChessPieceColor.White);
+            movedQueen.Moved = true;
+
+            var movedQueenEndgameScore = Evaluation.EvaluatePieceScore(movedQueen, 1, true);
+            var movedQueenNotEndgameScore = Evaluation.EvaluatePieceScore(movedQueen, 1, false);
+
+            var notMovedQueen = new Piece(ChessPieceType.Queen, ChessPieceColor.White);
+            var notMovedQueenEndgameScore = Evaluation.EvaluatePieceScore(notMovedQueen, 1, true);
+            var notMovedQueenNotEndgameScore = Evaluation.EvaluatePieceScore(notMovedQueen, 1, false);
+
+            movedQueenEndgameScore.Should().Be(975);
+            movedQueenNotEndgameScore.Should().Be(975-10);
+            notMovedQueenEndgameScore.Should().Be(975);
+            notMovedQueenNotEndgameScore.Should().Be(975);
+        }
     }
 }
