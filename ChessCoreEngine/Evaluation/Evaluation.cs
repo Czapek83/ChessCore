@@ -3,9 +3,6 @@ namespace ChessEngine.Engine
 {
     internal static class Evaluation
     {
-        public static short[] blackPawnCount;
-        public static short[] whitePawnCount;
-
         public static int EvaluateBoardScore(EvaluationParameters evaluationParameters, Board board)
         {
             //Black Score - 
@@ -62,8 +59,8 @@ namespace ChessEngine.Engine
                 result -= 10;
             }
 
-            blackPawnCount = new short[8];
-            whitePawnCount = new short[8];
+            var blackPawnCount = new short[8];
+            var whitePawnCount = new short[8];
 
             for (byte x = 0; x < 64; x++)
             {
