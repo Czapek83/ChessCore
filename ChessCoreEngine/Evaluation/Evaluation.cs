@@ -1,4 +1,6 @@
 
+using System;
+
 namespace ChessEngine.Engine
 {
     internal static class Evaluation
@@ -64,54 +66,14 @@ namespace ChessEngine.Engine
                 if (square.Piece == null)
                     continue;
 
+                var pieceEvaluation = square.Piece.EvaluatePieceScore(x, evaluationParameters.EndGamePhase, whitePawnCount, blackPawnCount);
 
-                if (square.Piece.PieceColor == ChessPieceColor.White)
-                {
-                    result += square.Piece.EvaluatePieceScore(x, evaluationParameters.EndGamePhase, whitePawnCount, blackPawnCount);
+                result = square.Piece.PieceColor == ChessPieceColor.White ?
+                    result + pieceEvaluation :
+                    result - pieceEvaluation;
 
-                    if (square.Piece.PieceType == ChessPieceType.King)
-                    {
-                        if (x != 59 && x != 60)
-                        {
-                            int pawnPos = x - 8;
-
-                            result += CheckPawnWall(board, pawnPos, x);
-
-                            pawnPos = x - 7;
-
-                            result += CheckPawnWall(board, pawnPos, x);
-
-                            pawnPos = x - 9;
-
-                            result += CheckPawnWall(board, pawnPos, x);
-                        }
-                    }
-                }
-                else if (square.Piece.PieceColor == ChessPieceColor.Black)
-                {
-                    result -= square.Piece.EvaluatePieceScore(x, evaluationParameters.EndGamePhase, whitePawnCount, blackPawnCount);
-
-                    if (square.Piece.PieceType == ChessPieceType.King)
-                    {
-                        if (x != 3 && x != 4)
-                        {
-                            int pawnPos = x + 8;
-
-                            result -= CheckPawnWall(board, pawnPos, x);
-
-                            pawnPos = x + 7;
-
-                            result -= CheckPawnWall(board, pawnPos, x);
-
-                            pawnPos = x + 9;
-
-                            result -= CheckPawnWall(board, pawnPos, x);
-                        }
-
-                    }
-                   
-                }
-
+                result += CheckWhiteKingSafety(board);
+                result -= CheckBlackKingSafety(board);
             }
 
             if (evaluationParameters.InsufficientMaterial)
@@ -153,6 +115,52 @@ namespace ChessEngine.Engine
 
             //White Passed Pawns
             result += CheckPassedPawns(whitePawnCount, blackPawnCount);
+
+            return result;
+        }
+
+        private static int CheckBlackKingSafety(Board board)
+        {
+            var result = 0;
+
+            var blackKingPosition = board.BlackKingPosition;
+
+            if (blackKingPosition != 3 && blackKingPosition != 4)
+            {
+                int pawnPos = blackKingPosition + 8;
+
+                result -= CheckPawnWall(board, pawnPos, blackKingPosition);
+
+                pawnPos = blackKingPosition + 7;
+
+                result -= CheckPawnWall(board, pawnPos, blackKingPosition);
+
+                pawnPos = blackKingPosition + 9;
+
+                result -= CheckPawnWall(board, pawnPos, blackKingPosition);
+            }
+            return result;
+        }
+
+        private static int CheckWhiteKingSafety(Board board)
+        {
+            var result = 0;
+
+            byte whiteKingPosition = board.WhiteKingPosition;
+            if (whiteKingPosition != 59 && whiteKingPosition != 60)
+            {
+                int pawnPos = whiteKingPosition - 8;
+
+                result += CheckPawnWall(board, pawnPos, whiteKingPosition);
+
+                pawnPos = whiteKingPosition - 7;
+
+                result += CheckPawnWall(board, pawnPos, whiteKingPosition);
+
+                pawnPos = whiteKingPosition - 9;
+
+                result += CheckPawnWall(board, pawnPos, whiteKingPosition);
+            }
 
             return result;
         }
