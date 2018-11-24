@@ -9,18 +9,13 @@ namespace ChessEngine.Engine
             //White Score +
             int result = 0;
 
-            if (evaluationParameters.IsDraw)
+            if (evaluationParameters.IsDraw 
+                || evaluationParameters.FiftyMove >= 50
+                || evaluationParameters.RepeatedMove >= 3)
             {
                 return 0;
             }
-            if (evaluationParameters.FiftyMove >= 50)
-            {
-                return 0;
-            }
-            if (evaluationParameters.RepeatedMove >= 3)
-            {
-                return 0;
-            }
+
             if (evaluationParameters.BlackMate)
             {
                 return 32767;
@@ -148,152 +143,16 @@ namespace ChessEngine.Engine
             }
 
             //Black Isolated Pawns
-            if (blackPawnCount[0] >= 1 && blackPawnCount[1] == 0)
-            {
-                result += 12;
-            }
-            if (blackPawnCount[1] >= 1 && blackPawnCount[0] == 0 &&
-                blackPawnCount[2] == 0)
-            {
-                result += 14;
-            }
-            if (blackPawnCount[2] >= 1 && blackPawnCount[1] == 0 &&
-                blackPawnCount[3] == 0)
-            {
-                result += 16;
-            }
-            if (blackPawnCount[3] >= 1 && blackPawnCount[2] == 0 &&
-                blackPawnCount[4] == 0)
-            {
-                result += 20;
-            }
-            if (blackPawnCount[4] >= 1 && blackPawnCount[3] == 0 &&
-                blackPawnCount[5] == 0)
-            {
-                result += 20;
-            }
-            if (blackPawnCount[5] >= 1 && blackPawnCount[4] == 0 &&
-                blackPawnCount[6] == 0)
-            {
-                result += 16;
-            }
-            if (blackPawnCount[6] >= 1 && blackPawnCount[5] == 0 &&
-                blackPawnCount[7] == 0)
-            {
-                result += 14;
-            }
-            if (blackPawnCount[7] >= 1 && blackPawnCount[6] == 0)
-            {
-                result += 12;
-            }
+            result += CheckIsolatedPawns(blackPawnCount);
 
             //White Isolated Pawns
-            if (whitePawnCount[0] >= 1 && whitePawnCount[1] == 0)
-            {
-                result -= 12;
-            }
-            if (whitePawnCount[1] >= 1 && whitePawnCount[0] == 0 &&
-                whitePawnCount[2] == 0)
-            {
-                result -= 14;
-            }
-            if (whitePawnCount[2] >= 1 && whitePawnCount[1] == 0 &&
-                whitePawnCount[3] == 0)
-            {
-                result -= 16;
-            }
-            if (whitePawnCount[3] >= 1 && whitePawnCount[2] == 0 &&
-                whitePawnCount[4] == 0)
-            {
-                result -= 20;
-            }
-            if (whitePawnCount[4] >= 1 && whitePawnCount[3] == 0 &&
-                whitePawnCount[5] == 0)
-            {
-                result -= 20;
-            }
-            if (whitePawnCount[5] >= 1 && whitePawnCount[4] == 0 &&
-                whitePawnCount[6] == 0)
-            {
-                result -= 16;
-            }
-            if (whitePawnCount[6] >= 1 && whitePawnCount[5] == 0 &&
-                whitePawnCount[7] == 0)
-            {
-                result -= 14;
-            }
-            if (whitePawnCount[7] >= 1 && whitePawnCount[6] == 0)
-            {
-                result -= 12;
-            }
+            result -= CheckIsolatedPawns(whitePawnCount);
 
             //Black Passed Pawns
-            if (blackPawnCount[0] >= 1 && whitePawnCount[0] == 0)
-            {
-                result -= blackPawnCount[0];
-            }
-            if (blackPawnCount[1] >= 1 && whitePawnCount[1] == 0)
-            {
-                result -= blackPawnCount[1];
-            }
-            if (blackPawnCount[2] >= 1 && whitePawnCount[2] == 0)
-            {
-                result -= blackPawnCount[2];
-            }
-            if (blackPawnCount[3] >= 1 && whitePawnCount[3] == 0)
-            {
-                result -= blackPawnCount[3];
-            }
-            if (blackPawnCount[4] >= 1 && whitePawnCount[4] == 0)
-            {
-                result -= blackPawnCount[4];
-            }
-            if (blackPawnCount[5] >= 1 && whitePawnCount[5] == 0)
-            {
-                result -= blackPawnCount[5];
-            }
-            if (blackPawnCount[6] >= 1 && whitePawnCount[6] == 0)
-            {
-                result -= blackPawnCount[6];
-            }
-            if (blackPawnCount[7] >= 1 && whitePawnCount[7] == 0)
-            {
-                result -= blackPawnCount[7];
-            }
+            result -= CheckPassedPawns(blackPawnCount, whitePawnCount);
 
             //White Passed Pawns
-            if (whitePawnCount[0] >= 1 && blackPawnCount[1] == 0)
-            {
-                result += whitePawnCount[0];
-            }
-            if (whitePawnCount[1] >= 1 && blackPawnCount[1] == 0)
-            {
-                result += whitePawnCount[1];
-            }
-            if (whitePawnCount[2] >= 1 && blackPawnCount[2] == 0)
-            {
-                result += whitePawnCount[2];
-            }
-            if (whitePawnCount[3] >= 1 && blackPawnCount[3] == 0)
-            {
-                result += whitePawnCount[3];
-            }
-            if (whitePawnCount[4] >= 1 && blackPawnCount[4] == 0)
-            {
-                result += whitePawnCount[4];
-            }
-            if (whitePawnCount[5] >= 1 && blackPawnCount[5] == 0)
-            {
-                result += whitePawnCount[5];
-            }
-            if (whitePawnCount[6] >= 1 && blackPawnCount[6] == 0)
-            {
-                result += whitePawnCount[6];
-            }
-            if (whitePawnCount[7] >= 1 && blackPawnCount[7] == 0)
-            {
-                result += whitePawnCount[7];
-            }
+            result += CheckPassedPawns(whitePawnCount, blackPawnCount);
 
             return result;
         }
@@ -328,6 +187,91 @@ namespace ChessEngine.Engine
             }
 
             return 0;
+        }
+
+        private static int CheckIsolatedPawns(short[] pawnCount)
+        {
+            var result = 0;
+            if (pawnCount[0] >= 1 && pawnCount[1] == 0)
+            {
+                result += 12;
+            }
+            if (pawnCount[1] >= 1 && pawnCount[0] == 0 &&
+                pawnCount[2] == 0)
+            {
+                result += 14;
+            }
+            if (pawnCount[2] >= 1 && pawnCount[1] == 0 &&
+                pawnCount[3] == 0)
+            {
+                result += 16;
+            }
+            if (pawnCount[3] >= 1 && pawnCount[2] == 0 &&
+                pawnCount[4] == 0)
+            {
+                result += 20;
+            }
+            if (pawnCount[4] >= 1 && pawnCount[3] == 0 &&
+                pawnCount[5] == 0)
+            {
+                result += 20;
+            }
+            if (pawnCount[5] >= 1 && pawnCount[4] == 0 &&
+                pawnCount[6] == 0)
+            {
+                result += 16;
+            }
+            if (pawnCount[6] >= 1 && pawnCount[5] == 0 &&
+                pawnCount[7] == 0)
+            {
+                result += 14;
+            }
+            if (pawnCount[7] >= 1 && pawnCount[6] == 0)
+            {
+                result += 12;
+            }
+
+            return result;
+        }
+
+        private static int CheckPassedPawns(short[] myPawnCount, short[] oppositePawnCount)
+        {
+            var result = 0;
+
+            if (myPawnCount[0] >= 1 && oppositePawnCount[0] == 0)
+            {
+                result -= myPawnCount[0];
+            }
+            if (myPawnCount[1] >= 1 && oppositePawnCount[1] == 0)
+            {
+                result -= myPawnCount[1];
+            }
+            if (myPawnCount[2] >= 1 && oppositePawnCount[2] == 0)
+            {
+                result -= myPawnCount[2];
+            }
+            if (myPawnCount[3] >= 1 && oppositePawnCount[3] == 0)
+            {
+                result -= myPawnCount[3];
+            }
+            if (myPawnCount[4] >= 1 && oppositePawnCount[4] == 0)
+            {
+                result -= myPawnCount[4];
+            }
+            if (myPawnCount[5] >= 1 && oppositePawnCount[5] == 0)
+            {
+                result -= myPawnCount[5];
+            }
+            if (myPawnCount[6] >= 1 && oppositePawnCount[6] == 0)
+            {
+                result -= myPawnCount[6];
+            }
+            if (myPawnCount[7] >= 1 && oppositePawnCount[7] == 0)
+            {
+                result -= myPawnCount[7];
+            }
+
+            return result;
         }
     }
 }
