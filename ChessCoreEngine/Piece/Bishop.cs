@@ -8,7 +8,6 @@ namespace ChessEngine.Engine
     {
         public Bishop(ChessPieceColor color) : base(ChessPieceType.Bishop, color)
         {
-
         }
 
         public override short PieceValue { get => 325; }

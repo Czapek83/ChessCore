@@ -9,7 +9,7 @@ namespace ChessEngine.Engine
 
         internal Square(Piece piece)
         {
-            Piece = Piece.CreatePieceByTypeAndColor(piece.PieceType, piece.PieceColor);
+            Piece = PieceFactory.CreatePieceByTypeAndColor(piece.PieceType, piece.PieceColor);
         }
 
         #endregion
