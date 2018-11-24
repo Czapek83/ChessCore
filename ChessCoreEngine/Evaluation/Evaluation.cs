@@ -222,7 +222,7 @@ namespace ChessEngine.Engine
             return score;
         }
 
-        public static int EvaluateBoardScore(EvaluationParameters evaluationParameters, Board board)
+        public static int EvaluateBoardScoreOld(EvaluationParameters evaluationParameters, Board board)
         {
             //Black Score - 
             //White Score +

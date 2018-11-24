@@ -186,7 +186,6 @@ namespace ChessCoreEngine.Tests
             var score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
             score.Should().Be(expectedScore);
-
         }
     }
 }
