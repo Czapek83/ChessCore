@@ -33,7 +33,7 @@ namespace ChessEngine.Engine
 
     #endregion
     
-    public class Piece
+    public abstract class Piece
     {
         #region InternalMembers
 
@@ -81,6 +81,44 @@ namespace ChessEngine.Engine
             return GetPieceTypeShort() + " " + PieceColor + " " + PieceValue + " " + PieceActionValue + " " + ValidMoves.Count + " " + AttackedValue + " " + DefendedValue;
 
         }
+
+        public int EvaluatePieceScore(byte position, 
+            bool endGamePhase, short[] whitePawnTable, short[] blackPawnTable)
+        {
+            int score = 0;
+
+            byte index = position;
+
+            if (PieceColor == ChessPieceColor.Black)
+            {
+                index = (byte)(63 - position);
+            }
+
+            //Calculate Piece Values
+            score += PieceValue;
+            score += DefendedValue;
+            score -= AttackedValue;
+
+            //Double Penalty for Hanging Pieces
+            if (DefendedValue < AttackedValue)
+            {
+                score -= ((AttackedValue - DefendedValue) * 10);
+            }
+
+            //Add Points for Mobility
+            if (ValidMoves != null)
+            {
+                score += ValidMoves.Count;
+            }
+
+            score += EvaluatePieceSpecificScore(position, endGamePhase, index, 
+                whitePawnTable, blackPawnTable);
+            
+            return score;
+        }
+
+        public abstract int EvaluatePieceSpecificScore(byte position,
+            bool endGamePhase, byte index, short[] whitePawnTable, short[] blackPawnTable);
 
     }
 }
