@@ -853,7 +853,7 @@ namespace ChessEngine.Engine
 
         internal void SetChessPiece(Piece piece, byte index)
         {
-            ChessBoard.Squares[index].Piece = new Piece(piece);
+            ChessBoard.Squares[index].Piece = Piece.CreatePieceByTypeAndColor(piece.PieceType, piece.PieceColor);
 
         }
 
