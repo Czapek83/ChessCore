@@ -39,7 +39,7 @@ namespace ChessCoreEngine.Tests
             whitePawnCount[whitePawnCountIndex].Should().Be(whitePawnCountValue);
             blackPawnCount.Should().OnlyContain(x => x == 0);
         }
-
+        
         [TestCase(11, true, 150, 3, 60)]
         [TestCase(12, true, 135, 4, 70)]
         [TestCase(13, true, 150, 5, 60)]
@@ -62,7 +62,7 @@ namespace ChessCoreEngine.Tests
             whitePawnCount[whitePawnCountIndex].Should().Be(whitePawnCountValue);
             blackPawnCount.Should().OnlyContain(x => x == 0);
         }
-
+        
         [TestCase(52, true, 150, 4, 60)]
         [TestCase(51, true, 150, 3, 60)]
         [TestCase(50, true, 150, 2, 60)]
@@ -194,7 +194,6 @@ namespace ChessCoreEngine.Tests
             var score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
             score.Should().Be(expectedScore);
-
         }
     }
 }

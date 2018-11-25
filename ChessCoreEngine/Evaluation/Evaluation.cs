@@ -71,9 +71,6 @@ namespace ChessEngine.Engine
                 result = square.Piece.PieceColor == ChessPieceColor.White ?
                     result + pieceEvaluation :
                     result - pieceEvaluation;
-
-                result += CheckWhiteKingSafety(board);
-                result -= CheckBlackKingSafety(board);
             }
 
             if (evaluationParameters.InsufficientMaterial)
@@ -103,6 +100,9 @@ namespace ChessEngine.Engine
                     result += 50;
                 }
             }
+
+            result += CheckWhiteKingSafety(board);
+            result += CheckBlackKingSafety(board);
 
             //Black Isolated Pawns
             result += CheckIsolatedPawns(blackPawnCount);
@@ -248,35 +248,35 @@ namespace ChessEngine.Engine
 
             if (myPawnCount[0] >= 1 && oppositePawnCount[0] == 0)
             {
-                result -= myPawnCount[0];
+                result += myPawnCount[0];
             }
             if (myPawnCount[1] >= 1 && oppositePawnCount[1] == 0)
             {
-                result -= myPawnCount[1];
+                result += myPawnCount[1];
             }
             if (myPawnCount[2] >= 1 && oppositePawnCount[2] == 0)
             {
-                result -= myPawnCount[2];
+                result += myPawnCount[2];
             }
             if (myPawnCount[3] >= 1 && oppositePawnCount[3] == 0)
             {
-                result -= myPawnCount[3];
+                result += myPawnCount[3];
             }
             if (myPawnCount[4] >= 1 && oppositePawnCount[4] == 0)
             {
-                result -= myPawnCount[4];
+                result += myPawnCount[4];
             }
             if (myPawnCount[5] >= 1 && oppositePawnCount[5] == 0)
             {
-                result -= myPawnCount[5];
+                result += myPawnCount[5];
             }
             if (myPawnCount[6] >= 1 && oppositePawnCount[6] == 0)
             {
-                result -= myPawnCount[6];
+                result += myPawnCount[6];
             }
             if (myPawnCount[7] >= 1 && oppositePawnCount[7] == 0)
             {
-                result -= myPawnCount[7];
+                result += myPawnCount[7];
             }
 
             return result;
