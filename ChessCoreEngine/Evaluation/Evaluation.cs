@@ -11,6 +11,8 @@ namespace ChessEngine.Engine
             //White Score +
             int result = 0;
 
+            board.GenerateValidMoves();
+
             if (evaluationParameters.IsDraw 
                 || evaluationParameters.FiftyMove >= 50
                 || evaluationParameters.RepeatedMove >= 3)
