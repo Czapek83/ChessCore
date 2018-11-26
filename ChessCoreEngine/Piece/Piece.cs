@@ -119,6 +119,5 @@ namespace ChessEngine.Engine
 
         public abstract int EvaluatePieceSpecificScore(byte position,
             bool endGamePhase, byte index, short[] whitePawnTable, short[] blackPawnTable);
-
     }
 }

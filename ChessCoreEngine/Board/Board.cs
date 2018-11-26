@@ -1421,9 +1421,6 @@ namespace ChessEngine.Engine
             byte blackRooksMoved = 0;
             byte whiteRooksMoved = 0;
 
-            //Calculate Remaining Material on Board to make the End Game Decision
-            int remainingPieces = 0;
-
             //Generate Moves
             for (byte x = 0; x < 64; x++)
             {
@@ -1433,8 +1430,6 @@ namespace ChessEngine.Engine
                     continue;
 
                 sqr.Piece.ValidMoves = new Stack<byte>(sqr.Piece.LastValidMoveCount);
-
-                remainingPieces++;
 
                 switch (sqr.Piece.PieceType)
                 {
