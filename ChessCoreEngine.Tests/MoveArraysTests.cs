@@ -35,13 +35,11 @@ namespace ChessCoreEngine.Tests
             for (int i = 0; i < 7; i++)
             {
                 MoveArrays.WhitePawnMoves[i].Moves.Should().BeNullOrEmpty();
-                MoveArrays.WhitePawnTotalMoves[i].Should().Be(0);
             }
 
             for (int i = 56; i < 64; i++)
             {
                 MoveArrays.WhitePawnMoves[i].Moves.Should().BeNullOrEmpty();
-                MoveArrays.WhitePawnTotalMoves[i].Should().Be(0);
             }
 
             //Find some random pawn fields and assert its values
@@ -49,22 +47,18 @@ namespace ChessCoreEngine.Tests
             MoveArrays.WhitePawnMoves[h2field].Moves.Should().Contain(h3field);
             MoveArrays.WhitePawnMoves[h2field].Moves.Should().Contain(h4field);
             MoveArrays.WhitePawnMoves[h2field].Moves.Should().Contain(g3field);
-            MoveArrays.WhitePawnTotalMoves[h2field].Should().Be(3);
             //d4 pawn has three moves (d5, c5, e5)
             MoveArrays.WhitePawnMoves[d4field].Moves.Should().Contain(d5field);
             MoveArrays.WhitePawnMoves[d4field].Moves.Should().Contain(c5field);
             MoveArrays.WhitePawnMoves[d4field].Moves.Should().Contain(e5field);
-            MoveArrays.WhitePawnTotalMoves[d4field].Should().Be(3);
             //a3 pawn has two moves (a4, b4)
             MoveArrays.WhitePawnMoves[a3field].Moves.Should().Contain(a4field);
             MoveArrays.WhitePawnMoves[a3field].Moves.Should().Contain(b4field);
-            MoveArrays.WhitePawnTotalMoves[a3field].Should().Be(2);
             //d2 pawn has four moves (d3, d4, c3, e3)
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(d3field);
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(d4field);
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(c3field);
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(e3field);
-            MoveArrays.WhitePawnTotalMoves[d2field].Should().Be(4);
         }
     }
 }

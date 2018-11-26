@@ -433,9 +433,9 @@ namespace ChessEngine.Engine
             return;
         }
 
-        private void CheckValidMovesPawn(List<byte> moves, Piece pcMoving, byte srcPosition, byte count)
+        private void CheckValidMovesPawn(List<byte> moves, Piece pcMoving, byte srcPosition)
         {
-            for (byte i = 0; i < count; i++)
+            for (byte i = 0; i < moves.Count; i++)
             {
                 byte dstPos = moves[i];
 
@@ -474,7 +474,7 @@ namespace ChessEngine.Engine
                 return;
             }
 
-            for (byte i = 0; i < MoveArrays.KingTotalMoves[srcPosition]; i++)
+            for (byte i = 0; i < MoveArrays.KingMoves[srcPosition].Moves.Count; i++)
             {
                 byte dstPos = MoveArrays.KingMoves[srcPosition].Moves[i];
 
@@ -1437,14 +1437,12 @@ namespace ChessEngine.Engine
                         {
                             if (sqr.Piece.PieceColor == ChessPieceColor.White)
                             {
-                                CheckValidMovesPawn(MoveArrays.WhitePawnMoves[x].Moves, sqr.Piece, x,
-                                                    MoveArrays.WhitePawnTotalMoves[x]);
+                                CheckValidMovesPawn(MoveArrays.WhitePawnMoves[x].Moves, sqr.Piece, x);
                                 break;
                             }
                             if (sqr.Piece.PieceColor == ChessPieceColor.Black)
                             {
-                                CheckValidMovesPawn(MoveArrays.BlackPawnMoves[x].Moves, sqr.Piece, x,
-                                                    MoveArrays.BlackPawnTotalMoves[x]);
+                                CheckValidMovesPawn(MoveArrays.BlackPawnMoves[x].Moves, sqr.Piece, x);
                                 break;
                             }
 
@@ -1452,7 +1450,7 @@ namespace ChessEngine.Engine
                         }
                     case ChessPieceType.Knight:
                         {
-                            for (byte i = 0; i < MoveArrays.KnightTotalMoves[x]; i++)
+                            for (byte i = 0; i < MoveArrays.KnightMoves[x].Moves.Count; i++)
                             {
                                 AnalyzeMove(MoveArrays.KnightMoves[x].Moves[i], sqr.Piece);
                             }
@@ -1461,7 +1459,7 @@ namespace ChessEngine.Engine
                         }
                     case ChessPieceType.Bishop:
                         {
-                            for (byte i = 0; i < MoveArrays.BishopTotalMoves1[x]; i++)
+                            for (byte i = 0; i < MoveArrays.BishopMoves1[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.BishopMoves1[x].Moves[i],
@@ -1471,7 +1469,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.BishopTotalMoves2[x]; i++)
+                            for (byte i = 0; i < MoveArrays.BishopMoves2[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.BishopMoves2[x].Moves[i],
@@ -1481,7 +1479,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.BishopTotalMoves3[x]; i++)
+                            for (byte i = 0; i < MoveArrays.BishopMoves3[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.BishopMoves3[x].Moves[i],
@@ -1491,7 +1489,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.BishopTotalMoves4[x]; i++)
+                            for (byte i = 0; i < MoveArrays.BishopMoves4[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.BishopMoves4[x].Moves[i],
@@ -1519,7 +1517,7 @@ namespace ChessEngine.Engine
                             }
 
 
-                            for (byte i = 0; i < MoveArrays.RookTotalMoves1[x]; i++)
+                            for (byte i = 0; i < MoveArrays.RookMoves1[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.RookMoves1[x].Moves[i], sqr.Piece) ==
@@ -1528,7 +1526,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.RookTotalMoves2[x]; i++)
+                            for (byte i = 0; i < MoveArrays.RookMoves2[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.RookMoves2[x].Moves[i], sqr.Piece) ==
@@ -1537,7 +1535,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.RookTotalMoves3[x]; i++)
+                            for (byte i = 0; i < MoveArrays.RookMoves3[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.RookMoves3[x].Moves[i], sqr.Piece) ==
@@ -1546,7 +1544,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.RookTotalMoves4[x]; i++)
+                            for (byte i = 0; i < MoveArrays.RookMoves4[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.RookMoves4[x].Moves[i], sqr.Piece) ==
@@ -1560,7 +1558,7 @@ namespace ChessEngine.Engine
                         }
                     case ChessPieceType.Queen:
                         {
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves1[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves1[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves1[x].Moves[i], sqr.Piece) ==
@@ -1569,7 +1567,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves2[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves2[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves2[x].Moves[i], sqr.Piece) ==
@@ -1578,7 +1576,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves3[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves3[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves3[x].Moves[i], sqr.Piece) ==
@@ -1587,7 +1585,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves4[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves4[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves4[x].Moves[i], sqr.Piece) ==
@@ -1597,7 +1595,7 @@ namespace ChessEngine.Engine
                                 }
                             }
 
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves5[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves5[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves5[x].Moves[i], sqr.Piece) ==
@@ -1606,7 +1604,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves6[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves6[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves6[x].Moves[i], sqr.Piece) ==
@@ -1615,7 +1613,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves7[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves7[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves7[x].Moves[i], sqr.Piece) ==
@@ -1624,7 +1622,7 @@ namespace ChessEngine.Engine
                                     break;
                                 }
                             }
-                            for (byte i = 0; i < MoveArrays.QueenTotalMoves8[x]; i++)
+                            for (byte i = 0; i < MoveArrays.QueenMoves8[x].Moves.Count; i++)
                             {
                                 if (
                                     AnalyzeMove(MoveArrays.QueenMoves8[x].Moves[i], sqr.Piece) ==
