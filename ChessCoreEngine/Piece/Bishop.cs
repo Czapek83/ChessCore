@@ -44,5 +44,49 @@ namespace ChessEngine.Engine
         {
             return "B";
         }
+
+        public void GenerateMoves(byte piecePosition, Board board)
+        {
+            for (byte i = 0; i < MoveArrays.BishopMoves1[piecePosition].Moves.Count; i++)
+            {
+                if (
+                    AnalyzeMove(MoveArrays.BishopMoves1[piecePosition].Moves[i],
+                                board) ==
+                    false)
+                {
+                    break;
+                }
+            }
+            for (byte i = 0; i < MoveArrays.BishopMoves2[piecePosition].Moves.Count; i++)
+            {
+                if (
+                    AnalyzeMove(MoveArrays.BishopMoves2[piecePosition].Moves[i],
+                                board) ==
+                    false)
+                {
+                    break;
+                }
+            }
+            for (byte i = 0; i < MoveArrays.BishopMoves3[piecePosition].Moves.Count; i++)
+            {
+                if (
+                    AnalyzeMove(MoveArrays.BishopMoves3[piecePosition].Moves[i],
+                                board) ==
+                    false)
+                {
+                    break;
+                }
+            }
+            for (byte i = 0; i < MoveArrays.BishopMoves4[piecePosition].Moves.Count; i++)
+            {
+                if (
+                    AnalyzeMove(MoveArrays.BishopMoves4[piecePosition].Moves[i],
+                                board) ==
+                    false)
+                {
+                    break;
+                }
+            }
+        }
     }
 }

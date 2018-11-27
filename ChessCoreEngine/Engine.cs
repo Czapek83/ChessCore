@@ -314,12 +314,12 @@ namespace ChessEngine.Engine
 
         public bool GetBlackCheck()
         {
-            return ChessBoard.BlackCheck;
+            return ChessBoard.BlackIsChecked;
         }
 
         public bool GetWhiteCheck()
         {
-            return ChessBoard.WhiteCheck;
+            return ChessBoard.WhiteIsChecked;
         }
 
         public byte GetRepeatedMove()
@@ -700,7 +700,7 @@ namespace ChessEngine.Engine
             //If there is a check in place, check if this is still true;
             if (piece.PieceColor == ChessPieceColor.White)
             {
-                if (ChessBoard.WhiteCheck)
+                if (ChessBoard.WhiteIsChecked)
                 {
                     //Invalid Move
                     ChessBoard = new Board(PreviousChessBoard);
@@ -710,7 +710,7 @@ namespace ChessEngine.Engine
             }
             else if (piece.PieceColor == ChessPieceColor.Black)
             {
-                if (ChessBoard.BlackCheck)
+                if (ChessBoard.BlackIsChecked)
                 {
                     //Invalid Move
                     ChessBoard = new Board(PreviousChessBoard);
@@ -729,7 +729,7 @@ namespace ChessEngine.Engine
             {
                 LastMove.PgnMove += "#";
             }
-            else if (ChessBoard.WhiteCheck || ChessBoard.BlackCheck)
+            else if (ChessBoard.WhiteIsChecked || ChessBoard.BlackIsChecked)
             {
                 LastMove.PgnMove += "+";
             }
@@ -929,7 +929,7 @@ namespace ChessEngine.Engine
                 return;
             }
 
-            if (ChessBoard.WhiteCheck || ChessBoard.BlackCheck)
+            if (ChessBoard.WhiteIsChecked || ChessBoard.BlackIsChecked)
             {
                 LastMove.PgnMove += "+";
             }

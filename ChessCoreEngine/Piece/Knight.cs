@@ -46,5 +46,13 @@ namespace ChessEngine.Engine
         {
             return "N";
         }
+
+        public void GenerateMoves(byte piecePosition, Board board)
+        {
+            for (byte i = 0; i < MoveArrays.KnightMoves[piecePosition].Moves.Count; i++)
+            {
+                AnalyzeMove(MoveArrays.KnightMoves[piecePosition].Moves[i], board);
+            }
+        }
     }
 }

@@ -178,13 +178,13 @@ namespace ChessEngine.Engine
                     board.GenerateValidMoves();
 
                     //Invalid Move
-                    if (board.WhiteCheck && examineBoard.WhoseMove == ChessPieceColor.White)
+                    if (board.WhiteIsChecked && examineBoard.WhoseMove == ChessPieceColor.White)
                     {
                         continue;
                     }
 
                     //Invalid Move
-                    if (board.BlackCheck && examineBoard.WhoseMove == ChessPieceColor.Black)
+                    if (board.BlackIsChecked && examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
                         continue;
                     }
@@ -213,7 +213,7 @@ namespace ChessEngine.Engine
             //End Main Search with Quiescence
             if (depth == 0)
             {
-                if (!extended && examineBoard.BlackCheck || examineBoard.WhiteCheck)
+                if (!extended && examineBoard.BlackIsChecked || examineBoard.WhiteIsChecked)
                 {
                     depth++;
                     extended = true;
@@ -227,7 +227,7 @@ namespace ChessEngine.Engine
 
             List<Position> positions = EvaluateMoves(examineBoard, depth);
 
-            if (examineBoard.WhiteCheck || examineBoard.BlackCheck || positions.Count == 0)
+            if (examineBoard.WhiteIsChecked || examineBoard.BlackIsChecked || positions.Count == 0)
             {
                 if (SearchForMate(examineBoard.WhoseMove, examineBoard, ref examineBoard.BlackMate, ref examineBoard.WhiteMate))
                 {
@@ -266,7 +266,7 @@ namespace ChessEngine.Engine
                 //We Generate Valid Moves for Board
                 board.GenerateValidMoves();
 
-                if (board.BlackCheck)
+                if (board.BlackIsChecked)
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
@@ -275,7 +275,7 @@ namespace ChessEngine.Engine
                     }
                 }
 
-                if (board.WhiteCheck)
+                if (board.WhiteIsChecked)
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.White)
                     {
@@ -335,7 +335,7 @@ namespace ChessEngine.Engine
             List<Position> positions;
           
 
-            if (examineBoard.WhiteCheck || examineBoard.BlackCheck)
+            if (examineBoard.WhiteIsChecked || examineBoard.BlackIsChecked)
             {
                 positions = EvaluateMoves(examineBoard, 0);
             }
@@ -367,7 +367,7 @@ namespace ChessEngine.Engine
                 //We Generate Valid Moves for Board
                 board.GenerateValidMoves();
 
-                if (board.BlackCheck)
+                if (board.BlackIsChecked)
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
@@ -376,7 +376,7 @@ namespace ChessEngine.Engine
                     }
                 }
 
-                if (board.WhiteCheck)
+                if (board.WhiteIsChecked)
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.White)
                     {
@@ -601,7 +601,7 @@ namespace ChessEngine.Engine
                     //We Generate Valid Moves for Board
                     board.GenerateValidMoves();
 
-                    if (board.BlackCheck == false)
+                    if (board.BlackIsChecked == false)
                     {
                         foundNonCheckBlack = true;
                     }
@@ -610,7 +610,7 @@ namespace ChessEngine.Engine
                         continue;
                     }
 
-                    if (board.WhiteCheck == false )
+                    if (board.WhiteIsChecked == false )
                     {
                         foundNonCheckWhite = true;
                     }
@@ -623,7 +623,7 @@ namespace ChessEngine.Engine
 
             if (foundNonCheckBlack == false)
             {
-                if (examineBoard.BlackCheck)
+                if (examineBoard.BlackIsChecked)
                 {
                     blackMate = true;
                     return true;
@@ -636,7 +636,7 @@ namespace ChessEngine.Engine
 
             if (foundNonCheckWhite == false)
             {
-                if (examineBoard.WhiteCheck)
+                if (examineBoard.WhiteIsChecked)
                 {
                     whiteMate = true;
                     return true;

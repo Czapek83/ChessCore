@@ -87,9 +87,9 @@ namespace ChessEngine.Engine
         internal int Score;
 
         //Game Over Flags
-        internal bool BlackCheck { get; private set; }
+        internal bool BlackIsChecked { get; private set; }
         internal bool BlackMate;
-        internal bool WhiteCheck { get; private set; }
+        internal bool WhiteIsChecked { get; private set; }
         internal bool WhiteMate;
 
         internal byte RepeatedMove;
@@ -173,8 +173,8 @@ namespace ChessEngine.Engine
             WhiteCanCastle = board.WhiteCanCastle;
             BlackCanCastle = board.BlackCanCastle;
 
-            BlackCheck = board.BlackCheck;
-            WhiteCheck = board.WhiteCheck;
+            BlackIsChecked = board.BlackIsChecked;
+            WhiteIsChecked = board.WhiteIsChecked;
             WhiteMate = board.WhiteMate;
             BlackMate = board.BlackMate;
             WhoseMove = board.WhoseMove;
@@ -397,7 +397,7 @@ namespace ChessEngine.Engine
                 //If this is a king set it in check                   
                 if (pcAttacked.PieceType == ChessPieceType.King)
                 {
-                    BlackCheck = true;
+                    BlackIsChecked = true;
                 }
                 else
                 {
@@ -421,7 +421,7 @@ namespace ChessEngine.Engine
                 //If this is a king set it in check                   
                 if (pcAttacked.PieceType == ChessPieceType.King)
                 {
-                    WhiteCheck = true;
+                    WhiteIsChecked = true;
                 }
                 else
                 {
@@ -651,11 +651,11 @@ namespace ChessEngine.Engine
                 {
                     if (pcAttacked.PieceColor == ChessPieceColor.Black)
                     {
-                        BlackCheck = true;
+                        BlackIsChecked = true;
                     }
                     else
                     {
-                        WhiteCheck = true;
+                        WhiteIsChecked = true;
                     }
                 }
                 else
@@ -955,7 +955,7 @@ namespace ChessEngine.Engine
             {
                 BlackCanCastle = this.BlackCanCastle,
                 BlackCastled = this.BlackCastled,
-                BlackCheck = this.BlackCheck,
+                BlackCheck = this.BlackIsChecked,
                 BlackMate = this.BlackMate,
                 EndGamePhase = this.EndGamePhase,
                 FiftyMove = this.FiftyMove,
@@ -964,10 +964,26 @@ namespace ChessEngine.Engine
                 RepeatedMove = this.RepeatedMove,
                 WhiteCanCastle = this.WhiteCanCastle,
                 WhiteCastled = this.WhiteCastled,
-                WhiteCheck = this.WhiteCheck,
+                WhiteCheck = this.WhiteIsChecked,
                 WhiteMate = this.WhiteMate,
                 WhoseMove = this.WhoseMove
             };
+        }
+
+        internal void SetCheckedSide(ChessPieceColor whichColorIsChecked)
+        {
+            if (whichColorIsChecked == ChessPieceColor.White)
+                WhiteIsChecked = true;
+            else if (whichColorIsChecked == ChessPieceColor.Black)
+                BlackIsChecked = true;
+        }
+
+        internal void SetCantCastle(ChessPieceColor whichColorCantCastle)
+        {
+            if (whichColorCantCastle == ChessPieceColor.White)
+                WhiteCanCastle = false;
+            else if (whichColorCantCastle == ChessPieceColor.Black)
+                BlackCanCastle = false;
         }
 
         #endregion
@@ -1415,11 +1431,8 @@ namespace ChessEngine.Engine
         internal void GenerateValidMoves()
         {
             // Reset Board
-            BlackCheck = false;
-            WhiteCheck = false;
-
-            byte blackRooksMoved = 0;
-            byte whiteRooksMoved = 0;
+            BlackIsChecked = false;
+            WhiteIsChecked = false;
 
             //Generate Moves
             for (byte x = 0; x < 64; x++)
@@ -1435,202 +1448,39 @@ namespace ChessEngine.Engine
                 {
                     case ChessPieceType.Pawn:
                         {
-                            if (sqr.Piece.PieceColor == ChessPieceColor.White)
-                            {
-                                CheckValidMovesPawn(MoveArrays.WhitePawnMoves[x].Moves, sqr.Piece, x);
-                                break;
-                            }
-                            if (sqr.Piece.PieceColor == ChessPieceColor.Black)
-                            {
-                                CheckValidMovesPawn(MoveArrays.BlackPawnMoves[x].Moves, sqr.Piece, x);
-                                break;
-                            }
-
+                            //if (sqr.Piece.PieceColor == ChessPieceColor.White)
+                            //{
+                            //    CheckValidMovesPawn(MoveArrays.WhitePawnMoves[x].Moves, sqr.Piece, x);
+                            //    break;
+                            //}
+                            //if (sqr.Piece.PieceColor == ChessPieceColor.Black)
+                            //{
+                            //    CheckValidMovesPawn(MoveArrays.BlackPawnMoves[x].Moves, sqr.Piece, x);
+                            //    break;
+                            //}
+                            ((Pawn)sqr.Piece).GenerateMoves(x, this);
                             break;
                         }
                     case ChessPieceType.Knight:
                         {
-                            for (byte i = 0; i < MoveArrays.KnightMoves[x].Moves.Count; i++)
-                            {
-                                AnalyzeMove(MoveArrays.KnightMoves[x].Moves[i], sqr.Piece);
-                            }
-
+                            ((Knight)sqr.Piece).GenerateMoves(x, this);
                             break;
                         }
                     case ChessPieceType.Bishop:
                         {
-                            for (byte i = 0; i < MoveArrays.BishopMoves1[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.BishopMoves1[x].Moves[i],
-                                                sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.BishopMoves2[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.BishopMoves2[x].Moves[i],
-                                                sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.BishopMoves3[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.BishopMoves3[x].Moves[i],
-                                                sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.BishopMoves4[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.BishopMoves4[x].Moves[i],
-                                                sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
+                            ((Bishop)sqr.Piece).GenerateMoves(x, this);
 
                             break;
                         }
                     case ChessPieceType.Rook:
                         {
-                            if (sqr.Piece.Moved)
-                            {
-                                if (sqr.Piece.PieceColor == ChessPieceColor.Black)
-                                {
-                                    blackRooksMoved++;
-                                }
-                                else
-                                {
-                                    whiteRooksMoved++;
-                                }
-                            }
-
-
-                            for (byte i = 0; i < MoveArrays.RookMoves1[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.RookMoves1[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.RookMoves2[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.RookMoves2[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.RookMoves3[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.RookMoves3[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.RookMoves4[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.RookMoves4[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
+                            ((Rook)sqr.Piece).GenerateMoves(x, this);
 
                             break;
                         }
                     case ChessPieceType.Queen:
                         {
-                            for (byte i = 0; i < MoveArrays.QueenMoves1[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves1[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves2[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves2[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves3[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves3[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves4[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves4[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-
-                            for (byte i = 0; i < MoveArrays.QueenMoves5[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves5[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves6[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves6[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves7[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves7[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
-                            for (byte i = 0; i < MoveArrays.QueenMoves8[x].Moves.Count; i++)
-                            {
-                                if (
-                                    AnalyzeMove(MoveArrays.QueenMoves8[x].Moves[i], sqr.Piece) ==
-                                    false)
-                                {
-                                    break;
-                                }
-                            }
+                            ((Queen)sqr.Piece).GenerateMoves(x, this);
 
                             break;
                         }
@@ -1656,15 +1506,6 @@ namespace ChessEngine.Engine
                 }
             }
 
-            if (blackRooksMoved > 1)
-            {
-                BlackCanCastle = false;
-            }
-            if (whiteRooksMoved > 1)
-            {
-                WhiteCanCastle = false;
-            }
-
 
             if (WhoseMove == ChessPieceColor.White)
             {
@@ -1683,11 +1524,11 @@ namespace ChessEngine.Engine
 
 
             //Now that all the pieces were examined we know if the king is in check
-            if (!WhiteCastled && WhiteCanCastle && !WhiteCheck)
+            if (!WhiteCastled && WhiteCanCastle && !WhiteIsChecked)
             {
                 GenerateValidMovesKingCastle(Squares[WhiteKingPosition].Piece);
             }
-            if (!BlackCastled && BlackCanCastle && !BlackCheck)
+            if (!BlackCastled && BlackCanCastle && !BlackIsChecked)
             {
                 GenerateValidMovesKingCastle(Squares[BlackKingPosition].Piece);
             }

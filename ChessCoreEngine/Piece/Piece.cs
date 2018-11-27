@@ -119,5 +119,54 @@ namespace ChessEngine.Engine
 
         public abstract int EvaluatePieceSpecificScore(byte position,
             bool endGamePhase, byte index, short[] whitePawnTable, short[] blackPawnTable);
+
+        protected bool AnalyzeMove(byte dstPos, Board board)
+        {
+            //If I am not a pawn everywhere I move I can attack
+            if (PieceColor == ChessPieceColor.White)
+            {
+                board.WhiteAttackBoard[dstPos] = true;
+            }
+            else
+            {
+                board.BlackAttackBoard[dstPos] = true;
+            }
+
+            //If there no piece there I can potentialy kill just add the move and exit
+            if (board.GetPiece(dstPos) == null)
+            {
+                ValidMoves.Push(dstPos);
+
+                return true;
+            }
+
+            Piece pcAttacked = board.GetPiece(dstPos);
+
+            //if that piece is a different color
+            if (pcAttacked.PieceColor != PieceColor)
+            {
+                pcAttacked.AttackedValue += PieceActionValue;
+
+                //If this is a king set it in check                   
+                if (pcAttacked.PieceType == ChessPieceType.King)
+                {
+                    board.SetCheckedSide(pcAttacked.PieceColor);
+                }
+                else
+                {
+                    //Add this as a valid move
+                    ValidMoves.Push(dstPos);
+                }
+
+
+                //We don't continue movement past this piece
+                return false;
+            }
+            //Same Color I am defending
+            pcAttacked.DefendedValue += PieceActionValue;
+
+            //Since this piece is of my kind I can't move there
+            return false;
+        }
     }
 }
