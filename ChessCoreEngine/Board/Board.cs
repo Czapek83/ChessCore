@@ -1444,68 +1444,26 @@ namespace ChessEngine.Engine
 
                 sqr.Piece.ValidMoves = new Stack<byte>(sqr.Piece.LastValidMoveCount);
 
-                switch (sqr.Piece.PieceType)
+                if (!sqr.Piece.IsKing())
+                    sqr.Piece.GenerateMoves(x, this);
+                else
                 {
-                    case ChessPieceType.Pawn:
+                    if (sqr.Piece.PieceColor == ChessPieceColor.White)
+                    {
+                        if (sqr.Piece.Moved)
                         {
-                            //if (sqr.Piece.PieceColor == ChessPieceColor.White)
-                            //{
-                            //    CheckValidMovesPawn(MoveArrays.WhitePawnMoves[x].Moves, sqr.Piece, x);
-                            //    break;
-                            //}
-                            //if (sqr.Piece.PieceColor == ChessPieceColor.Black)
-                            //{
-                            //    CheckValidMovesPawn(MoveArrays.BlackPawnMoves[x].Moves, sqr.Piece, x);
-                            //    break;
-                            //}
-                            ((Pawn)sqr.Piece).GenerateMoves(x, this);
-                            break;
+                            WhiteCanCastle = false;
                         }
-                    case ChessPieceType.Knight:
+                    }
+                    else
+                    {
+                        if (sqr.Piece.Moved)
                         {
-                            ((Knight)sqr.Piece).GenerateMoves(x, this);
-                            break;
+                            BlackCanCastle = false;
                         }
-                    case ChessPieceType.Bishop:
-                        {
-                            ((Bishop)sqr.Piece).GenerateMoves(x, this);
-
-                            break;
-                        }
-                    case ChessPieceType.Rook:
-                        {
-                            ((Rook)sqr.Piece).GenerateMoves(x, this);
-
-                            break;
-                        }
-                    case ChessPieceType.Queen:
-                        {
-                            ((Queen)sqr.Piece).GenerateMoves(x, this);
-
-                            break;
-                        }
-                    case ChessPieceType.King:
-                        {
-                            if (sqr.Piece.PieceColor == ChessPieceColor.White)
-                            {
-                                if (sqr.Piece.Moved)
-                                {
-                                    WhiteCanCastle = false;
-                                }
-                            }
-                            else
-                            {
-                                if (sqr.Piece.Moved)
-                                {
-                                    BlackCanCastle = false;
-                                }
-                            }
-
-                            break;
-                        }
+                    }
                 }
             }
-
 
             if (WhoseMove == ChessPieceColor.White)
             {

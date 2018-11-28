@@ -168,5 +168,10 @@ namespace ChessEngine.Engine
             //Since this piece is of my kind I can't move there
             return false;
         }
+
+        public virtual void GenerateMoves(byte piecePosition, Board board)
+        {
+
+        }
     }
 }

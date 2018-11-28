@@ -45,7 +45,7 @@ namespace ChessEngine.Engine
             return "B";
         }
 
-        public void GenerateMoves(byte piecePosition, Board board)
+        public override void GenerateMoves(byte piecePosition, Board board)
         {
             for (byte i = 0; i < MoveArrays.BishopMoves1[piecePosition].Moves.Count; i++)
             {

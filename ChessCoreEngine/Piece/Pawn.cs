@@ -112,7 +112,7 @@ namespace ChessEngine.Engine
                 return score;
         }
 
-        public void GenerateMoves(byte piecePosition, Board board)
+        public override void GenerateMoves(byte piecePosition, Board board)
         {
             var moves = PieceColor == ChessPieceColor.White ?
                 MoveArrays.WhitePawnMoves[piecePosition].Moves : MoveArrays.BlackPawnMoves[piecePosition].Moves;

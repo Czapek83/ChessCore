@@ -26,7 +26,7 @@ namespace ChessEngine.Engine
             return "R";
         }
 
-        public void GenerateMoves(byte piecePosition, Board board)
+        public override void GenerateMoves(byte piecePosition, Board board)
         {
             if (Moved)
             {
