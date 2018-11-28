@@ -4,19 +4,11 @@ using System.Collections.Generic;
 namespace ChessEngine.Engine
 {
 
-    #region Enums
-
-    #region ChessPieceColor enum
-
     public enum ChessPieceColor
     {
         White,
         Black
     }
-
-    #endregion
-
-    #region ChessPieceType enum
 
     public enum ChessPieceType
     {
@@ -29,10 +21,15 @@ namespace ChessEngine.Engine
         None
     }
 
-    #endregion
+    public enum GenerateValidMovesPriority
+    {
+        Lowest,
+        Low,
+        Medium,
+        High,
+        Highest
+    }
 
-    #endregion
-    
     public abstract class Piece
     {
         #region InternalMembers
@@ -52,6 +49,12 @@ namespace ChessEngine.Engine
         internal bool Selected;
 
         internal Stack<byte> ValidMoves;
+
+        virtual internal GenerateValidMovesPriority GetGenerateValidMovesPriority(ChessPieceColor colorThatIsOnMove)
+        {
+            return GenerateValidMovesPriority.Medium;
+        }
+
 
         #endregion
 

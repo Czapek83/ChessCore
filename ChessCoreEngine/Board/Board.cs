@@ -1435,60 +1435,17 @@ namespace ChessEngine.Engine
             WhiteIsChecked = false;
 
             //Generate Moves
-            for (byte x = 0; x < 64; x++)
+
+            var pieces = Squares
+                .Select((sqr, i)=> new { i, sqr })
+                .Where(x => x.sqr.Piece != null)
+                .OrderByDescending(y => y.sqr.Piece.GetGenerateValidMovesPriority(WhoseMove))
+                .Select(z => new { Index = (byte)z.i, z.sqr.Piece});
+
+            foreach (var item in pieces)
             {
-                Square sqr = Squares[x];
-
-                if (sqr.Piece == null)
-                    continue;
-
-                sqr.Piece.ValidMoves = new Stack<byte>(sqr.Piece.LastValidMoveCount);
-
-                if (!sqr.Piece.IsKing())
-                    sqr.Piece.GenerateMoves(x, this);
-                else
-                {
-                    if (sqr.Piece.PieceColor == ChessPieceColor.White)
-                    {
-                        if (sqr.Piece.Moved)
-                        {
-                            WhiteCanCastle = false;
-                        }
-                    }
-                    else
-                    {
-                        if (sqr.Piece.Moved)
-                        {
-                            BlackCanCastle = false;
-                        }
-                    }
-                }
-            }
-
-            if (WhoseMove == ChessPieceColor.White)
-            {
-                GenerateValidMovesKing(Squares[BlackKingPosition].Piece, 
-                                       BlackKingPosition);
-                GenerateValidMovesKing(Squares[WhiteKingPosition].Piece,
-                                       WhiteKingPosition);
-            }
-            else
-            {
-                GenerateValidMovesKing(Squares[WhiteKingPosition].Piece,
-                                       WhiteKingPosition);
-                GenerateValidMovesKing(Squares[BlackKingPosition].Piece,
-                                       BlackKingPosition);
-            }
-
-
-            //Now that all the pieces were examined we know if the king is in check
-            if (!WhiteCastled && WhiteCanCastle && !WhiteIsChecked)
-            {
-                GenerateValidMovesKingCastle(Squares[WhiteKingPosition].Piece);
-            }
-            if (!BlackCastled && BlackCanCastle && !BlackIsChecked)
-            {
-                GenerateValidMovesKingCastle(Squares[BlackKingPosition].Piece);
+                item.Piece.ValidMoves = new Stack<byte>(item.Piece.LastValidMoveCount);
+                item.Piece.GenerateMoves(item.Index, this);
             }
         }
 

@@ -294,5 +294,39 @@ namespace ChessCoreEngine.Tests
             blackKing.ValidMoves.Should().Contain(28);
             blackKing.ValidMoves.Should().Contain(29);
         }
+
+        [Test]
+        public void SpecificPositionBlackCanCastle_BlackMove()
+        {
+            //When there is white's move...
+            //Black's king moves are possible to made in front of opposite king
+            var board = Board.CreateBoardFromFen("r1bqk2r/1p3pp1/p1pb1n1p/2p1pP2/4P1P1/2NPB3/PPP4P/R2QK1NR b KQkq - 1 9");
+            board.GenerateValidMoves();
+
+            var blackKing = board.GetPiece(board.BlackKingPosition);
+
+            blackKing.ValidMoves.Should().HaveCount(4);
+            blackKing.ValidMoves.Should().Contain(5);
+            blackKing.ValidMoves.Should().Contain(6);
+            blackKing.ValidMoves.Should().Contain(11);
+            blackKing.ValidMoves.Should().Contain(12);
+        }
+
+        [Test]
+        public void SpecificPositionWhiteCanCastle_WhiteMove()
+        {
+            //When there is white's move...
+            //Black's king moves are possible to made in front of opposite king
+            var board = Board.CreateBoardFromFen("r2qk2r/2pb1ppp/1bn2n2/1N1p4/1p2p3/3BP3/P1Q1NPPP/R1B1K2R w KQkq - 0 15");
+            board.GenerateValidMoves();
+
+            var whiteKing = board.GetPiece(board.WhiteKingPosition);
+
+            whiteKing.ValidMoves.Should().HaveCount(4);
+            whiteKing.ValidMoves.Should().Contain(51);
+            whiteKing.ValidMoves.Should().Contain(59);
+            whiteKing.ValidMoves.Should().Contain(61);
+            whiteKing.ValidMoves.Should().Contain(62);
+        }
     }
 }
