@@ -6,7 +6,7 @@ namespace ChessEngine.Engine
 {
     public class Queen : Piece
     {
-        public Queen(ChessColor color) : base(ChessPieceType.Queen, color)
+        public Queen(ChessColor color, ICoordinatesConverter coordinatesConverter) : base(ChessPieceType.Queen, color, coordinatesConverter)
         {
 
         }

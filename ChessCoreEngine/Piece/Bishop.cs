@@ -18,7 +18,7 @@ namespace ChessEngine.Engine
             -20,-10,-40,-10,-10,-40,-10,-20,
         };
 
-        public Bishop(ChessColor color) : base(ChessPieceType.Bishop, color)
+        public Bishop(ChessColor color, ICoordinatesConverter coordinatesConverter) : base(ChessPieceType.Bishop, color, coordinatesConverter)
         {
         }
 

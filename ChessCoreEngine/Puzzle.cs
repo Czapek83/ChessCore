@@ -68,10 +68,12 @@ namespace ChessEngine.Engine
                 blackKingIndex == whiteKingIndex
             );
 
-            Piece whiteKing = new King(ChessPieceColor.White);
-            Piece whiteBishop = new Bishop(ChessPieceColor.White);
-            Piece whiteKnight = new Knight(ChessPieceColor.White);
-            Piece blackKing = new King(ChessPieceColor.Black);
+            var converter = new CoordinatesConverter();
+
+            Piece whiteKing = new King(ChessPieceColor.White, converter);
+            Piece whiteBishop = new Bishop(ChessPieceColor.White, converter);
+            Piece whiteKnight = new Knight(ChessPieceColor.White, converter);
+            Piece blackKing = new King(ChessPieceColor.Black, converter);
 
             engine.SetChessPiece(whiteKing, whiteKingIndex);
             engine.SetChessPiece(blackKing, blackKingIndex);
@@ -105,10 +107,10 @@ namespace ChessEngine.Engine
                 whiteKingIndex == whiteRookIndex ||
                 blackKingIndex == whiteKingIndex
             );
-
-            Piece whiteKing = new King(ChessPieceColor.White);
-            Piece whiteRook = new Rook(ChessPieceColor.White);
-            Piece blackKing = new King(ChessPieceColor.Black);
+            var converter = new CoordinatesConverter();
+            Piece whiteKing = new King(ChessPieceColor.White, converter);
+            Piece whiteRook = new Rook(ChessPieceColor.White, converter);
+            Piece blackKing = new King(ChessPieceColor.Black, converter);
 
             engine.SetChessPiece(whiteKing, whiteKingIndex);
             engine.SetChessPiece(blackKing, blackKingIndex);
@@ -144,9 +146,10 @@ namespace ChessEngine.Engine
                 whitePawnIndex < blackKingIndex
             );
 
-            Piece whiteKing = new King(ChessPieceColor.White);
-            Piece whitePawn = new Pawn(ChessPieceColor.White);
-            Piece blackKing = new King(ChessPieceColor.Black);
+            var converter = new CoordinatesConverter();
+            Piece whiteKing = new King(ChessPieceColor.White, converter);
+            Piece whitePawn = new Pawn(ChessPieceColor.White, converter);
+            Piece blackKing = new King(ChessPieceColor.Black, converter);
 
             engine.SetChessPiece(whiteKing, whiteKingIndex);
             engine.SetChessPiece(blackKing, blackKingIndex);

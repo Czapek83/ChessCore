@@ -18,10 +18,9 @@ namespace ChessEngine.Engine
              0,  0,  0,  0,  0,  0,  0,  0
         };
 
-        public Pawn(ChessColor color): base(ChessPieceType.Pawn, color)
+        public Pawn(ChessColor color, ICoordinatesConverter coordinatesConverter) : base(ChessPieceType.Pawn, color, coordinatesConverter)
         {
             LastValidMoveCount = 2;
-
         }
         public override short PieceValue { get => 100; }
         public override short PieceActionValue => 6;
@@ -126,14 +125,7 @@ namespace ChessEngine.Engine
                     //If there is a piece there I can potentialy kill
                     AnalyzeMovePawn(dstPos, board);
 
-                    if (PieceColor == ChessPieceColor.White)
-                    {
-                        board.WhiteAttackBoard[dstPos] = true;
-                    }
-                    else
-                    {
-                        board.BlackAttackBoard[dstPos] = true;
-                    }
+                    board.AttackBoard[PieceColor][dstPos] = true;
                 }
                 // if there is something if front pawns can't move there
                 else if (board.GetPiece(dstPos) != null)
@@ -159,15 +151,7 @@ namespace ChessEngine.Engine
                     {
                         //We have an En Passant Possible
                         ValidMoves.Push(dstPos);
-
-                        if (PieceColor == ChessPieceColor.White)
-                        {
-                            board.WhiteAttackBoard[dstPos] = true;
-                        }
-                        else
-                        {
-                            board.BlackAttackBoard[dstPos] = true;
-                        }
+                        board.AttackBoard[PieceColor][dstPos] = true;
                     }
                 }
             }
@@ -178,54 +162,26 @@ namespace ChessEngine.Engine
             if (pcAttacked == null)
                 return;
 
-            //Regardless of what is there I am attacking this square
-            if (PieceColor == ChessPieceColor.White)
+            board.AttackBoard[PieceColor][dstPos] = true;
+
+            //if that piece is the same color
+            if (pcAttacked.PieceColor == PieceColor)
             {
-                board.WhiteAttackBoard[dstPos] = true;
+                pcAttacked.DefendedValue += PieceActionValue;
+                return;
+            }
 
-                //if that piece is the same color
-                if (pcAttacked.PieceColor == PieceColor)
-                {
-                    pcAttacked.DefendedValue += PieceActionValue;
-                    return;
-                }
+            pcAttacked.AttackedValue += PieceActionValue;
 
-                pcAttacked.AttackedValue += PieceActionValue;
-
-                //If this is a king set it in check                   
-                if (pcAttacked.PieceType == ChessPieceType.King)
-                {
-                    board.SetCheckedSide(ChessPieceColor.Black);
-                }
-                else
-                {
-                    //Add this as a valid move
-                    ValidMoves.Push(dstPos);
-                }
+            //If this is a king set it in check                   
+            if (pcAttacked.PieceType == ChessPieceType.King)
+            {
+                board.SetCheckedSide(!PieceColor);
             }
             else
             {
-                board.BlackAttackBoard[dstPos] = true;
-
-                //if that piece is the same color
-                if (pcAttacked.PieceColor == PieceColor)
-                {
-                    pcAttacked.DefendedValue += PieceActionValue;
-                    return;
-                }
-
-                pcAttacked.AttackedValue += PieceActionValue;
-
-                //If this is a king set it in check                   
-                if (pcAttacked.PieceType == ChessPieceType.King)
-                {
-                    board.SetCheckedSide(ChessPieceColor.White);
-                }
-                else
-                {
-                    //Add this as a valid move
-                    ValidMoves.Push(dstPos);
-                }
+                //Add this as a valid move
+                ValidMoves.Push(dstPos);
             }
 
             return;

@@ -39,6 +39,12 @@ namespace ChessEngine.Engine
         {
             return a.Colour != b.Colour;
         }
+
+        public static ChessColor operator !(ChessColor a)
+        {
+            var result = a == ChessPieceColor.White ? ChessPieceColor.Black : ChessPieceColor.White;
+            return result;
+        }
     }
 
     public enum ChessPieceType
@@ -89,12 +95,15 @@ namespace ChessEngine.Engine
 
         #endregion
 
+        protected ICoordinatesConverter _coordinatesConverter;
+
         #region Constructors
 
-        protected Piece(ChessPieceType chessPieceType, ChessColor chessPieceColor)
+        protected Piece(ChessPieceType chessPieceType, ChessColor chessPieceColor, ICoordinatesConverter coordinatesConverter)
         {
             PieceType = chessPieceType;
             PieceColor = chessPieceColor;
+            _coordinatesConverter = coordinatesConverter;
             ValidMoves = new Stack<byte>(LastValidMoveCount);
         }
 
@@ -157,14 +166,7 @@ namespace ChessEngine.Engine
         protected bool AnalyzeMove(byte dstPos, Board board)
         {
             //If I am not a pawn everywhere I move I can attack
-            if (PieceColor == ChessPieceColor.White)
-            {
-                board.WhiteAttackBoard[dstPos] = true;
-            }
-            else
-            {
-                board.BlackAttackBoard[dstPos] = true;
-            }
+            board.AttackBoard[PieceColor][dstPos] = true;
 
             //If there no piece there I can potentialy kill just add the move and exit
             if (board.GetPiece(dstPos) == null)

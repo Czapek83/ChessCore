@@ -30,11 +30,11 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
             for (int i = 0; i < 64; i++)
             {
-                board.BlackAttackBoard[i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.Black][i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
             }
         }
 
@@ -90,11 +90,11 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
             for (int i = 0; i < 64; i++)
             {
-                board.BlackAttackBoard[i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.Black][i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
             }
         }
 
@@ -121,7 +121,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
         }
 
@@ -152,7 +152,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.BlackAttackBoard[i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.Black][i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
             }
         }
 
@@ -177,7 +177,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
         }
 
@@ -203,7 +203,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.BlackAttackBoard[i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.Black][i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
             }
         }
 
@@ -241,7 +241,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
         }
 
@@ -265,7 +265,7 @@ namespace ChessCoreEngine.Tests
 
             for (int i = 0; i <= 63; i++)
             {
-                board.BlackAttackBoard[i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.Black][i].Should().Be(expectedBlackBoard[i], $"Error on {i}");
             }
         }
 
@@ -289,7 +289,7 @@ namespace ChessCoreEngine.Tests
             
             for (int i = 0; i <= 63; i++)
             {
-                board.WhiteAttackBoard[i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
+                board.AttackBoard[ChessPieceColor.White][i].Should().Be(expectedWhiteBoard[i], $"Error on {i}");
             }
         }
 

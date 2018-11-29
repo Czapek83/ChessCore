@@ -4,7 +4,13 @@ using System.Text;
 
 namespace ChessEngine.Engine
 {
-    public class CoordinatesConverter
+
+    public interface ICoordinatesConverter
+    {
+        byte GetPositionByChessColor(byte originPosition, ChessColor chessPieceColor);
+    }
+
+    public class CoordinatesConverter : ICoordinatesConverter
     {
         private const byte _boardSize = 63;
 

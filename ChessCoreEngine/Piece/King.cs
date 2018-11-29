@@ -31,7 +31,7 @@ namespace ChessEngine.Engine
         };
 
 
-        public King(ChessColor color) : base(ChessPieceType.King, color)
+        public King(ChessColor color, ICoordinatesConverter coordinatesConverter) : base(ChessPieceType.King, color, coordinatesConverter)
         {
 
         }
@@ -121,24 +121,12 @@ namespace ChessEngine.Engine
             {
                 byte dstPos = MoveArrays.KingMoves[srcPosition].Moves[i];
 
-                if (PieceColor == ChessPieceColor.White)
+                if (board.AttackBoard[!PieceColor][dstPos])
                 {
-                    //I can't move where I am being attacked
-                    if (board.BlackAttackBoard[dstPos])
-                    {
-                        board.WhiteAttackBoard[dstPos] = true;
-                        continue;
-                    }
+                    board.AttackBoard[PieceColor][dstPos] = true;
+                    continue;
                 }
-                else
-                {
-                    if (board.WhiteAttackBoard[dstPos])
-                    {
-                        board.BlackAttackBoard[dstPos] = true;
-                        continue;
-                    }
-                }
-
+                    
                 AnalyzeMove(dstPos, board);
             }
         }
@@ -160,12 +148,12 @@ namespace ChessEngine.Engine
                             {
                                 if (board.Squares[61].Piece == null)
                                 {
-                                    if (board.BlackAttackBoard[61] == false &&
-                                        board.BlackAttackBoard[62] == false)
+                                    if (board.AttackBoard[!PieceColor][61] == false &&
+                                        board.AttackBoard[!PieceColor][62] == false)
                                     {
                                         //Ok looks like move is valid lets add it
                                         ValidMoves.Push(62);
-                                        board.WhiteAttackBoard[62] = true;
+                                        board.AttackBoard[PieceColor][62] = true;
                                     }
                                 }
                             }
@@ -187,12 +175,12 @@ namespace ChessEngine.Engine
                                 {
                                     if (board.Squares[59].Piece == null)
                                     {
-                                        if (board.BlackAttackBoard[58] == false &&
-                                            board.BlackAttackBoard[59] == false)
+                                        if (board.AttackBoard[!PieceColor][58] == false &&
+                                            board.AttackBoard[!PieceColor][59] == false)
                                         {
                                             //Ok looks like move is valid lets add it
                                             ValidMoves.Push(58);
-                                            board.WhiteAttackBoard[58] = true;
+                                            board.AttackBoard[PieceColor][58] = true;
                                         }
                                     }
                                 }
@@ -218,11 +206,11 @@ namespace ChessEngine.Engine
                             {
                                 if (board.Squares[5].Piece == null)
                                 {
-                                    if (board.WhiteAttackBoard[5] == false && board.WhiteAttackBoard[6] == false)
+                                    if (board.AttackBoard[!PieceColor][5] == false && board.AttackBoard[!PieceColor][6] == false)
                                     {
                                         //Ok looks like move is valid lets add it
                                         ValidMoves.Push(6);
-                                        board.BlackAttackBoard[6] = true;
+                                        board.AttackBoard[PieceColor][6] = true;
                                     }
                                 }
                             }
@@ -246,12 +234,12 @@ namespace ChessEngine.Engine
                                 {
                                     if (board.Squares[3].Piece == null)
                                     {
-                                        if (board.WhiteAttackBoard[2] == false &&
-                                            board.WhiteAttackBoard[3] == false)
+                                        if (board.AttackBoard[!PieceColor][2] == false &&
+                                            board.AttackBoard[!PieceColor][3] == false)
                                         {
                                             //Ok looks like move is valid lets add it
                                             ValidMoves.Push(2);
-                                            board.BlackAttackBoard[2] = true;
+                                            board.AttackBoard[PieceColor][2] = true;
                                         }
                                     }
                                 }

@@ -9,8 +9,8 @@ namespace ChessEngine.Engine
     public sealed class Board
     {
         internal Square[] Squares { get; private set; }
-        internal bool[] BlackAttackBoard { get; private set; }
-        internal bool[] WhiteAttackBoard { get; private set; }
+
+        internal Dictionary<ChessColor, bool[]> AttackBoard { get; private set; }
 
         internal ulong ZobristHash { get; private set; }
         internal bool IsDraw
@@ -120,8 +120,9 @@ namespace ChessEngine.Engine
             BlackCanCastle = true;
             WhiteCanCastle = true;
 
-            WhiteAttackBoard = new bool[64];
-            BlackAttackBoard = new bool[64];
+            AttackBoard = new Dictionary<ChessColor, bool[]>();
+            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
+            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
         }
 
         private Board(Square[] squares)
@@ -137,8 +138,9 @@ namespace ChessEngine.Engine
                 }
             }
 
-            WhiteAttackBoard = new bool[64];
-            BlackAttackBoard = new bool[64];
+            AttackBoard = new Dictionary<ChessColor, bool[]>();
+            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
+            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
 
         }
 
@@ -155,13 +157,14 @@ namespace ChessEngine.Engine
                 }
             }
 
-            WhiteAttackBoard = new bool[64];
-            BlackAttackBoard = new bool[64];
+            AttackBoard = new Dictionary<ChessColor, bool[]>();
+            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
+            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
 
             for (byte x = 0; x < 64; x++)
             {
-                WhiteAttackBoard[x] = board.WhiteAttackBoard[x];
-                BlackAttackBoard[x] = board.BlackAttackBoard[x];
+                AttackBoard[ChessPieceColor.White][x] = board.AttackBoard[ChessPieceColor.White][x];
+                AttackBoard[ChessPieceColor.Black][x] = board.AttackBoard[ChessPieceColor.Black][x];
             }
 
             FiftyMove = board.FiftyMove;
@@ -394,8 +397,9 @@ namespace ChessEngine.Engine
             clonedBoard.WhiteCanCastle = WhiteCanCastle;
             clonedBoard.BlackCanCastle = BlackCanCastle;
 
-            WhiteAttackBoard = new bool[64];
-            BlackAttackBoard = new bool[64];
+            AttackBoard = new Dictionary<ChessColor, bool[]>();
+            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
+            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
 
             return clonedBoard;
         }
