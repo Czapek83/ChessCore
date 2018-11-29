@@ -28,25 +28,6 @@ namespace ChessEngine.Engine
 
         #region PublicMembers
 
-        public enum Difficulty
-        {
-            Easy,
-            Medium,
-            Hard,
-            VeryHard
-        }
-
-        public enum TimeSettings
-        {
-            Moves40In5Minutes,
-            Moves40In10Minutes,
-            Moves40In20Minutes,
-            Moves40In30Minutes,
-            Moves40In40Minutes,
-            Moves40In60Minutes,
-            Moves40In90Minutes,
-        }
-
         public ChessPieceType PromoteToPieceType = ChessPieceType.Queen;
 
         public PiecesTaken PiecesTakenCount = new PiecesTaken();

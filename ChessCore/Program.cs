@@ -101,7 +101,7 @@ class Program
 					}
 					if (move == "hard")
 					{
-						engine.GameDifficulty = Engine.Difficulty.Hard;
+						engine.GameDifficulty = Difficulty.Hard;
 						continue;
 					}
 					if (move == "easy")
