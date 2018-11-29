@@ -52,7 +52,7 @@ namespace ChessEngine.Engine
         public PiecesTaken PiecesTakenCount = new PiecesTaken();
 
         //State Variables
-        public ChessPieceColor HumanPlayer;
+        public ChessColor HumanPlayer;
         public bool Thinking;
         public bool TrainingMode;
 
@@ -124,7 +124,7 @@ namespace ChessEngine.Engine
             }
         }
 
-        public ChessPieceColor WhoseMove
+        public ChessColor WhoseMove
         {
             get { return ChessBoard.WhoseMove; }
             set { ChessBoard.WhoseMove = value; }
@@ -229,7 +229,7 @@ namespace ChessEngine.Engine
             return Book.ValidateOpeningBook(OpeningBook);
         }
 
-        private static bool CheckForMate(ChessPieceColor whosTurn, ref Board chessBoard)
+        private static bool CheckForMate(ChessColor whosTurn, ref Board chessBoard)
         {
             Search.SearchForMate(whosTurn, chessBoard, ref chessBoard.BlackMate,
                                  ref chessBoard.WhiteMate);
@@ -359,7 +359,7 @@ namespace ChessEngine.Engine
             return ChessBoard.Squares[index].Piece.PieceType;
         }
 
-        public ChessPieceColor GetPieceColorAt(byte boardColumn, byte boardRow)
+        public ChessColor GetPieceColorAt(byte boardColumn, byte boardRow)
         {
             byte index = GetBoardIndex(boardColumn, boardRow);
 
@@ -370,7 +370,7 @@ namespace ChessEngine.Engine
             return ChessBoard.Squares[index].Piece.PieceColor;
         }
 
-        public ChessPieceColor GetPieceColorAt(byte index)
+        public ChessColor GetPieceColorAt(byte index)
         {
             if (ChessBoard.Squares[index].Piece == null)
             {
@@ -431,7 +431,7 @@ namespace ChessEngine.Engine
             return ChessBoard.Score;
         }
 
-        public byte FindSourcePositon(ChessPieceType chessPieceType, ChessPieceColor chessPieceColor, byte dstPosition, bool capture, int forceCol, int forceRow)
+        public byte FindSourcePositon(ChessPieceType chessPieceType, ChessColor chessPieceColor, byte dstPosition, bool capture, int forceCol, int forceRow)
         {
             Square square;
 

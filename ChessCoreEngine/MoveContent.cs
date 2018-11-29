@@ -7,11 +7,11 @@ namespace ChessEngine.Engine
     {
         public byte DstPosition;
         public bool Moved;
-        public ChessPieceColor PieceColor;
+        public ChessColor PieceColor;
         public ChessPieceType PieceType;
         public byte SrcPosition;
         
-        public PieceMoving(ChessPieceColor pieceColor, ChessPieceType pieceType, bool moved,
+        public PieceMoving(ChessColor pieceColor, ChessPieceType pieceType, bool moved,
                            byte srcPosition, byte dstPosition)
         {
             PieceColor = pieceColor;
@@ -43,11 +43,11 @@ namespace ChessEngine.Engine
     public struct PieceTaken
     {
         public bool Moved;
-        public ChessPieceColor PieceColor;
+        public ChessColor PieceColor;
         public ChessPieceType PieceType;
         public byte Position;
 
-        public PieceTaken(ChessPieceColor pieceColor, ChessPieceType pieceType, bool moved,
+        public PieceTaken(ChessColor pieceColor, ChessPieceType pieceType, bool moved,
                           byte position)
         {
             PieceColor = pieceColor;

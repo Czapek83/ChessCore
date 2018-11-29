@@ -7,7 +7,7 @@ namespace ChessEngine.Engine
     public static class PieceFactory
     {
         public static Piece CreatePieceByTypeAndColor(ChessPieceType chesspieceType,
-            ChessPieceColor chessPieceColor)
+            ChessColor chessPieceColor)
         {
             switch (chesspieceType)
             {

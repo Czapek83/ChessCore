@@ -7,7 +7,7 @@ namespace ChessEngine.Engine
 {
     public class Rook : Piece
     {
-        public Rook(ChessPieceColor color) : base(ChessPieceType.Rook, color)
+        public Rook(ChessColor color) : base(ChessPieceType.Rook, color)
         {
 
         }

@@ -18,7 +18,7 @@ namespace ChessEngine.Engine
              0,  0,  0,  0,  0,  0,  0,  0
         };
 
-        public Pawn(ChessPieceColor color): base(ChessPieceType.Pawn, color)
+        public Pawn(ChessColor color): base(ChessPieceType.Pawn, color)
         {
             LastValidMoveCount = 2;
 

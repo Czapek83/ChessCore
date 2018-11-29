@@ -18,7 +18,7 @@ namespace ChessEngine.Engine
             -50,-30,-20,-30,-30,-20,-30,-50,
         };
 
-        public Knight(ChessPieceColor color) : base(ChessPieceType.Knight, color)
+        public Knight(ChessColor color) : base(ChessPieceType.Knight, color)
         {
             LastValidMoveCount = 2;
         }

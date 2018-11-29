@@ -47,7 +47,7 @@ namespace ChessEngine.Engine
             return;
         }
 
-        internal static bool SaveGame(String filePath, Board chessBoard, ChessPieceColor whoseMove, Stack<MoveContent> moveHistory)
+        internal static bool SaveGame(String filePath, Board chessBoard, ChessColor whoseMove, Stack<MoveContent> moveHistory)
         {
             if (String.IsNullOrEmpty(filePath))
                 return false;
@@ -89,7 +89,7 @@ namespace ChessEngine.Engine
             return true;
         }
 
-        internal static bool LoadGame(String filePath, ref Board chessBoard, ChessPieceColor whoseMove, ref Stack<MoveContent> moveHistory, ref List<OpeningMove> currentGameBook, ref List<OpeningMove> undoGameBook)
+        internal static bool LoadGame(String filePath, ref Board chessBoard, ChessColor whoseMove, ref Stack<MoveContent> moveHistory, ref List<OpeningMove> currentGameBook, ref List<OpeningMove> undoGameBook)
         {
             if (String.IsNullOrEmpty(filePath))
             {

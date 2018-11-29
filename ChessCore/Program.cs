@@ -558,7 +558,7 @@ class Program
 			}
 
 			ChessPieceType PieceType = engine.GetPieceTypeAt(i);
-			ChessPieceColor PieceColor = engine.GetPieceColorAt(i);
+			ChessColor PieceColor = engine.GetPieceColorAt(i);
 			string str;
 
 			switch (PieceType)

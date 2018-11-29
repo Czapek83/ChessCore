@@ -39,7 +39,7 @@ namespace ChessEngine.Engine
             return (s1.Score).CompareTo(s2.Score);
         }
 
-        private static int SideToMoveScore(int score, ChessPieceColor color)
+        private static int SideToMoveScore(int score, ChessColor color)
         {
             if (color == ChessPieceColor.Black)
                 return -score;
@@ -571,7 +571,7 @@ namespace ChessEngine.Engine
             return positions;
         }
 
-        internal static bool SearchForMate(ChessPieceColor movingSide, Board examineBoard, ref bool blackMate, ref bool whiteMate)
+        internal static bool SearchForMate(ChessColor movingSide, Board examineBoard, ref bool blackMate, ref bool whiteMate)
         {
             bool foundNonCheckBlack = false;
             bool foundNonCheckWhite = false;

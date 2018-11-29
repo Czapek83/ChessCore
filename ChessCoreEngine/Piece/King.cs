@@ -31,7 +31,7 @@ namespace ChessEngine.Engine
         };
 
 
-        public King(ChessPieceColor color) : base(ChessPieceType.King, color)
+        public King(ChessColor color) : base(ChessPieceType.King, color)
         {
 
         }
@@ -107,7 +107,7 @@ namespace ChessEngine.Engine
                 
         }
 
-        internal override GenerateValidMovesPriority GetGenerateValidMovesPriority(ChessPieceColor colorThatIsOnMove)
+        internal override GenerateValidMovesPriority GetGenerateValidMovesPriority(ChessColor colorThatIsOnMove)
         {
             if (colorThatIsOnMove == PieceColor)
                 return GenerateValidMovesPriority.Lowest;

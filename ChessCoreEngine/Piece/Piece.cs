@@ -3,11 +3,42 @@ using System.Collections.Generic;
 
 namespace ChessEngine.Engine
 {
-
-    public enum ChessPieceColor
+    public static class ChessPieceColor
     {
-        White,
-        Black
+        public static readonly ChessColor White = new ChessColor { Colour = true };
+        public static readonly ChessColor Black = new ChessColor { Colour = false };
+    }
+
+    public struct ChessColor
+    {
+        public bool Colour;
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ChessColor)
+                return (Colour.Equals(((ChessColor)obj).Colour));
+            return Colour.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Colour.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Colour.ToString();
+        }
+
+        public static bool operator== (ChessColor a, ChessColor b)
+        {
+            return a.Colour == b.Colour;
+        }
+
+        public static bool operator !=(ChessColor a, ChessColor b)
+        {
+            return a.Colour != b.Colour;
+        }
     }
 
     public enum ChessPieceType
@@ -34,7 +65,7 @@ namespace ChessEngine.Engine
     {
         #region InternalMembers
 
-        public ChessPieceColor PieceColor { get; protected set; }
+        public ChessColor PieceColor { get; protected set; }
         public ChessPieceType PieceType { get; protected set; }
 
         public virtual short PieceValue { get; }
@@ -50,7 +81,7 @@ namespace ChessEngine.Engine
 
         internal Stack<byte> ValidMoves;
 
-        virtual internal GenerateValidMovesPriority GetGenerateValidMovesPriority(ChessPieceColor colorThatIsOnMove)
+        virtual internal GenerateValidMovesPriority GetGenerateValidMovesPriority(ChessColor colorThatIsOnMove)
         {
             return GenerateValidMovesPriority.Medium;
         }
@@ -60,7 +91,7 @@ namespace ChessEngine.Engine
 
         #region Constructors
 
-        protected Piece(ChessPieceType chessPieceType, ChessPieceColor chessPieceColor)
+        protected Piece(ChessPieceType chessPieceType, ChessColor chessPieceColor)
         {
             PieceType = chessPieceType;
             PieceColor = chessPieceColor;

@@ -7,12 +7,12 @@ namespace ChessEngine.Engine
     {
         private static ResultBoards resultBoards = new ResultBoards { Positions = new List<Board>(30) };
 
-        private static ChessPieceColor GetOppositeColor(ChessPieceColor color)
+        private static ChessColor GetOppositeColor(ChessColor color)
         {
             return color == ChessPieceColor.Black ? ChessPieceColor.White : ChessPieceColor.Black;
         }
 
-        private static int SideToMoveScore(int score, ChessPieceColor color)
+        private static int SideToMoveScore(int score, ChessColor color)
         {
             if (color == ChessPieceColor.Black)
                 return -score;
@@ -33,7 +33,7 @@ namespace ChessEngine.Engine
             return performanceResult;
         }
 
-        private static long Performance(int depth, Board board, ChessPieceColor color)
+        private static long Performance(int depth, Board board, ChessColor color)
         {
             long nodes = 0;
 
@@ -49,7 +49,7 @@ namespace ChessEngine.Engine
             return nodes;
         }
 
-        private static ResultBoards GetPossibleBoards(ChessPieceColor movingSide, Board examineBoard)
+        private static ResultBoards GetPossibleBoards(ChessColor movingSide, Board examineBoard)
         {
             //We are going to store our result boards here           
             resultBoards = new ResultBoards

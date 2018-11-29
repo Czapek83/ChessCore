@@ -13,7 +13,7 @@ namespace ChessEngine.Engine
         public bool WhiteCheck { get; internal set; }
         public bool BlackCastled { get; internal set; }
         public bool WhiteCastled { get; internal set; }
-        public ChessPieceColor WhoseMove { get; internal set; }
+        public ChessColor WhoseMove { get; internal set; }
         public bool InsufficientMaterial { get; internal set; }
         public bool WhiteCanCastle { get; internal set; }
         public bool BlackCanCastle { get; internal set; }

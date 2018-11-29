@@ -48,14 +48,16 @@ namespace ChessCoreEngine.Tests
             board.MoveCount.Should().Be(moveNumbers);
         }
 
-        [TestCase("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33", ChessPieceColor.Black)]
-        [TestCase("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b - - 8 24", ChessPieceColor.Black)]
-        [TestCase("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 1", ChessPieceColor.Black)]
-        [TestCase("5k2/4bb2/8/8/8/8/8/6K1 b - - 0 1", ChessPieceColor.Black)]
-        [TestCase("r2q1rk1/1p3ppp/p1npb3/3Np1b1/4P3/1N1Q4/PPP1BPPP/R4RK1 w - - 4 13", ChessPieceColor.White)]
-        [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", ChessPieceColor.White)]
-        public void TestWhoseMoveFromFen(string fen, ChessPieceColor whoseMove)
+        [TestCase("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33", false)]
+        [TestCase("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b - - 8 24", false)]
+        [TestCase("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 1", false)]
+        [TestCase("5k2/4bb2/8/8/8/8/8/6K1 b - - 0 1", false)]
+        [TestCase("r2q1rk1/1p3ppp/p1npb3/3Np1b1/4P3/1N1Q4/PPP1BPPP/R4RK1 w - - 4 13", true)]
+        [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", true)]
+        public void TestWhoseMoveFromFen(string fen, bool whoseMoveBool)
         {
+            var whoseMove = whoseMoveBool ? ChessPieceColor.White : ChessPieceColor.Black;
+
             var board = Board.CreateBoardFromFen(fen);
             board.WhoseMove.Should().Be(whoseMove);
         }

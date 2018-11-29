@@ -8,7 +8,7 @@ namespace ChessEngine.Engine
     {
         private const byte _boardSize = 63;
 
-        public virtual byte GetPositionByChessColor(byte originPosition, ChessPieceColor chessPieceColor)
+        public virtual byte GetPositionByChessColor(byte originPosition, ChessColor chessPieceColor)
         {
             if (chessPieceColor == ChessPieceColor.White)
                 return (byte)(_boardSize - originPosition);

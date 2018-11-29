@@ -80,7 +80,7 @@ namespace ChessEngine.Engine
         internal MoveContent LastMove { get; private set; }
 
         //Who initated En Passant
-        internal ChessPieceColor EnPassantColor { get; private set; }
+        internal ChessColor EnPassantColor { get; private set; }
         //Positions liable to En Passant
         internal byte EnPassantPosition { get; private set; }
 
@@ -100,7 +100,7 @@ namespace ChessEngine.Engine
         internal bool BlackCanCastle { get; private set; }
         internal bool WhiteCanCastle { get; private set; }
 
-        internal ChessPieceColor WhoseMove;
+        internal ChessColor WhoseMove;
         
         internal int MoveCount;
 
@@ -213,7 +213,7 @@ namespace ChessEngine.Engine
             return false;
         }
 
-        private static void RecordEnPassant(ChessPieceColor pcColor, ChessPieceType pcType, Board board, byte srcPosition, byte dstPosition)
+        private static void RecordEnPassant(ChessColor pcColor, ChessPieceType pcType, Board board, byte srcPosition, byte dstPosition)
         {
             //Record En Passant if Pawn Moving
             if (pcType == ChessPieceType.Pawn)
@@ -231,7 +231,7 @@ namespace ChessEngine.Engine
             }
         }
 
-        private static bool SetEnpassantMove(Board board, byte srcPosition, byte dstPosition, ChessPieceColor pcColor)
+        private static bool SetEnpassantMove(Board board, byte srcPosition, byte dstPosition, ChessColor pcColor)
         {
             if (board.EnPassantPosition != dstPosition)
             {
@@ -343,7 +343,7 @@ namespace ChessEngine.Engine
             return;
         }
 
-        private Square GetKingSquare(ChessPieceColor chessPieceColor)
+        private Square GetKingSquare(ChessColor chessPieceColor)
         {
             return Squares.First(x => x.Piece != null
                     && x.Piece.PieceType == ChessPieceType.King
@@ -645,7 +645,7 @@ namespace ChessEngine.Engine
             };
         }
 
-        internal void SetCheckedSide(ChessPieceColor whichColorIsChecked)
+        internal void SetCheckedSide(ChessColor whichColorIsChecked)
         {
             if (whichColorIsChecked == ChessPieceColor.White)
                 WhiteIsChecked = true;
@@ -653,7 +653,7 @@ namespace ChessEngine.Engine
                 BlackIsChecked = true;
         }
 
-        internal void SetCantCastle(ChessPieceColor whichColorCantCastle)
+        internal void SetCantCastle(ChessColor whichColorCantCastle)
         {
             if (whichColorCantCastle == ChessPieceColor.White)
                 WhiteCanCastle = false;
