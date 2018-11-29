@@ -41,9 +41,13 @@ namespace ChessEngine.Engine
 
             ResultBoards moveList = GetPossibleBoards(GetOppositeColor(color), board);
 
+            ConsoleLogger logger = new ConsoleLogger(LogLevel.Debug);
+
             for (int i = 0; i < moveList.Positions.Count; i++)
             {
+                logger.LogDebug($"Before {i}");
                 nodes += Performance(depth - 1, moveList.Positions[i], GetOppositeColor(color));
+                logger.LogInfo($"After {i}");
             }
 
             return nodes;

@@ -962,7 +962,7 @@ namespace ChessEngine.Engine
 
         public Test.PerformanceResult RunPerformanceTest()
         {
-            return Test.RunPerfTest(5, ChessBoard);
+            return Test.RunPerfTest(3, ChessBoard);
         }
 
         #endregion

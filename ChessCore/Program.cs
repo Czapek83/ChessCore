@@ -26,7 +26,10 @@ class Program
 		Console.WriteLine("");
 		Console.WriteLine("feature setboard=1");
 
-
+        var result = engine.RunPerformanceTest();
+        Console.WriteLine($"Finished Test {result.TimeSpan}");
+        Console.ReadKey();
+        /*
 		while (true)
 		{
 			try
@@ -327,6 +330,8 @@ class Program
 				return;
 			}
 		}
+
+        */
 	}
 
 	private static void MakeEngineMove(Engine engine)
