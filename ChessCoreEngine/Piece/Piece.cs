@@ -66,12 +66,7 @@ namespace ChessEngine.Engine
         {
             int score = 0;
 
-            byte index = position;
-
-            if (PieceColor == ChessPieceColor.Black)
-            {
-                index = (byte)(63 - position);
-            }
+            byte index = _coordinatesConverter.GetPositionByChessColor(position, PieceColor);
 
             //Calculate Piece Values
             score += PieceValue;
