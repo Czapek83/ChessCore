@@ -26,6 +26,19 @@ namespace ChessCoreEngine.Tests
         static readonly byte e3field = 63 - 8 - 8 - 3;
         static readonly byte c3field = 63 - 8 - 8 - 5;
 
+        static readonly byte h7field = 15;
+        static readonly byte h6field = 23;
+        static readonly byte h5field = 31;
+        static readonly byte g6field = 22;
+
+        static readonly byte a2field = 48;
+        static readonly byte b2field = 49;
+
+        static readonly byte d7field = 11;
+        static readonly byte d6field = 19;
+        static readonly byte c6field = 18;
+        static readonly byte e6field = 20;
+
         //Move Arrays contains every possible move for every piece from every field.
 
         [Test]
@@ -59,6 +72,39 @@ namespace ChessCoreEngine.Tests
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(d4field);
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(c3field);
             MoveArrays.WhitePawnMoves[d2field].Moves.Should().Contain(e3field);
+        }
+
+        [Test]
+        public void BlackPawnMoveArrays()
+        {
+            //Check all nulls
+            for (int i = 0; i < 7; i++)
+            {
+                MoveArrays.BlackPawnMoves[i].Moves.Should().BeNullOrEmpty();
+            }
+
+            for (int i = 56; i < 64; i++)
+            {
+                MoveArrays.BlackPawnMoves[i].Moves.Should().BeNullOrEmpty();
+            }
+
+            //Find some random pawn fields and assert its values
+            //h7 pawn has three moves (h6, g6, h5)
+            MoveArrays.BlackPawnMoves[h7field].Moves.Should().Contain(h6field);
+            MoveArrays.BlackPawnMoves[h7field].Moves.Should().Contain(h5field);
+            MoveArrays.BlackPawnMoves[h7field].Moves.Should().Contain(g6field);
+            //d4 pawn has three moves (d3, c3, e3)
+            MoveArrays.BlackPawnMoves[d4field].Moves.Should().Contain(d3field);
+            MoveArrays.BlackPawnMoves[d4field].Moves.Should().Contain(c3field);
+            MoveArrays.BlackPawnMoves[d4field].Moves.Should().Contain(e3field);
+            //a3 pawn has two moves (a2, b2)
+            MoveArrays.BlackPawnMoves[a3field].Moves.Should().Contain(a2field);
+            MoveArrays.BlackPawnMoves[a3field].Moves.Should().Contain(b2field);
+            //d7 pawn has four moves (d6, d5, c6, e6)
+            MoveArrays.BlackPawnMoves[d7field].Moves.Should().Contain(d6field);
+            MoveArrays.BlackPawnMoves[d7field].Moves.Should().Contain(d5field);
+            MoveArrays.BlackPawnMoves[d7field].Moves.Should().Contain(c6field);
+            MoveArrays.BlackPawnMoves[d7field].Moves.Should().Contain(e6field);
         }
     }
 }
