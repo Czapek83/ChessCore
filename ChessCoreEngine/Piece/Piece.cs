@@ -62,7 +62,7 @@ namespace ChessEngine.Engine
         }
 
         public int EvaluatePieceScore(byte position, 
-            bool endGamePhase, short[] whitePawnTable, short[] blackPawnTable)
+            bool endGamePhase, PawnCount pawnCount)
         {
             int score = 0;
 
@@ -86,13 +86,13 @@ namespace ChessEngine.Engine
             }
 
             score += EvaluatePieceSpecificScore(position, endGamePhase, index, 
-                whitePawnTable, blackPawnTable);
+                pawnCount);
             
             return score;
         }
 
         public abstract int EvaluatePieceSpecificScore(byte position,
-            bool endGamePhase, byte index, short[] whitePawnTable, short[] blackPawnTable);
+            bool endGamePhase, byte index, PawnCount pawnCount);
 
         protected bool AnalyzeMove(byte dstPos, Board board)
         {

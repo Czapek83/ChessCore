@@ -16,7 +16,7 @@ namespace ChessEngine.Engine
         public override short PieceActionValue => 2;
 
         public override int EvaluatePieceSpecificScore(byte position, bool endGamePhase, 
-            byte index, short[] whitePawnTable, short[] blackPawnTable)
+            byte index, PawnCount _)
         {
             return 0;
         }

@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace ChessEngine.Engine
 {
@@ -58,8 +59,7 @@ namespace ChessEngine.Engine
                 result -= 10;
             }
 
-            var blackPawnCount = new short[8];
-            var whitePawnCount = new short[8];
+            var pawnCount = new PawnCount();
 
             for (byte x = 0; x < 64; x++)
             {
@@ -68,7 +68,7 @@ namespace ChessEngine.Engine
                 if (square.Piece == null)
                     continue;
 
-                var pieceEvaluation = square.Piece.EvaluatePieceScore(x, evaluationParameters.EndGamePhase, whitePawnCount, blackPawnCount);
+                var pieceEvaluation = square.Piece.EvaluatePieceScore(x, evaluationParameters.EndGamePhase, pawnCount);
 
                 result = square.Piece.PieceColor == ChessPieceColor.White ?
                     result + pieceEvaluation :
@@ -107,16 +107,16 @@ namespace ChessEngine.Engine
             result += CheckBlackKingSafety(board);
 
             //Black Isolated Pawns
-            result += CheckIsolatedPawns(blackPawnCount);
+            result += CheckIsolatedPawns(pawnCount[ChessPieceColor.Black]);
 
             //White Isolated Pawns
-            result -= CheckIsolatedPawns(whitePawnCount);
+            result -= CheckIsolatedPawns(pawnCount[ChessPieceColor.White]);
 
             //Black Passed Pawns
-            result -= CheckPassedPawns(blackPawnCount, whitePawnCount);
+            result -= CheckPassedPawns(ChessPieceColor.Black, pawnCount);
 
             //White Passed Pawns
-            result += CheckPassedPawns(whitePawnCount, blackPawnCount);
+            result += CheckPassedPawns(ChessPieceColor.White, pawnCount);
 
             return result;
         }
@@ -244,41 +244,41 @@ namespace ChessEngine.Engine
             return result;
         }
 
-        private static int CheckPassedPawns(short[] myPawnCount, short[] oppositePawnCount)
+        private static int CheckPassedPawns(ChessColor myChessColor, PawnCount pawnCount)
         {
             var result = 0;
 
-            if (myPawnCount[0] >= 1 && oppositePawnCount[0] == 0)
+            if (pawnCount[myChessColor][0] >= 1 && pawnCount[!myChessColor][0] == 0)
             {
-                result += myPawnCount[0];
+                result += pawnCount[myChessColor][0];
             }
-            if (myPawnCount[1] >= 1 && oppositePawnCount[1] == 0)
+            if (pawnCount[myChessColor][1] >= 1 && pawnCount[!myChessColor][1] == 0)
             {
-                result += myPawnCount[1];
+                result += pawnCount[myChessColor][1];
             }
-            if (myPawnCount[2] >= 1 && oppositePawnCount[2] == 0)
+            if (pawnCount[myChessColor][2] >= 1 && pawnCount[!myChessColor][2] == 0)
             {
-                result += myPawnCount[2];
+                result += pawnCount[myChessColor][2];
             }
-            if (myPawnCount[3] >= 1 && oppositePawnCount[3] == 0)
+            if (pawnCount[myChessColor][3] >= 1 && pawnCount[!myChessColor][3] == 0)
             {
-                result += myPawnCount[3];
+                result += pawnCount[myChessColor][3];
             }
-            if (myPawnCount[4] >= 1 && oppositePawnCount[4] == 0)
+            if (pawnCount[myChessColor][4] >= 1 && pawnCount[!myChessColor][4] == 0)
             {
-                result += myPawnCount[4];
+                result += pawnCount[myChessColor][4];
             }
-            if (myPawnCount[5] >= 1 && oppositePawnCount[5] == 0)
+            if (pawnCount[myChessColor][5] >= 1 && pawnCount[!myChessColor][5] == 0)
             {
-                result += myPawnCount[5];
+                result += pawnCount[myChessColor][5];
             }
-            if (myPawnCount[6] >= 1 && oppositePawnCount[6] == 0)
+            if (pawnCount[myChessColor][6] >= 1 && pawnCount[!myChessColor][6] == 0)
             {
-                result += myPawnCount[6];
+                result += pawnCount[myChessColor][6];
             }
-            if (myPawnCount[7] >= 1 && oppositePawnCount[7] == 0)
+            if (pawnCount[myChessColor][7] >= 1 && pawnCount[!myChessColor][7] == 0)
             {
-                result += myPawnCount[7];
+                result += pawnCount[myChessColor][7];
             }
 
             return result;

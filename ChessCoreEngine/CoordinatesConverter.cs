@@ -16,7 +16,7 @@ namespace ChessEngine.Engine
 
         public virtual byte GetPositionByChessColor(byte originPosition, ChessColor chessPieceColor)
         {
-            if (chessPieceColor == ChessPieceColor.White)
+            if (chessPieceColor == ChessPieceColor.Black)
                 return (byte)(_boardSize - originPosition);
             else return originPosition;
         }

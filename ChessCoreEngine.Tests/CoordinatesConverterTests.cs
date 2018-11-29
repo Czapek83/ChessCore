@@ -22,8 +22,8 @@ namespace ChessCoreEngine.Tests
         {
             for (byte i = 0; i < 64; i++)
             {
-                _systemUnderTests.GetPositionByChessColor(i, ChessPieceColor.Black).Should().Be(i);
-                _systemUnderTests.GetPositionByChessColor(i, ChessPieceColor.White).Should().Be((byte)(63-i));
+                _systemUnderTests.GetPositionByChessColor(i, ChessPieceColor.Black).Should().Be((byte)(63 - i));
+                _systemUnderTests.GetPositionByChessColor(i, ChessPieceColor.White).Should().Be(i);
             }
         }
     }

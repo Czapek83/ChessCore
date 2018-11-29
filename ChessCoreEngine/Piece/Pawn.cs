@@ -30,8 +30,7 @@ namespace ChessEngine.Engine
         }
 
         public override int EvaluatePieceSpecificScore(byte position,
-            bool endGamePhase, byte index, 
-            short[] whitePawnCount, short[] blackPawnCount)
+            bool endGamePhase, byte index, PawnCount pawnCount)
         {
             int score = 0;
 
@@ -46,7 +45,7 @@ namespace ChessEngine.Engine
 
             if (PieceColor == ChessPieceColor.White)
             {
-                if (whitePawnCount[position % 8] > 0)
+                if (pawnCount[ChessPieceColor.White][position % 8] > 0)
                 {
                     //Doubled Pawn
                     score -= 15;
@@ -56,29 +55,29 @@ namespace ChessEngine.Engine
                 {
                     if (AttackedValue == 0)
                     {
-                        whitePawnCount[position % 8] += 50;
+                        pawnCount[ChessPieceColor.White][position % 8] += 50;
 
                         if (DefendedValue != 0)
-                            whitePawnCount[position % 8] += 50;
+                            pawnCount[ChessPieceColor.White][position % 8] += 50;
                     }
                 }
                 else if (position >= 16 && position <= 23)
                 {
                     if (AttackedValue == 0)
                     {
-                        whitePawnCount[position % 8] += 25;
+                        pawnCount[ChessPieceColor.White][position % 8] += 25;
 
 
                         if (DefendedValue != 0)
-                            whitePawnCount[position % 8] += 25;
+                            pawnCount[ChessPieceColor.White][position % 8] += 25;
                     }
                 }
 
-                whitePawnCount[position % 8] += 10;
+                pawnCount[ChessPieceColor.White][position % 8] += 10;
             }
             else
             {
-                if (blackPawnCount[position % 8] > 0)
+                if (pawnCount[ChessPieceColor.Black][position % 8] > 0)
                 {
                     //Doubled Pawn
                     score -= 15;
@@ -88,10 +87,10 @@ namespace ChessEngine.Engine
                 {
                     if (AttackedValue == 0)
                     {
-                        blackPawnCount[position % 8] += 50;
+                        pawnCount[ChessPieceColor.Black][position % 8] += 50;
 
                         if (DefendedValue != 0)
-                            blackPawnCount[position % 8] += 50;
+                            pawnCount[ChessPieceColor.Black][position % 8] += 50;
                     }
                 }
                 //Pawns in 6th Row that are not attacked are worth more points.
@@ -99,14 +98,14 @@ namespace ChessEngine.Engine
                 {
                     if (AttackedValue == 0)
                     {
-                        blackPawnCount[position % 8] += 25;
+                        pawnCount[ChessPieceColor.Black][position % 8] += 25;
 
                         if (DefendedValue != 0)
-                            blackPawnCount[position % 8] += 25;
+                            pawnCount[ChessPieceColor.Black][position % 8] += 25;
                     }
                 }
 
-                blackPawnCount[position % 8] += 10;
+                pawnCount[ChessPieceColor.Black][position % 8] += 10;
             }
                 return score;
         }
