@@ -17,7 +17,7 @@ namespace ChessCoreEngine.Tests
             _systemUnderTests = new CoordinatesConverter();
         }
 
-
+        [Test]
         public void GetPositionByChessColorTests()
         {
             for (byte i = 0; i < 64; i++)
