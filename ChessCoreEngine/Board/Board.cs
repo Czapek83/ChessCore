@@ -10,7 +10,7 @@ namespace ChessEngine.Engine
     {
         internal Square[] Squares { get; private set; }
 
-        internal Dictionary<ChessColor, bool[]> AttackBoard { get; private set; }
+        internal AttackBoardDictionary AttackBoard { get; private set; }
 
         internal ulong ZobristHash { get; private set; }
         internal bool IsDraw
@@ -120,9 +120,7 @@ namespace ChessEngine.Engine
             BlackCanCastle = true;
             WhiteCanCastle = true;
 
-            AttackBoard = new Dictionary<ChessColor, bool[]>();
-            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
-            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
+            AttackBoard = new AttackBoardDictionary();
         }
 
         private Board(Square[] squares)
@@ -138,9 +136,7 @@ namespace ChessEngine.Engine
                 }
             }
 
-            AttackBoard = new Dictionary<ChessColor, bool[]>();
-            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
-            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
+            AttackBoard = new AttackBoardDictionary();
 
         }
 
@@ -157,9 +153,7 @@ namespace ChessEngine.Engine
                 }
             }
 
-            AttackBoard = new Dictionary<ChessColor, bool[]>();
-            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
-            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
+            AttackBoard = new AttackBoardDictionary();
 
             for (byte x = 0; x < 64; x++)
             {
@@ -397,9 +391,7 @@ namespace ChessEngine.Engine
             clonedBoard.WhiteCanCastle = WhiteCanCastle;
             clonedBoard.BlackCanCastle = BlackCanCastle;
 
-            AttackBoard = new Dictionary<ChessColor, bool[]>();
-            AttackBoard.Add(ChessPieceColor.White, new bool[64]);
-            AttackBoard.Add(ChessPieceColor.Black, new bool[64]);
+            AttackBoard = new AttackBoardDictionary();
 
             return clonedBoard;
         }
