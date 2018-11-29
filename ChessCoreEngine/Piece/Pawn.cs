@@ -30,7 +30,7 @@ namespace ChessEngine.Engine
         }
 
         public override int EvaluatePieceSpecificScore(byte position,
-            bool endGamePhase, byte index, PawnCount pawnCount)
+            bool endGamePhase, byte index, PawnCountDictionary pawnCount)
         {
             int score = 0;
 

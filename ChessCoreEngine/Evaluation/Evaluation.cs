@@ -59,7 +59,7 @@ namespace ChessEngine.Engine
                 result -= 10;
             }
 
-            var pawnCount = new PawnCount();
+            var pawnCount = new PawnCountDictionary();
 
             for (byte x = 0; x < 64; x++)
             {
@@ -244,7 +244,7 @@ namespace ChessEngine.Engine
             return result;
         }
 
-        private static int CheckPassedPawns(ChessColor myChessColor, PawnCount pawnCount)
+        private static int CheckPassedPawns(ChessColor myChessColor, PawnCountDictionary pawnCount)
         {
             var result = 0;
 

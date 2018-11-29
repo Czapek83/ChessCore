@@ -48,7 +48,7 @@ namespace ChessEngine.Engine
             return "K";
         }
 
-        public override int EvaluatePieceSpecificScore(byte position, bool endGamePhase, byte index, PawnCount _)
+        public override int EvaluatePieceSpecificScore(byte position, bool endGamePhase, byte index, PawnCountDictionary _)
         {
             var score = 0;
 

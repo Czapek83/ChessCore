@@ -62,7 +62,7 @@ namespace ChessEngine.Engine
         }
 
         public int EvaluatePieceScore(byte position, 
-            bool endGamePhase, PawnCount pawnCount)
+            bool endGamePhase, PawnCountDictionary pawnCount)
         {
             int score = 0;
 
@@ -92,7 +92,7 @@ namespace ChessEngine.Engine
         }
 
         public abstract int EvaluatePieceSpecificScore(byte position,
-            bool endGamePhase, byte index, PawnCount pawnCount);
+            bool endGamePhase, byte index, PawnCountDictionary pawnCount);
 
         protected bool AnalyzeMove(byte dstPos, Board board)
         {

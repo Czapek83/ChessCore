@@ -11,12 +11,12 @@ namespace ChessCoreEngine.Tests
     public class EvaluationTests
     {
         ICoordinatesConverter converter = new CoordinatesConverter();
-        PawnCount pawnCount;
+        PawnCountDictionary pawnCount;
 
         [SetUp]
         public void SetUp()
         {
-            pawnCount = new PawnCount();
+            pawnCount = new PawnCountDictionary();
         }
 
         #region PieceScoreEvaluationTests
