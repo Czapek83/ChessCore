@@ -76,20 +76,13 @@ namespace ChessEngine.Engine
 
         internal int Score;
 
-        internal bool BlackIsChecked
+        internal bool IsChecked(ChessColor checkedColor)
         {
-            get
-            {
-                return AttackBoard[ChessPieceColor.White][GetKingPosition(ChessPieceColor.Black)];
-            }
+            return AttackBoard[!checkedColor][GetKingPosition(checkedColor)];
         }
+
         internal bool BlackMate;
-        internal bool WhiteIsChecked {
-            get
-            {
-                return AttackBoard[ChessPieceColor.Black][GetKingPosition(ChessPieceColor.White)];
-            }
-        }
+
         internal bool WhiteMate;
 
         internal byte RepeatedMove;
@@ -624,7 +617,6 @@ namespace ChessEngine.Engine
             {
                 BlackCanCastle = this.BlackCanCastle,
                 BlackCastled = this.BlackCastled,
-                BlackCheck = this.BlackIsChecked,
                 BlackMate = this.BlackMate,
                 EndGamePhase = this.EndGamePhase,
                 FiftyMove = this.FiftyMove,
@@ -633,7 +625,6 @@ namespace ChessEngine.Engine
                 RepeatedMove = this.RepeatedMove,
                 WhiteCanCastle = this.WhiteCanCastle,
                 WhiteCastled = this.WhiteCastled,
-                WhiteCheck = this.WhiteIsChecked,
                 WhiteMate = this.WhiteMate,
                 WhoseMove = this.WhoseMove
             };

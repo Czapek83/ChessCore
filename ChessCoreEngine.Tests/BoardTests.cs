@@ -123,7 +123,7 @@ namespace ChessEngine.Tests
         {
             var board = Board.CreateBoardFromFen(fen);
             board.GenerateValidMoves();
-            board.WhiteIsChecked.Should().Be(whiteIsChecked);
+            board.IsChecked(ChessPieceColor.White).Should().Be(whiteIsChecked);
         }
 
         [TestCase("4kb1r/1p1b1ppp/p5r1/3NPn2/2pP4/7P/PPP2B2/R4RK1 w k - 2 23", false)]
@@ -135,7 +135,7 @@ namespace ChessEngine.Tests
         {
             var board = Board.CreateBoardFromFen(fen);
             board.GenerateValidMoves();
-            board.BlackIsChecked.Should().Be(blackIsChecked);
+            board.IsChecked(ChessPieceColor.Black).Should().Be(blackIsChecked);
         }
     }
 }

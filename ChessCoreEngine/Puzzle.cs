@@ -13,7 +13,7 @@ namespace ChessEngine.Engine
             {
                 engine = PuzzleKnightBishopCandidate();
             }
-            while (engine.IsGameOver() || engine.GetBlackCheck() || engine.GetWhiteCheck());
+            while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 
@@ -25,7 +25,7 @@ namespace ChessEngine.Engine
             {
                 engine = PuzzleRookCandidate();
             }
-            while (engine.IsGameOver() || engine.GetBlackCheck() || engine.GetWhiteCheck());
+            while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 
@@ -37,7 +37,7 @@ namespace ChessEngine.Engine
             {
                 engine = PuzzleKingPawnCandidate();
             }
-            while (engine.IsGameOver() || engine.GetBlackCheck() || engine.GetWhiteCheck());
+            while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 

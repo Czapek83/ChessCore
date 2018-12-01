@@ -293,14 +293,9 @@ namespace ChessEngine.Engine
             return ChessBoard.WhiteMate;
         }
 
-        public bool GetBlackCheck()
+        public bool GetChecked(ChessColor checkedColor)
         {
-            return ChessBoard.BlackIsChecked;
-        }
-
-        public bool GetWhiteCheck()
-        {
-            return ChessBoard.WhiteIsChecked;
+            return ChessBoard.IsChecked(checkedColor);
         }
 
         public byte GetRepeatedMove()
@@ -679,25 +674,12 @@ namespace ChessEngine.Engine
             ChessBoard.Score = Evaluation.EvaluateBoardScore(ChessBoard.GetEvaluationParameters(), ChessBoard);
 
             //If there is a check in place, check if this is still true;
-            if (piece.PieceColor == ChessPieceColor.White)
+            if (ChessBoard.IsChecked(piece.PieceColor))
             {
-                if (ChessBoard.WhiteIsChecked)
-                {
-                    //Invalid Move
-                    ChessBoard = new Board(PreviousChessBoard);
-                    ChessBoard.GenerateValidMoves();
-                    return false;
-                }
-            }
-            else if (piece.PieceColor == ChessPieceColor.Black)
-            {
-                if (ChessBoard.BlackIsChecked)
-                {
-                    //Invalid Move
-                    ChessBoard = new Board(PreviousChessBoard);
-                    ChessBoard.GenerateValidMoves();
-                    return false;
-                }
+                //Invalid Move
+                ChessBoard = new Board(PreviousChessBoard);
+                ChessBoard.GenerateValidMoves();
+                return false;
             }
    
             MoveHistory.Push(ChessBoard.LastMove);
@@ -710,7 +692,8 @@ namespace ChessEngine.Engine
             {
                 LastMove.PgnMove += "#";
             }
-            else if (ChessBoard.WhiteIsChecked || ChessBoard.BlackIsChecked)
+            else if (ChessBoard.IsChecked(ChessPieceColor.White) 
+                || ChessBoard.IsChecked(ChessPieceColor.Black))
             {
                 LastMove.PgnMove += "+";
             }
@@ -910,7 +893,8 @@ namespace ChessEngine.Engine
                 return;
             }
 
-            if (ChessBoard.WhiteIsChecked || ChessBoard.BlackIsChecked)
+            if (ChessBoard.IsChecked(ChessPieceColor.White)
+                || ChessBoard.IsChecked(ChessPieceColor.Black))
             {
                 LastMove.PgnMove += "+";
             }

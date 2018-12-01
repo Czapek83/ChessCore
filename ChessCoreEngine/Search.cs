@@ -178,13 +178,13 @@ namespace ChessEngine.Engine
                     board.GenerateValidMoves();
 
                     //Invalid Move
-                    if (board.WhiteIsChecked && examineBoard.WhoseMove == ChessPieceColor.White)
+                    if (board.IsChecked(ChessPieceColor.White) && examineBoard.WhoseMove == ChessPieceColor.White)
                     {
                         continue;
                     }
 
                     //Invalid Move
-                    if (board.BlackIsChecked && examineBoard.WhoseMove == ChessPieceColor.Black)
+                    if (board.IsChecked(ChessPieceColor.Black) && examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
                         continue;
                     }
@@ -213,7 +213,7 @@ namespace ChessEngine.Engine
             //End Main Search with Quiescence
             if (depth == 0)
             {
-                if (!extended && examineBoard.BlackIsChecked || examineBoard.WhiteIsChecked)
+                if (!extended && examineBoard.IsChecked(ChessPieceColor.Black) || examineBoard.IsChecked(ChessPieceColor.White))
                 {
                     depth++;
                     extended = true;
@@ -227,7 +227,7 @@ namespace ChessEngine.Engine
 
             List<Position> positions = EvaluateMoves(examineBoard, depth);
 
-            if (examineBoard.WhiteIsChecked || examineBoard.BlackIsChecked || positions.Count == 0)
+            if (examineBoard.IsChecked(ChessPieceColor.White) || examineBoard.IsChecked(ChessPieceColor.Black) || positions.Count == 0)
             {
                 if (SearchForMate(examineBoard.WhoseMove, examineBoard, ref examineBoard.BlackMate, ref examineBoard.WhiteMate))
                 {
@@ -266,7 +266,7 @@ namespace ChessEngine.Engine
                 //We Generate Valid Moves for Board
                 board.GenerateValidMoves();
 
-                if (board.BlackIsChecked)
+                if (board.IsChecked(ChessPieceColor.Black))
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
@@ -275,7 +275,7 @@ namespace ChessEngine.Engine
                     }
                 }
 
-                if (board.WhiteIsChecked)
+                if (board.IsChecked(ChessPieceColor.White))
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.White)
                     {
@@ -335,7 +335,7 @@ namespace ChessEngine.Engine
             List<Position> positions;
           
 
-            if (examineBoard.WhiteIsChecked || examineBoard.BlackIsChecked)
+            if (examineBoard.IsChecked(ChessPieceColor.White) || examineBoard.IsChecked(ChessPieceColor.Black))
             {
                 positions = EvaluateMoves(examineBoard, 0);
             }
@@ -367,7 +367,7 @@ namespace ChessEngine.Engine
                 //We Generate Valid Moves for Board
                 board.GenerateValidMoves();
 
-                if (board.BlackIsChecked)
+                if (board.IsChecked(ChessPieceColor.Black))
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.Black)
                     {
@@ -376,7 +376,7 @@ namespace ChessEngine.Engine
                     }
                 }
 
-                if (board.WhiteIsChecked)
+                if (board.IsChecked(ChessPieceColor.White))
                 {
                     if (examineBoard.WhoseMove == ChessPieceColor.White)
                     {
@@ -601,7 +601,7 @@ namespace ChessEngine.Engine
                     //We Generate Valid Moves for Board
                     board.GenerateValidMoves();
 
-                    if (board.BlackIsChecked == false)
+                    if (board.IsChecked(ChessPieceColor.Black) == false)
                     {
                         foundNonCheckBlack = true;
                     }
@@ -610,7 +610,7 @@ namespace ChessEngine.Engine
                         continue;
                     }
 
-                    if (board.WhiteIsChecked == false )
+                    if (board.IsChecked(ChessPieceColor.White) == false )
                     {
                         foundNonCheckWhite = true;
                     }
@@ -623,7 +623,7 @@ namespace ChessEngine.Engine
 
             if (foundNonCheckBlack == false)
             {
-                if (examineBoard.BlackIsChecked)
+                if (examineBoard.IsChecked(ChessPieceColor.Black))
                 {
                     blackMate = true;
                     return true;
@@ -636,7 +636,7 @@ namespace ChessEngine.Engine
 
             if (foundNonCheckWhite == false)
             {
-                if (examineBoard.WhiteIsChecked)
+                if (examineBoard.IsChecked(ChessPieceColor.White))
                 {
                     whiteMate = true;
                     return true;

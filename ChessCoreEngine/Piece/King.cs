@@ -92,14 +92,14 @@ namespace ChessEngine.Engine
             GenerateValidMovesKing(piecePosition, board);
             if (PieceColor == ChessPieceColor.White)
             {
-                if (!board.WhiteCastled && board.WhiteCanCastle && !board.WhiteIsChecked)
+                if (!board.WhiteCastled && board.WhiteCanCastle && !board.IsChecked(ChessPieceColor.White))
                 {
                     GenerateValidMovesKingCastle(board);
                 }
             }
             else
             {
-                if (!board.BlackCastled && board.BlackCanCastle && !board.BlackIsChecked)
+                if (!board.BlackCastled && board.BlackCanCastle && !board.IsChecked(ChessPieceColor.Black))
                 {
                     GenerateValidMovesKingCastle(board);
                 }

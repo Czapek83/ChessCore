@@ -82,12 +82,12 @@ namespace ChessEngine.Engine
                     board.GenerateValidMoves();
 
                     
-                    if (board.BlackIsChecked && movingSide == ChessPieceColor.Black)
+                    if (board.IsChecked(ChessPieceColor.Black) && movingSide == ChessPieceColor.Black)
                     {
                         continue;
                     }
 
-                    if (board.WhiteIsChecked && movingSide == ChessPieceColor.White)
+                    if (board.IsChecked(ChessPieceColor.White) && movingSide == ChessPieceColor.White)
                     {
                         continue;
                     } 
