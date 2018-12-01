@@ -125,5 +125,17 @@ namespace ChessEngine.Tests
             board.GenerateValidMoves();
             board.WhiteIsChecked.Should().Be(whiteIsChecked);
         }
+
+        [TestCase("4kb1r/1p1b1ppp/p5r1/3NPn2/2pP4/7P/PPP2B2/R4RK1 w k - 2 23", true)]
+        [TestCase("8/1p6/p2p1b2/5k1p/3N2p1/1P4K1/P1P1N3/8 b - - 5 37", true)]
+        [TestCase("8/1p6/p2p1b2/7p/3Nk1p1/1P4K1/P1P1N3/8 w - - 6 38", false)]
+        [TestCase("4k3/N7/2p4p/8/2P3p1/8/PP4PP/6K1 b - - 0 36", false)]
+        [TestCase("rnbq1bnr/pppp1ppp/8/2k1p3/3PP3/5N2/PPP1BPPP/RNBQ1RK1 b - d3 0 5", true)]
+        public void BlackIsCheckedTest(string fen, bool blackIsChecked)
+        {
+            var board = Board.CreateBoardFromFen(fen);
+            board.GenerateValidMoves();
+            board.BlackIsChecked.Should().Be(blackIsChecked);
+        }
     }
 }
