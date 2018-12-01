@@ -112,5 +112,18 @@ namespace ChessEngine.Tests
             var board = Board.CreateBoardFromFen(fen);
             board.BlackKingPosition.Should().Be(blackKingPosition);
         }
+        
+        [TestCase("r4rk1/ppp3p1/8/8/1P6/P3BpPp/1RP1qK1P/5R2 w - - 4 28", true)]
+        [TestCase("r4rk1/ppp3p1/8/8/1Pq5/PR2BpPp/2P2K1P/5R2 w - - 2 27", false)]
+        [TestCase("8/5p2/5k2/6p1/5KPp/7P/8/8 w - g6 0 52", true)]
+        [TestCase("5rk1/1p1b1p1p/p2P3r/4P1p1/2pR1N2/2P4P/PP5K/8 w - g6 0 37", false)]
+        [TestCase("5rk1/1p1b1p1p/p2P3r/4P1p1/2pR1N2/2P4P/PP5K/8 w - g6 0 37", false)]
+        [TestCase("4kb1r/1p1b1ppp/p5r1/3NPn2/2pP4/7P/PPP2B2/R4RK1 w k - 2 23", true)]
+        public void WhiteIsCheckedTest(string fen, bool whiteIsChecked)
+        {
+            var board = Board.CreateBoardFromFen(fen);
+            board.GenerateValidMoves();
+            board.WhiteIsChecked.Should().Be(whiteIsChecked);
+        }
     }
 }
