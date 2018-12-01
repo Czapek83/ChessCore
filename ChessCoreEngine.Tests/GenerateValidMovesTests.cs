@@ -197,7 +197,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("rnbqk2r/1p2bpp1/p2ppn1p/8/3NPP1B/2N2Q2/PPP3PP/R3KB1R b KQkq - 3 9");
             board.GenerateValidMoves();
 
-            var blackKing = board.GetPiece(board.BlackKingPosition);
+            var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
 
             blackKing.ValidMoves.Should().HaveCount(3);
             blackKing.ValidMoves.Should().Contain(5);
@@ -226,7 +226,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
             board.GenerateValidMoves();
 
-            var whiteKing = board.GetPiece(board.WhiteKingPosition);
+            var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));
 
             whiteKing.ValidMoves.Should().HaveCount(7);
             whiteKing.ValidMoves.Should().Contain(27);
@@ -246,7 +246,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
             board.GenerateValidMoves();
 
-            var blackKing = board.GetPiece(board.BlackKingPosition);
+            var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
 
             blackKing.ValidMoves.Should().HaveCount(5);
             blackKing.ValidMoves.Should().Contain(11);
@@ -264,7 +264,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9");
             board.GenerateValidMoves();
 
-            var whiteKing = board.GetPiece(board.WhiteKingPosition);
+            var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));
 
             whiteKing.ValidMoves.Should().HaveCount(5);
             whiteKing.ValidMoves.Should().Contain(35);
@@ -282,7 +282,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9");
             board.GenerateValidMoves();
 
-            var blackKing = board.GetPiece(board.BlackKingPosition);
+            var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
 
             blackKing.ValidMoves.Should().HaveCount(8);
             blackKing.ValidMoves.Should().Contain(11);
@@ -303,7 +303,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("r1bqk2r/1p3pp1/p1pb1n1p/2p1pP2/4P1P1/2NPB3/PPP4P/R2QK1NR b KQkq - 1 9");
             board.GenerateValidMoves();
 
-            var blackKing = board.GetPiece(board.BlackKingPosition);
+            var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
 
             blackKing.ValidMoves.Should().HaveCount(4);
             blackKing.ValidMoves.Should().Contain(5);
@@ -320,7 +320,7 @@ namespace ChessCoreEngine.Tests
             var board = Board.CreateBoardFromFen("r2qk2r/2pb1ppp/1bn2n2/1N1p4/1p2p3/3BP3/P1Q1NPPP/R1B1K2R w KQkq - 0 15");
             board.GenerateValidMoves();
 
-            var whiteKing = board.GetPiece(board.WhiteKingPosition);
+            var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));
 
             whiteKing.ValidMoves.Should().HaveCount(4);
             whiteKing.ValidMoves.Should().Contain(51);

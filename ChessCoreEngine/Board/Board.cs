@@ -60,21 +60,11 @@ namespace ChessEngine.Engine
             }
         }
 
-        internal byte WhiteKingPosition
+        internal byte GetKingPosition(ChessColor chessColor)
         {
-            get
-            {
-                return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(ChessPieceColor.White));
-            }
+            return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(chessColor));
         }
-        internal byte BlackKingPosition
-        {
-            get
-            {
-                return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(ChessPieceColor.Black));
-            }
-        }
-
+        
         internal byte FiftyMove { get; private set; }
 
         internal MoveContent LastMove { get; private set; }
@@ -90,14 +80,14 @@ namespace ChessEngine.Engine
         {
             get
             {
-                return AttackBoard[ChessPieceColor.White][BlackKingPosition];
+                return AttackBoard[ChessPieceColor.White][GetKingPosition(ChessPieceColor.Black)];
             }
         }
         internal bool BlackMate;
         internal bool WhiteIsChecked {
             get
             {
-                return AttackBoard[ChessPieceColor.Black][WhiteKingPosition];
+                return AttackBoard[ChessPieceColor.Black][GetKingPosition(ChessPieceColor.White)];
             }
         }
         internal bool WhiteMate;

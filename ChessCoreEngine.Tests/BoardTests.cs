@@ -97,7 +97,7 @@ namespace ChessEngine.Tests
         public void WhiteKingPositionTests(string fen, byte whiteKingPosition)
         {
             var board = Board.CreateBoardFromFen(fen);
-            board.WhiteKingPosition.Should().Be(whiteKingPosition);
+            board.GetKingPosition(ChessPieceColor.White).Should().Be(whiteKingPosition);
         }
 
         [TestCase("r4k1r/8/4q3/8/8/8/4NNB1/R1B3K1 b - - 0 1", 5)]
@@ -110,7 +110,7 @@ namespace ChessEngine.Tests
         public void BlackKingPositionTests(string fen, byte blackKingPosition)
         {
             var board = Board.CreateBoardFromFen(fen);
-            board.BlackKingPosition.Should().Be(blackKingPosition);
+            board.GetKingPosition(ChessPieceColor.Black).Should().Be(blackKingPosition);
         }
         
         [TestCase("r4rk1/ppp3p1/8/8/1P6/P3BpPp/1RP1qK1P/5R2 w - - 4 28", true)]

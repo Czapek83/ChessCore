@@ -125,7 +125,7 @@ namespace ChessEngine.Engine
         {
             var result = 0;
 
-            var blackKingPosition = board.BlackKingPosition;
+            var blackKingPosition = board.GetKingPosition(ChessPieceColor.Black);
 
             if (blackKingPosition != 3 && blackKingPosition != 4)
             {
@@ -148,7 +148,7 @@ namespace ChessEngine.Engine
         {
             var result = 0;
 
-            byte whiteKingPosition = board.WhiteKingPosition;
+            byte whiteKingPosition = board.GetKingPosition(ChessPieceColor.White);
             if (whiteKingPosition != 59 && whiteKingPosition != 60)
             {
                 int pawnPos = whiteKingPosition - 8;
