@@ -115,11 +115,7 @@ namespace ChessEngine.Engine
                 pcAttacked.AttackedValue += PieceActionValue;
 
                 //If this is a king set it in check                   
-                if (pcAttacked.PieceType == ChessPieceType.King)
-                {
-                    board.SetCheckedSide(pcAttacked.PieceColor);
-                }
-                else
+                if (pcAttacked.PieceType != ChessPieceType.King)
                 {
                     //Add this as a valid move
                     ValidMoves.Push(dstPos);

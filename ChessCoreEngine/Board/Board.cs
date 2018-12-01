@@ -86,8 +86,13 @@ namespace ChessEngine.Engine
 
         internal int Score;
 
-        //Game Over Flags
-        internal bool BlackIsChecked { get; private set; }
+        internal bool BlackIsChecked
+        {
+            get
+            {
+                return AttackBoard[ChessPieceColor.White][BlackKingPosition];
+            }
+        }
         internal bool BlackMate;
         internal bool WhiteIsChecked {
             get
@@ -175,7 +180,6 @@ namespace ChessEngine.Engine
             WhiteCanCastle = board.WhiteCanCastle;
             BlackCanCastle = board.BlackCanCastle;
 
-            BlackIsChecked = board.BlackIsChecked;
             WhiteMate = board.WhiteMate;
             BlackMate = board.BlackMate;
             WhoseMove = board.WhoseMove;
@@ -643,11 +647,6 @@ namespace ChessEngine.Engine
                 WhiteMate = this.WhiteMate,
                 WhoseMove = this.WhoseMove
             };
-        }
-
-        internal void SetCheckedSide(ChessColor whichColorIsChecked)
-        {
-           BlackIsChecked = true;
         }
 
         internal void SetCantCastle(ChessColor whichColorCantCastle)
