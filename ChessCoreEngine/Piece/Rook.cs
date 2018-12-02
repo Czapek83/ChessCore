@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ChessEngine.Engine
+namespace ChessEngine.Engine.Pieces
 {
     public class Rook : Piece
     {

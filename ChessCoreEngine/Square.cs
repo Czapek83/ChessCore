@@ -1,3 +1,5 @@
+using ChessEngine.Engine.Pieces;
+
 namespace ChessEngine.Engine
 {
     

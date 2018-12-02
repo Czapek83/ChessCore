@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessEngine.Engine.Pieces;
+using System;
 
 
 namespace ChessEngine.Engine

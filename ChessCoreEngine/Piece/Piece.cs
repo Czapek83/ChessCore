@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ChessEngine.Engine
+namespace ChessEngine.Engine.Pieces
 {
     public abstract class Piece
     {
