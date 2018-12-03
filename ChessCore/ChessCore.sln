@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessCoreEngine", "..\Chess
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessCoreEngine.Tests", "..\ChessCoreEngine.Tests\ChessCoreEngine.Tests.csproj", "{5966EC6E-49DC-4A39-A63B-544462756800}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D4F4F477-9BA3-4736-8E02-29200CAA10BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{166080AA-AABD-4205-9451-E2A4E07E22C1}"
 	ProjectSection(SolutionItems) = preProject
 		Graph1.dgml = Graph1.dgml
 	EndProjectSection
