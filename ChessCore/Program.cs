@@ -7,7 +7,7 @@ class Program
 {
     static void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped(x => Board.CreateNewGameBoard());
+        services.AddScoped(x => new BoardFactory().CreateNewGameBoard());
         services.AddScoped<Engine>();
         services.AddScoped<LoggerBase, ConsoleLogger>();
     }
@@ -227,7 +227,7 @@ class Program
 						{
 							string fen = move.Substring(move.IndexOf(" "), move.Length - move.IndexOf(" ")).Trim();
 
-                            engine = new Engine(Board.CreateBoardFromFen(fen));
+                            engine = new Engine(new BoardFactory().CreateBoardFromFen(fen));
 						}
 
 						continue;

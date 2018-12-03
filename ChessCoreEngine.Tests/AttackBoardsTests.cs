@@ -15,7 +15,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void NewGame()
         {
-            var board = Board.CreateNewGameBoard();
+            var board = new BoardFactory().CreateNewGameBoard();
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -43,7 +43,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition1()
         {
-            var board = Board.CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
             board.GenerateValidMoves();
 
             
@@ -104,7 +104,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition2_WhiteBoard()
         {
-            var board = Board.CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
+            var board = new BoardFactory().CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
             board.GenerateValidMoves();
 
 
@@ -129,7 +129,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition2_BlackBoard()
         {
-            var board = Board.CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
+            var board = new BoardFactory().CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
             board.GenerateValidMoves();
 
 
@@ -161,7 +161,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition3_WhiteBoard()
         {
-            var board = Board.CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
+            var board = new BoardFactory().CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -185,7 +185,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition3_BlackBoard()
         {
-            var board = Board.CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
+            var board = new BoardFactory().CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
             board.GenerateValidMoves();
 
 
@@ -211,7 +211,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition4_WhiteBoard()
         {
-            var board = Board.CreateBoardFromFen("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b Q - 0 1");
+            var board = new BoardFactory().CreateBoardFromFen("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b Q - 0 1");
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -249,7 +249,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void KingsInFrontOfEachOther_BlackBoard()
         {
-            var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
             board.GenerateValidMoves();
 
             var expectedBlackBoard = new bool[64];
@@ -273,7 +273,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void KingsInFrontOfEachOther_WhiteBoard()
         {
-            var board = Board.CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];

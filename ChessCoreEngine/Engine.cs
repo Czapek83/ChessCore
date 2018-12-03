@@ -169,7 +169,7 @@ namespace ChessEngine.Engine
         public void NewGame()
         {
             InitiateEngine();
-            ChessBoard = Board.CreateNewGameBoard();
+            ChessBoard = new BoardFactory().CreateNewGameBoard();
         }
 
         private void InitiateEngine()

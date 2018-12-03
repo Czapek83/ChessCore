@@ -184,7 +184,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r1bqkbnr/1ppp1ppp/p1n5/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 1 4", 20)]
         public void BoardEvaluationTest(string fen, int expectedScore)
         {
-            var board = Board.CreateBoardFromFen(fen);
+            var board = new BoardFactory().CreateBoardFromFen(fen);
             var score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
             score.Should().Be(expectedScore);

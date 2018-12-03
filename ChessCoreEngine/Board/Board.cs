@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace ChessEngine.Engine
 {
-    public sealed class Board
+    public class Board
     {
         internal Square[] Squares { get; private set; }
 
@@ -67,33 +67,33 @@ namespace ChessEngine.Engine
             return (byte)new List<Square>(Squares).IndexOf(GetKingSquare(chessColor));
         }
         
-        internal byte FiftyMove { get; private set; }
+        public byte FiftyMove { get; protected set; }
 
-        internal MoveContent LastMove { get; private set; }
+        public MoveContent LastMove { get; protected set; }
 
         //Who initated En Passant
-        internal ChessColor EnPassantColor { get; private set; }
+        public ChessColor EnPassantColor { get; protected set; }
         //Positions liable to En Passant
-        internal byte EnPassantPosition { get; private set; }
+        public byte EnPassantPosition { get; protected set; }
 
-        internal int Score;
+        public int Score;
 
-        internal bool IsChecked(ChessColor checkedColor)
+        public bool IsChecked(ChessColor checkedColor)
         {
             return AttackBoard[!checkedColor][GetKingPosition(checkedColor)];
         }
 
-        internal bool BlackMate;
+        public bool BlackMate;
 
-        internal bool WhiteMate;
+        public bool WhiteMate;
 
-        internal byte RepeatedMove;
+        public byte RepeatedMove;
 
-        internal bool BlackCastled { get; private set; }
-        internal bool WhiteCastled { get; private set; }
+        public bool BlackCastled { get; protected set; }
+        public bool WhiteCastled { get; protected set; }
 
-        internal bool BlackCanCastle { get; private set; }
-        internal bool WhiteCanCastle { get; private set; }
+        public bool BlackCanCastle { get; protected set; }
+        public bool WhiteCanCastle { get; protected set; }
 
         internal ChessColor WhoseMove;
         
@@ -101,7 +101,7 @@ namespace ChessEngine.Engine
 
         #region Constructors
 
-        private Board()
+        protected Board()
         {
             Squares = new Square[64];
 
@@ -640,456 +640,14 @@ namespace ChessEngine.Engine
                 BlackCanCastle = false;
         }
 
-        #endregion
-
-        #region FactoryMethods
-        public static Board CreateBoardFromFen(string fen)
-        {
-            var result = new Board();
-
-            byte index = 0;
-
-            result.WhiteCastled = true;
-            result.BlackCastled = true;
-            result.WhiteCanCastle = false;
-            result.BlackCanCastle = false;
-
-            byte spacers = 0;
-
-            result.WhoseMove = ChessPieceColor.White;
-
-            if (fen.Contains("a3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 40;
-            }
-            else if (fen.Contains("b3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 41;
-            }
-            else if (fen.Contains("c3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 42;
-            }
-            else if (fen.Contains("d3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 43;
-            }
-            else if (fen.Contains("e3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 44;
-            }
-            else if (fen.Contains("f3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 45;
-            }
-            else if (fen.Contains("g3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 46;
-            }
-            else if (fen.Contains("h3"))
-            {
-                result.EnPassantColor = ChessPieceColor.White;
-                result.EnPassantPosition = 47;
-            }
-
-
-            if (fen.Contains("a6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 16;
-            }
-            else if (fen.Contains("b6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 17;
-            }
-            else if (fen.Contains("c6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 18;
-            }
-            else if (fen.Contains("d6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 19;
-            }
-            else if (fen.Contains("e6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 20;
-            }
-            else if (fen.Contains("f6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 21;
-            }
-            else if (fen.Contains("g6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 22;
-            }
-            else if (fen.Contains("h6"))
-            {
-                result.EnPassantColor = ChessPieceColor.Black;
-                result.EnPassantPosition = 23;
-            }
-
-            if (fen.Contains(" w "))
-            {
-                result.WhoseMove = ChessPieceColor.White;
-            }
-            if (fen.Contains(" b "))
-            {
-                result.WhoseMove = ChessPieceColor.Black;
-            }
-
-            foreach (char c in fen)
-            {
-
-                if (index < 64 && spacers == 0)
-                {
-                    if (c == '1' && index < 63)
-                    {
-                        index++;
-                    }
-                    else if (c == '2' && index < 62)
-                    {
-                        index += 2;
-                    }
-                    else if (c == '3' && index < 61)
-                    {
-                        index += 3;
-                    }
-                    else if (c == '4' && index < 60)
-                    {
-                        index += 4;
-                    }
-                    else if (c == '5' && index < 59)
-                    {
-                        index += 5;
-                    }
-                    else if (c == '6' && index < 58)
-                    {
-                        index += 6;
-                    }
-                    else if (c == '7' && index < 57)
-                    {
-                        index += 7;
-                    }
-                    else if (c == '8' && index < 56)
-                    {
-                        index += 8;
-                    }
-                    else if (c == 'P')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'N')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'B')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'R')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'Q')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'K')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.White);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'p')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'n')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'b')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'r')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'q')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'k')
-                    {
-                        result.Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.Black);
-                        result.Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == '/')
-                    {
-                        continue;
-                    }
-                    else if (c == ' ')
-                    {
-                        spacers++;
-                    }
-                }
-                else
-                {
-                    if (c == 'K')
-                    {
-                        if (result.Squares[60].Piece != null)
-                        {
-                            if (result.Squares[60].Piece.PieceType == ChessPieceType.King)
-                            {
-                                result.Squares[60].Piece.Moved = false;
-                            }
-                        }
-
-                        if (result.Squares[63].Piece != null)
-                        {
-                            if (result.Squares[63].Piece.PieceType == ChessPieceType.Rook)
-                            {
-                                result.Squares[63].Piece.Moved = false;
-                            }
-                        }
-
-                        result.WhiteCastled = false;
-                        result.WhiteCanCastle = true;
-                    }
-                    else if (c == 'Q')
-                    {
-                        if (result.Squares[60].Piece != null)
-                        {
-                            if (result.Squares[60].Piece.PieceType == ChessPieceType.King)
-                            {
-                                result.Squares[60].Piece.Moved = false;
-                            }
-                        }
-
-                        if (result.Squares[56].Piece != null)
-                        {
-                            if (result.Squares[56].Piece.PieceType == ChessPieceType.Rook)
-                            {
-                                result.Squares[56].Piece.Moved = false;
-                            }
-                        }
-                        result.WhiteCanCastle = true;
-                        result.WhiteCastled = false;
-                    }
-                    else if (c == 'k')
-                    {
-                        if (result.Squares[4].Piece != null)
-                        {
-                            if (result.Squares[4].Piece.PieceType == ChessPieceType.King)
-                            {
-                                result.Squares[4].Piece.Moved = false;
-                            }
-                        }
-
-                        if (result.Squares[7].Piece != null)
-                        {
-                            if (result.Squares[7].Piece.PieceType == ChessPieceType.Rook)
-                            {
-                                result.Squares[7].Piece.Moved = false;
-                            }
-                        }
-
-                        result.BlackCastled = false;
-                        result.BlackCanCastle = true;
-                    }
-                    else if (c == 'q')
-                    {
-                        if (result.Squares[4].Piece != null)
-                        {
-                            if (result.Squares[4].Piece.PieceType == ChessPieceType.King)
-                            {
-                                result.Squares[4].Piece.Moved = false;
-                            }
-                        }
-
-                        if (result.Squares[0].Piece != null)
-                        {
-                            if (result.Squares[0].Piece.PieceType == ChessPieceType.Rook)
-                            {
-                                result.Squares[0].Piece.Moved = false;
-                            }
-                        }
-
-                        result.BlackCastled = false;
-                        result.BlackCanCastle = true;
-                    }
-                    else if (c == ' ')
-                    {
-                        spacers++;
-                    }
-                    else if (c == '1' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 1);
-                    }
-                    else if (c == '2' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 2);
-                    }
-                    else if (c == '3' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 3);
-                    }
-                    else if (c == '4' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 4);
-                    }
-                    else if (c == '5' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 5);
-                    }
-                    else if (c == '6' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 6);
-                    }
-                    else if (c == '7' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 7);
-                    }
-                    else if (c == '8' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 8);
-                    }
-                    else if (c == '9' && spacers == 4)
-                    {
-                        result.FiftyMove = (byte)((result.FiftyMove * 10) + 9);
-                    }
-                    else if (c == '0' && spacers == 4)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 0);
-                    }
-                    else if (c == '1' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 1);
-                    }
-                    else if (c == '2' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 2);
-                    }
-                    else if (c == '3' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 3);
-                    }
-                    else if (c == '4' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 4);
-                    }
-                    else if (c == '5' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 5);
-                    }
-                    else if (c == '6' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 6);
-                    }
-                    else if (c == '7' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 7);
-                    }
-                    else if (c == '8' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 8);
-                    }
-                    else if (c == '9' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 9);
-                    }
-                    else if (c == '0' && spacers == 5)
-                    {
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 0);
-                        result.MoveCount = (byte)((result.MoveCount * 10) + 0);
-                    }
-                }
-            }
-            return result;
-        }
-
-        public static Board CreateNewGameBoard()
-        {
-            var result = new Board();
-
-            result.WhoseMove = ChessPieceColor.White;
-
-            result.Squares[0].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.Black);
-            result.Squares[1].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.Black);
-            result.Squares[2].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.Black);
-            result.Squares[3].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.Black);
-            result.Squares[4].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.Black);
-            result.Squares[5].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.Black);
-            result.Squares[6].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.Black);
-            result.Squares[7].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.Black);
-
-            for (int i = 8; i < 16; i++)
-                result.Squares[i].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.Black);
-
-            for (int i = 8; i < 16; i++)
-                result.Squares[i].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.Black);
-
-            for (int i = 48; i < 56; i++)
-                result.Squares[i].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.White);
-
-            result.Squares[56].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.White);
-            result.Squares[57].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.White);
-            result.Squares[58].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.White);
-            result.Squares[59].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.White);
-            result.Squares[60].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.White);
-            result.Squares[61].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.White);
-            result.Squares[62].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.White);
-            result.Squares[63].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.White);
-
-            result.GenerateValidMoves();
-            //PieceValidMoves.GenerateValidMoves(result);
-
-            return result;
-        }
-
         internal void GenerateValidMoves()
         {
             //Generate Moves
             var pieces = Squares
-                .Select((sqr, i)=> new { i, sqr })
+                .Select((sqr, i) => new { i, sqr })
                 .Where(x => x.sqr.Piece != null)
                 .OrderByDescending(y => y.sqr.Piece.GetGenerateValidMovesPriority(WhoseMove))
-                .Select(z => new { Index = (byte)z.i, z.sqr.Piece});
+                .Select(z => new { Index = (byte)z.i, z.sqr.Piece });
 
             foreach (var item in pieces)
             {
@@ -1098,22 +656,6 @@ namespace ChessEngine.Engine
             }
         }
 
-        public static Board CreateEmptyBoard()
-        {
-            var result = new Board();
-
-            for (byte i = 0; i < 64; i++)
-            {
-                result.Squares[i] = new Square();
-            }
-
-            result.LastMove = new MoveContent();
-
-            result.BlackCanCastle = true;
-            result.WhiteCanCastle = true;
-
-            return result;
-        }
 
         #endregion
     }
