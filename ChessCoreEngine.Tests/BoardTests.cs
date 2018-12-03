@@ -1,4 +1,5 @@
 using ChessEngine.Engine;
+using ChessEngine.Engine.Enums;
 using FluentAssertions;
 using NUnit.Framework;
 

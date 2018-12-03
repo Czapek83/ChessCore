@@ -1,3 +1,4 @@
+using ChessEngine.Engine.Enums;
 using ChessEngine.Engine.Pieces;
 using System;
 using System.Collections.Generic;

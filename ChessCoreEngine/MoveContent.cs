@@ -1,3 +1,4 @@
+using ChessEngine.Engine.Enums;
 using System;
 
 namespace ChessEngine.Engine

@@ -1,5 +1,6 @@
 ﻿using System;
 using ChessEngine.Engine;
+using ChessEngine.Engine.Enums;
 
 class Program
 {

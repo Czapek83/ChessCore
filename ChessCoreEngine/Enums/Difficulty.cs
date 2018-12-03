@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChessEngine.Engine
+namespace ChessEngine.Engine.Enums
 {
     public enum Difficulty
     {

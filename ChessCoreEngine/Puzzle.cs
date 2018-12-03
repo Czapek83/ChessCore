@@ -1,4 +1,5 @@
-﻿using ChessEngine.Engine.Pieces;
+﻿using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Pieces;
 using System;
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessEngine.Engine.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace ChessEngine.Engine

@@ -1,4 +1,6 @@
 ﻿
+using ChessEngine.Engine.Enums;
+
 namespace ChessEngine.Engine
 {
     public class EvaluationParameters

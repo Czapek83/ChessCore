@@ -1,4 +1,5 @@
 
+using ChessEngine.Engine.Enums;
 using System;
 using System.Collections.Generic;
 
