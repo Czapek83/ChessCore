@@ -1,4 +1,5 @@
 using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
 using ChessEngine.Engine.Pieces;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace ChessEngine.Engine
 {
     public class Board
     {
+        protected readonly LoggerBase _logger;
+
         internal Square[] Squares { get; private set; }
 
         internal AttackBoardDictionary AttackBoard { get; private set; }
@@ -101,8 +104,10 @@ namespace ChessEngine.Engine
 
         #region Constructors
 
-        protected Board()
+        protected Board(LoggerBase logger)
         {
+            _logger = logger;
+            _logger.LogDebug($"Board(LoggerBase logger) start");
             Squares = new Square[64];
 
             for (byte i = 0; i < 64; i++)
@@ -116,10 +121,14 @@ namespace ChessEngine.Engine
             WhiteCanCastle = true;
 
             AttackBoard = new AttackBoardDictionary();
+
+            _logger.LogDebug($"Board(LoggerBase logger) end");
         }
 
-        private Board(Square[] squares)
+        private Board(Square[] squares, LoggerBase logger)
         {
+            _logger = logger;
+            _logger.LogDebug($"Board(Square[] squares) start");
             Squares = new Square[64];
 
             for (byte x = 0; x < 64; x++)
@@ -132,12 +141,14 @@ namespace ChessEngine.Engine
             }
 
             AttackBoard = new AttackBoardDictionary();
-
+            _logger.LogDebug($"Board(Square[] squares) end");
         }
 
         //Copy Constructor
         internal Board(Board board)
         {
+            _logger = board._logger;
+            _logger.LogInfo($"Board(Board board) start");
             Squares = new Square[64];
 
             for (byte x = 0; x < 64; x++)
@@ -178,6 +189,7 @@ namespace ChessEngine.Engine
             LastMove = new MoveContent(board.LastMove);
 
             MoveCount = board.MoveCount;
+            _logger.LogDebug($"Board(Board board) end {board}");
         }
 
         #endregion
@@ -372,7 +384,8 @@ namespace ChessEngine.Engine
         //Fast Copy
         internal Board FastCopy()
         {
-            Board clonedBoard = new Board(Squares);
+            _logger.LogInfo($"Board.FastCopy() start");
+            Board clonedBoard = new Board(Squares, _logger);
 
             clonedBoard.WhoseMove = WhoseMove;
             clonedBoard.MoveCount = MoveCount;
@@ -385,7 +398,7 @@ namespace ChessEngine.Engine
             clonedBoard.BlackCanCastle = BlackCanCastle;
 
             AttackBoard = new AttackBoardDictionary();
-
+            _logger.LogDebug($"Board.FastCopy() end {clonedBoard}");
             return clonedBoard;
         }
 
@@ -615,7 +628,9 @@ namespace ChessEngine.Engine
 
         internal EvaluationParameters GetEvaluationParameters()
         {
-            return new EvaluationParameters
+            _logger.LogInfo($"Board.GetEvaluationParameters() start");
+            
+            var result = new EvaluationParameters
             {
                 BlackCanCastle = this.BlackCanCastle,
                 BlackCastled = this.BlackCastled,
@@ -630,6 +645,9 @@ namespace ChessEngine.Engine
                 WhiteMate = this.WhiteMate,
                 WhoseMove = this.WhoseMove
             };
+
+            _logger.LogDebug($"Board.GetEvaluationParameters() end {result}");
+            return result;
         }
 
         internal void SetCantCastle(ChessColor whichColorCantCastle)
@@ -642,6 +660,7 @@ namespace ChessEngine.Engine
 
         internal void GenerateValidMoves()
         {
+            _logger.LogInfo($"Board.GenerateValidMoves() start");
             //Generate Moves
             var pieces = Squares
                 .Select((sqr, i) => new { i, sqr })
@@ -654,6 +673,8 @@ namespace ChessEngine.Engine
                 item.Piece.ValidMoves = new Stack<byte>(item.Piece.LastValidMoveCount);
                 item.Piece.GenerateMoves(item.Index, this);
             }
+
+            _logger.LogDebug($"Board.GenerateValidMoves() end");
         }
 
 

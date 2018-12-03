@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using ChessEngine.Engine;
+using ChessEngine.Engine.Loggers;
 using Moq;
 using Moq.Protected;
 using NUnit.Framework;

@@ -1,15 +1,18 @@
 ﻿using System;
 using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 
 class Program
 {
     static void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped(x => new BoardFactory().CreateNewGameBoard());
+        services.AddScoped<BoardFactory>();
         services.AddScoped<Engine>();
-        services.AddScoped<LoggerBase, ConsoleLogger>();
+        services.AddScoped<LoggerBase>(x => new ConsoleLogger(LogLevel.All));
+        //Board
+        services.AddScoped(x => x.GetService<BoardFactory>().CreateNewGameBoard());
     }
 
     static void Main(string[] args)
@@ -335,7 +338,9 @@ class Program
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+                var logger = scope.ServiceProvider.GetService<LoggerBase>();
+                logger.LogError(ex.ToString());
+                Console.ReadKey();
 				return;
 			}
 		}

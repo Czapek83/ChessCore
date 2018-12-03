@@ -1,4 +1,5 @@
 ﻿using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
 using ChessEngine.Engine.Pieces;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,19 @@ namespace ChessEngine.Engine
 {
     public class BoardFactory : Board
     {
+        public BoardFactory():base(new NullLogger())
+        {
+
+        }
+        public BoardFactory(LoggerBase logger):base(logger)
+        {
+            _logger.LogDebug($"BoardFactory(LoggerBase logger)");
+        }
+
         public Board CreateBoardFromFen(string fen)
         {
+            _logger.LogInfo($"BoardFactory.CreateBoardFromFen({fen}) start");
+
             byte index = 0;
 
             WhiteCastled = true;
@@ -403,11 +415,15 @@ namespace ChessEngine.Engine
                     }
                 }
             }
+
+            _logger.LogDebug($"BoardFactory.CreateBoardFromFen(fen) end {this}");
+
             return this;
         }
 
         public Board CreateNewGameBoard()
         {
+            _logger.LogInfo($"BoardFactory.CreateNewGameBoard() start");
             WhoseMove = ChessPieceColor.White;
 
             Squares[0].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.Black);
@@ -438,12 +454,13 @@ namespace ChessEngine.Engine
             Squares[63].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.White);
 
             GenerateValidMoves();
-
+            _logger.LogDebug($"BoardFactory.CreateNewGameBoard() end");
             return this;
         }
 
         public Board CreateEmptyBoard()
         {
+            _logger.LogInfo($"BoardFactory.CreateEmptyBoard() start");
             for (byte i = 0; i < 64; i++)
             {
                 Squares[i] = new Square();
@@ -453,7 +470,7 @@ namespace ChessEngine.Engine
 
             BlackCanCastle = true;
             WhiteCanCastle = true;
-
+            _logger.LogDebug($"BoardFactory.CreateEmptyBoard() end");
             return this;
         }
 

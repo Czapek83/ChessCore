@@ -2,17 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChessEngine.Engine
+namespace ChessEngine.Engine.Loggers
 {
-    public enum LogLevel
-    {
-        All,
-        Debug,
-        Info,
-        Error,
-        NoLog
-    }
-
     public abstract class LoggerBase
     {
         protected readonly LogLevel _logLevel;

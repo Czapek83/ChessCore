@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChessEngine.Engine
+namespace ChessEngine.Engine.Loggers
 {
     public class ConsoleLogger : LoggerBase
     {
