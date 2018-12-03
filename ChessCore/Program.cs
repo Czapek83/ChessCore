@@ -1,22 +1,31 @@
 ﻿using System;
 using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using Microsoft.Extensions.DependencyInjection;
 
 class Program
 {
+    static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddScoped(x => Board.CreateNewGameBoard());
+        services.AddScoped<Engine>();
+    }
 
-	static void Main(string[] args)
-	{
-		RunEngine();
+    static void Main(string[] args)
+    {
+        var services = new ServiceCollection();
+        ConfigureServices(services);
+        using (var scope = services.BuildServiceProvider().CreateScope())
+        {
+            RunEngine(scope);
+        }
 	}
 
-	private static void RunEngine()
+	private static void RunEngine(IServiceScope scope)
 	{
 		bool ShowBoard = true;
 
-	    Board board = Board.CreateNewGameBoard();
-        var engine = new Engine(board);
-
+        var engine = scope.ServiceProvider.GetService<Engine>();
 
 
 		Console.WriteLine("Chess Core");
