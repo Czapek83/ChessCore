@@ -6,6 +6,7 @@ namespace ChessEngine.Engine
 {
     public enum LogLevel
     {
+        All,
         Debug,
         Info,
         Error,
@@ -21,15 +22,21 @@ namespace ChessEngine.Engine
             _logLevel = logLevel;
         }
 
+        public void LogAll(string message)
+        {
+            if (_logLevel == LogLevel.All)
+                LogAllImpl(message);
+        }
+
         public void LogDebug(string message)
         {
-            if (_logLevel == LogLevel.Debug)
+            if (_logLevel == LogLevel.Debug || _logLevel == LogLevel.All)
                 LogDebugImpl(message);
         }
 
         public void LogInfo(string message)
         {
-            if (_logLevel == LogLevel.Debug || _logLevel == LogLevel.Info)
+            if (_logLevel == LogLevel.Debug || _logLevel == LogLevel.Info || _logLevel == LogLevel.All)
                 LogInfoImpl(message);
         }
 
@@ -39,6 +46,7 @@ namespace ChessEngine.Engine
                 LogErrorImpl(message);
         }
 
+        protected abstract void LogAllImpl(string message);
         protected abstract void LogDebugImpl(string message);
         protected abstract void LogInfoImpl(string message);
         protected abstract void LogErrorImpl(string message);

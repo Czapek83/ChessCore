@@ -11,6 +11,11 @@ namespace ChessEngine.Engine
 
         }
 
+        protected override void LogAllImpl(string message)
+        {
+            WriteMessage(message, ConsoleColor.Yellow);
+        }
+
         protected override void LogDebugImpl(string message)
         {
             WriteMessage(message, ConsoleColor.White);

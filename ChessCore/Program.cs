@@ -9,6 +9,7 @@ class Program
     {
         services.AddScoped(x => Board.CreateNewGameBoard());
         services.AddScoped<Engine>();
+        services.AddScoped<LoggerBase, ConsoleLogger>();
     }
 
     static void Main(string[] args)
