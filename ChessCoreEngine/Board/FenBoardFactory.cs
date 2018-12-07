@@ -174,86 +174,19 @@ namespace ChessEngine.Engine
                     {
                         spacers++;
                     }
-                    else if (c == '1' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 1);
-                    }
-                    else if (c == '2' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 2);
-                    }
-                    else if (c == '3' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 3);
-                    }
-                    else if (c == '4' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 4);
-                    }
-                    else if (c == '5' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 5);
-                    }
-                    else if (c == '6' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 6);
-                    }
-                    else if (c == '7' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 7);
-                    }
-                    else if (c == '8' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 8);
-                    }
-                    else if (c == '9' && spacers == 4)
-                    {
-                        FiftyMove = (byte)((FiftyMove * 10) + 9);
-                    }
-                    else if (c == '0' && spacers == 4)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 0);
-                    }
-                    else if (c == '1' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 1);
-                    }
-                    else if (c == '2' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 2);
-                    }
-                    else if (c == '3' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 3);
-                    }
-                    else if (c == '4' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 4);
-                    }
-                    else if (c == '5' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 5);
-                    }
-                    else if (c == '6' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 6);
-                    }
-                    else if (c == '7' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 7);
-                    }
-                    else if (c == '8' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 8);
-                    }
-                    else if (c == '9' && spacers == 5)
-                    {
-                        MoveCount = (byte)((MoveCount * 10) + 9);
-                    }
                     else if (c == '0' && spacers == 5)
                     {
                         MoveCount = (byte)((MoveCount * 10) + 0);
                         MoveCount = (byte)((MoveCount * 10) + 0);
+                    }
+                    else if (char.IsNumber(c) && (spacers == 4 || spacers == 5))
+                    {
+                        var code = (byte)c;
+                        byte charToByte = (byte)(code - 48);
+                        if (spacers == 4)
+                            FiftyMove = (byte)((FiftyMove * 10) + charToByte);
+                        else if (spacers == 5)
+                            MoveCount = (byte)((MoveCount * 10) + charToByte);
                     }
                 }
             }
