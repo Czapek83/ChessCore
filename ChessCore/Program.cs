@@ -1,4 +1,5 @@
 ﻿using System;
+using ChessCoreEngine.Board;
 using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
 using ChessEngine.Engine.Loggers;
@@ -8,11 +9,15 @@ class Program
 {
     static void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<BoardFactory>();
         services.AddScoped<Engine>();
-        services.AddScoped<LoggerBase>(x => new ConsoleLogger(LogLevel.All));
+        services.AddScoped<LoggerBase>(x => new NullLogger());
+        services.AddScoped<FenHelper>();
+        services.AddScoped<NewGameBoardFactory>();
+        services.AddScoped<BoardFactory, NewGameBoardFactory>();
+        services.AddScoped<Book>();
         //Board
-        services.AddScoped(x => x.GetService<BoardFactory>().CreateNewGameBoard());
+        services.AddScoped(x => x.GetService<NewGameBoardFactory>());
+        services.AddScoped(x => new NewGameBoardFactory(x.GetService<LoggerBase>()).CreateBoard());
     }
 
     static void Main(string[] args)
@@ -71,8 +76,8 @@ class Program
 
 					if (move == "new")
 					{
-						engine.NewGame();
-						continue;
+                        engine = scope.ServiceProvider.GetService<Engine>();
+                        continue;
 					}
 					if (move == "quit")
 					{
@@ -229,8 +234,11 @@ class Program
 						if (move.IndexOf(" ") > 0)
 						{
 							string fen = move.Substring(move.IndexOf(" "), move.Length - move.IndexOf(" ")).Trim();
+                            var serviceProvider = scope.ServiceProvider;
 
-                            engine = new Engine(new BoardFactory().CreateBoardFromFen(fen));
+
+                            engine = new Engine(new FenBoardFactory(serviceProvider.GetService<FenHelper>(), fen, serviceProvider.GetService<LoggerBase>()).CreateBoard(), 
+                                serviceProvider.GetService<Book>());
 						}
 
 						continue;
@@ -242,23 +250,23 @@ class Program
 					}
 					if (move.StartsWith("edit"))
 					{
-						engine.NewGame();
+                        engine = scope.ServiceProvider.GetService<Engine>();
 						continue;
 					}
 					if (move.StartsWith("1/2-1/2"))
 					{
-						engine.NewGame();
-						continue;
+                        scope.ServiceProvider.GetService<Engine>();
+                        continue;
 					}
 					if (move.StartsWith("0-1"))
 					{
-						engine.NewGame();
-						continue;
+                        scope.ServiceProvider.GetService<Engine>();
+                        continue;
 					}
 					if (move.StartsWith("1-0"))
 					{
-						engine.NewGame();
-						continue;
+                        engine = scope.ServiceProvider.GetService<Engine>();
+                        continue;
 					}
 
 					if (move.Length < 4)
@@ -322,18 +330,18 @@ class Program
 						{
 							Console.WriteLine("1/2-1/2 {Stalemate}");
 						}
-						engine.NewGame();
-					}
+                        engine = scope.ServiceProvider.GetService<Engine>();
+                    }
 					else if (engine.GetWhiteMate())
 					{
 						Console.WriteLine("0-1 {Black mates}");
-						engine.NewGame();
-					}
+                        engine = scope.ServiceProvider.GetService<Engine>();
+                    }
 					else if (engine.GetBlackMate())
 					{
 						Console.WriteLine("1-0 {White mates}");
-						engine.NewGame();
-					}
+                        engine = scope.ServiceProvider.GetService<Engine>();
+                    }
 				}
 			}
 			catch (Exception ex)

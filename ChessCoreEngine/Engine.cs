@@ -25,6 +25,7 @@ namespace ChessEngine.Engine
         private List<OpeningMove> OpeningBook;
 
         private string pvLine;
+        private Book _book;
 
         #endregion
 
@@ -160,16 +161,11 @@ namespace ChessEngine.Engine
 
         #region Constructors
 
-        public Engine(Board board)
+        public Engine(Board board, Book book)
         {
+            _book = book;
             InitiateEngine();
-            ChessBoard = board;
-        }
-
-        public void NewGame()
-        {
-            InitiateEngine();
-            ChessBoard = new BoardFactory().CreateNewGameBoard();
+            ChessBoard = board; 
         }
 
         private void InitiateEngine()
@@ -209,7 +205,7 @@ namespace ChessEngine.Engine
 
         public int ValidateOpeningBook()
         {
-            return Book.ValidateOpeningBook(OpeningBook);
+            return _book.ValidateOpeningBook(OpeningBook);
         }
 
         private static bool CheckForMate(ChessColor whosTurn, ref Board chessBoard)
@@ -929,7 +925,7 @@ namespace ChessEngine.Engine
 
         public bool LoadOpeningBook()
         {
-            OpeningBook = Book.LoadOpeningBook();
+            OpeningBook = _book.LoadOpeningBook();
 
             return true;
         }

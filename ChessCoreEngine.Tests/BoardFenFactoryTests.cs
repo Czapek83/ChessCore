@@ -1,6 +1,10 @@
-﻿using ChessEngine.Engine;
+﻿using ChessCoreEngine.Board;
+using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
+using ChessEngine.Tests;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,12 +13,12 @@ using System.Text;
 namespace ChessCoreEngine.Tests
 {
     [TestFixture]
-    public class BoardFenFactoryTests
+    public class BoardFenFactoryTests : TestsBase
     {
         [Test]
         public void TestBoardExampleFenConstructor()
         {
-            var boardFromFen = new BoardFactory().CreateBoardFromFen("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 41");
+            var boardFromFen = new FenBoardFactory(new FenHelper(), "5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b - - 0 41", _logger).CreateBoard();
 
             boardFromFen.Squares[5].Piece.PieceColor.Should().Be(ChessPieceColor.Black);
             boardFromFen.Squares[5].Piece.PieceType.Should().Be(ChessPieceType.King);
@@ -33,7 +37,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", 0)]
         public void TestFiftyMoveFromFen(string fen, byte fiftyMoves)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.FiftyMove.Should().Be(fiftyMoves);
         }
 
@@ -45,7 +49,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", 13)]
         public void TestMoveNumberFromFen(string fen, byte moveNumbers)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.MoveCount.Should().Be(moveNumbers);
         }
 
@@ -59,7 +63,7 @@ namespace ChessCoreEngine.Tests
         {
             var whoseMove = whoseMoveBool ? ChessPieceColor.White : ChessPieceColor.Black;
 
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.WhoseMove.Should().Be(whoseMove);
         }
 
@@ -71,7 +75,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", false)]
         public void TestCanWhiteCastleFromFen(string fen, bool whiteCanCastle)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.WhiteCanCastle.Should().Be(whiteCanCastle);
         }
 
@@ -83,7 +87,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", true)]
         public void TestCanBlackCastleFromFen(string fen, bool blackCanCastle)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.BlackCanCastle.Should().Be(blackCanCastle);
         }
 
@@ -96,7 +100,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", true)]
         public void TestWhiteCastledFromFen(string fen, bool whiteCastled)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.WhiteCastled.Should().Be(whiteCastled);
         }
 
@@ -108,7 +112,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r2qkb1r/pp3pp1/2p1pn1p/4n3/3P3P/3Q2N1/PPPB1PP1/2KR3R w kq - 0 13", false)]
         public void TestCanBlackCastledFromFen(string fen, bool blackCastled)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.BlackCastled.Should().Be(blackCastled);
         }
     }

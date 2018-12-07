@@ -1,6 +1,10 @@
-﻿using ChessEngine.Engine;
+﻿using ChessCoreEngine.Board;
+using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
+using ChessEngine.Tests;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,13 +13,12 @@ using System.Text;
 namespace ChessCoreEngine.Tests
 {
     [TestFixture]
-    public class AttackBoardsTests
+    public class AttackBoardsTests : TestsBase
     {
-
         [Test]
         public void NewGame()
         {
-            var board = new BoardFactory().CreateNewGameBoard();
+            var board = new NewGameBoardFactory(_logger).CreateBoard();
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -43,7 +46,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition1()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             
@@ -104,7 +107,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition2_WhiteBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
+            var board = new FenBoardFactory(new FenHelper(), "3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33", _logger).CreateBoard();
             board.GenerateValidMoves();
 
 
@@ -129,7 +132,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition2_BlackBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33");
+            var board = new FenBoardFactory(new FenHelper(), "3r4/1p1r2kp/p1q3p1/2P1p3/1Q1p4/3RnPN1/PP4PP/3R3K b - - 3 33", _logger).CreateBoard();
             board.GenerateValidMoves();
 
 
@@ -161,7 +164,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition3_WhiteBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
+            var board = new FenBoardFactory(new FenHelper(), "4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -185,7 +188,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition3_BlackBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24");
+            var board = new FenBoardFactory(new FenHelper(), "4r1k1/2p3pp/p1ppqp2/2n5/3QP3/1PN2P2/P1P3PP/4R1K1 b kK - 8 24", _logger).CreateBoard();
             board.GenerateValidMoves();
 
 
@@ -211,7 +214,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPosition4_WhiteBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b Q - 0 1");
+            var board = new FenBoardFactory(new FenHelper(), "5k2/8/6p1/R1B2p2/3b4/1r4P1/5P2/6K1 b Q - 0 1", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];
@@ -249,7 +252,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void KingsInFrontOfEachOther_BlackBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var expectedBlackBoard = new bool[64];
@@ -273,7 +276,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void KingsInFrontOfEachOther_WhiteBoard()
         {
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var expectedWhiteBoard = new bool[64];

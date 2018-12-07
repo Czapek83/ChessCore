@@ -1,17 +1,20 @@
+using ChessCoreEngine.Board;
 using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 
 namespace ChessEngine.Tests
 {
     [TestFixture]
-    public class BoardTests
+    public class BoardTests : TestsBase
     {
         [Test]
         public void TestBoardDefaultConstructor()
         {
-            var newGameBoard = new BoardFactory().CreateNewGameBoard();
+            var newGameBoard = new NewGameBoardFactory(_logger).CreateBoard();
 
             newGameBoard.Squares[4].Piece.PieceColor.Should().Be(ChessPieceColor.Black);
             newGameBoard.Squares[4].Piece.PieceType.Should().Be(ChessPieceType.King);
@@ -23,7 +26,7 @@ namespace ChessEngine.Tests
         [Test]
         public void TestBoardEmptyConstructor()
         {
-            var emptyGameBoard = new BoardFactory().CreateEmptyBoard();
+            var emptyGameBoard = new EmptyBoardFactory(_logger).CreateBoard();
 
             foreach (var square in emptyGameBoard.Squares)
                 square.Piece.Should().Be(null);
@@ -33,7 +36,7 @@ namespace ChessEngine.Tests
         [Test]
         public void StartupPosition()
         {
-            var board = new BoardFactory().CreateNewGameBoard();
+            var board = new NewGameBoardFactory(_logger).CreateBoard();
             board.InsufficientMaterial.Should().Be(false);
         }
 
@@ -46,7 +49,7 @@ namespace ChessEngine.Tests
         [TestCase("5k2/5b2/8/8/8/8/5B2/6K1 b - - 0 1", "TwoBishopsOppositeOnly")]
         public void InsufficientMaterialTests(string fen, string because)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.InsufficientMaterial.Should().Be(true, because);
         }
 
@@ -58,7 +61,7 @@ namespace ChessEngine.Tests
         [TestCase("5k2/4bb2/8/8/8/8/8/6K1 b - - 0 1")]
         public void NotInsufficientMaterialTests(string fen)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.InsufficientMaterial.Should().Be(false);
         }
 
@@ -70,7 +73,7 @@ namespace ChessEngine.Tests
         [TestCase("5k2/5b2/8/8/8/8/5B2/6K1 b - - 5 42")]
         public void EndgameTests(string fen)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.EndGamePhase.Should().Be(true);
         }
 
@@ -84,7 +87,7 @@ namespace ChessEngine.Tests
         [TestCase("rnbqkbnr/1p1p1ppp/p7/4p3/4P3/5N2/PPP2PPP/RNBQKB1R b KQkq - 1 5")]
         public void NotEndgameTests(string fen)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.EndGamePhase.Should().Be(false);
         }
 
@@ -97,7 +100,7 @@ namespace ChessEngine.Tests
         [TestCase("rnbqkbnr/1p1p1ppp/p7/4p3/4P3/5N2/PPP2PPP/RNBQKB1R b KQkq - 1 5", 60)]
         public void WhiteKingPositionTests(string fen, byte whiteKingPosition)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.GetKingPosition(ChessPieceColor.White).Should().Be(whiteKingPosition);
         }
 
@@ -110,7 +113,7 @@ namespace ChessEngine.Tests
         [TestCase("rnbqkbnr/1p1p1ppp/p7/4p3/4P3/5N2/PPP2PPP/RNBQKB1R b KQkq - 1 5", 4)]
         public void BlackKingPositionTests(string fen, byte blackKingPosition)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.GetKingPosition(ChessPieceColor.Black).Should().Be(blackKingPosition);
         }
         
@@ -122,7 +125,7 @@ namespace ChessEngine.Tests
         [TestCase("4kb1r/1p1b1ppp/p5r1/3NPn2/2pP4/7P/PPP2B2/R4RK1 w k - 2 23", true)]
         public void WhiteIsCheckedTest(string fen, bool whiteIsChecked)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.GenerateValidMoves();
             board.IsChecked(ChessPieceColor.White).Should().Be(whiteIsChecked);
         }
@@ -134,7 +137,7 @@ namespace ChessEngine.Tests
         [TestCase("rnbq1bnr/pppp1ppp/8/2k1p3/3PP3/5N2/PPP1BPPP/RNBQ1RK1 b - d3 0 5", true)]
         public void BlackIsCheckedTest(string fen, bool blackIsChecked)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             board.GenerateValidMoves();
             board.IsChecked(ChessPieceColor.Black).Should().Be(blackIsChecked);
         }

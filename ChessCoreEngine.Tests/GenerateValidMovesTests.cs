@@ -1,5 +1,7 @@
-﻿using ChessEngine.Engine;
+﻿using ChessCoreEngine.Board;
+using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
+using ChessEngine.Tests;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -9,12 +11,12 @@ using System.Text;
 namespace ChessCoreEngine.Tests
 {
     [TestFixture]
-    public class GenerateValidMovesTests
+    public class GenerateValidMovesTests : TestsBase
     {
         [Test]
         public void NewGame_NonePiecesCanMove_Excluding_KnightsAndPawns()
         {
-            var board = new BoardFactory().CreateNewGameBoard();
+            var board = new NewGameBoardFactory(_logger).CreateBoard();
             board.GenerateValidMoves();
 
             //only knights and pawns have any moves
@@ -38,7 +40,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void NewGame_KnightsHaveMoves()
         {
-            var board = new BoardFactory().CreateNewGameBoard();
+            var board = new NewGameBoardFactory(_logger).CreateBoard();
             board.GenerateValidMoves();
 
             //only knights and pawns have any moves
@@ -63,7 +65,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void NewGame_PawnsHaveMoves()
         {
-            var board = new BoardFactory().CreateNewGameBoard();
+            var board = new NewGameBoardFactory(_logger).CreateBoard();
             board.GenerateValidMoves();
 
             //black pawns
@@ -86,7 +88,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionQueenMoves()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackQueen = board.GetPiece(15);
@@ -108,7 +110,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionKingMoves()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackKing = board.GetPiece(6);
@@ -121,7 +123,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionRookMoves()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackRook = board.GetPiece(0);
@@ -138,7 +140,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionPawnMove()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/2R4q/p6p/8/3P2P1/4P3/2P4K/8 w - - 0 35", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackPawn = board.GetPiece(16);
@@ -151,7 +153,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionBishopMoves()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r5k1/5pp1/1pNp2bp/1P1P4/2q5/1R3P1P/3r2PK/3Q4 w - - 0 40");
+            var board = new FenBoardFactory(new FenHelper(), "r5k1/5pp1/1pNp2bp/1P1P4/2q5/1R3P1P/3r2PK/3Q4 w - - 0 40", _logger).CreateBoard();
 
             board.GenerateValidMoves();
 
@@ -169,7 +171,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionPawnMoveOrCapture()
         {
-            var board = new BoardFactory().CreateBoardFromFen("3b4/8/p5p1/2pk1pp1/P5P1/1P1K1P1P/1B6/8 w - - 9 43");
+            var board = new FenBoardFactory(new FenHelper(), "3b4/8/p5p1/2pk1pp1/P5P1/1P1K1P1P/1B6/8 w - - 9 43", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackPawn = board.GetPiece(29);
@@ -182,7 +184,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionPawnCapture()
         {
-            var board = new BoardFactory().CreateBoardFromFen("r2r2k1/2q2pp1/2p1p2p/pp1n1b2/2nP4/bPPNBN1P/P3BPP1/R1Q2RK1 w - - 1 19");
+            var board = new FenBoardFactory(new FenHelper(), "r2r2k1/2q2pp1/2p1p2p/pp1n1b2/2nP4/bPPNBN1P/P3BPP1/R1Q2RK1 w - - 1 19", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var whitePawn = board.GetPiece(41);
@@ -195,7 +197,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionCastling()
         {
-            var board = new BoardFactory().CreateBoardFromFen("rnbqk2r/1p2bpp1/p2ppn1p/8/3NPP1B/2N2Q2/PPP3PP/R3KB1R b KQkq - 3 9");
+            var board = new FenBoardFactory(new FenHelper(), "rnbqk2r/1p2bpp1/p2ppn1p/8/3NPP1B/2N2Q2/PPP3PP/R3KB1R b KQkq - 3 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
@@ -209,7 +211,7 @@ namespace ChessCoreEngine.Tests
         [Test]
         public void SpecificPositionEnPassant()
         {
-            var board = new BoardFactory().CreateBoardFromFen("rnbqkbnr/ppp3pp/3p4/4ppP1/4P3/8/PPPP1P1P/RNBQKBNR w KQkq f6 0 4");
+            var board = new FenBoardFactory(new FenHelper(), "rnbqkbnr/ppp3pp/3p4/4ppP1/4P3/8/PPPP1P1P/RNBQKBNR w KQkq f6 0 4", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var whitePawn = board.GetPiece(30);
@@ -224,7 +226,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is black's move...
             //White's king moves can be made in front of opposite king, but not under opposite pawn's capture field
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));
@@ -244,7 +246,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is black's move...
             //Black's king moves cannot be made in front of opposite king
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 b - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
@@ -262,7 +264,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is white's move...
             //White's king moves cannote be made in front of opposite king, nor black pawn's capture field
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));
@@ -280,7 +282,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is white's move...
             //Black's king moves are possible to made in front of opposite king
-            var board = new BoardFactory().CreateBoardFromFen("8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9");
+            var board = new FenBoardFactory(new FenHelper(), "8/8/4k1p1/8/4K3/6P1/8/8 w - - 2 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
@@ -301,7 +303,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is white's move...
             //Black's king moves are possible to made in front of opposite king
-            var board = new BoardFactory().CreateBoardFromFen("r1bqk2r/1p3pp1/p1pb1n1p/2p1pP2/4P1P1/2NPB3/PPP4P/R2QK1NR b KQkq - 1 9");
+            var board = new FenBoardFactory(new FenHelper(), "r1bqk2r/1p3pp1/p1pb1n1p/2p1pP2/4P1P1/2NPB3/PPP4P/R2QK1NR b KQkq - 1 9", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var blackKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.Black));
@@ -318,7 +320,7 @@ namespace ChessCoreEngine.Tests
         {
             //When there is white's move...
             //Black's king moves are possible to made in front of opposite king
-            var board = new BoardFactory().CreateBoardFromFen("r2qk2r/2pb1ppp/1bn2n2/1N1p4/1p2p3/3BP3/P1Q1NPPP/R1B1K2R w KQkq - 0 15");
+            var board = new FenBoardFactory(new FenHelper(), "r2qk2r/2pb1ppp/1bn2n2/1N1p4/1p2p3/3BP3/P1Q1NPPP/R1B1K2R w KQkq - 0 15", _logger).CreateBoard();
             board.GenerateValidMoves();
 
             var whiteKing = board.GetPiece(board.GetKingPosition(ChessPieceColor.White));

@@ -1,4 +1,6 @@
-﻿using ChessEngine.Engine.Enums;
+﻿using ChessCoreEngine.Board;
+using ChessEngine.Engine.Enums;
+using ChessEngine.Engine.Loggers;
 using ChessEngine.Engine.Pieces;
 using System;
 
@@ -7,45 +9,45 @@ namespace ChessEngine.Engine
 {
     public static class Puzzle
     {
-        public static Engine NewPuzzleKnightBishopKing()
+        public static Engine NewPuzzleKnightBishopKing(LoggerBase logger)
         {
             Engine engine;
 
             do
             {
-                engine = PuzzleKnightBishopCandidate();
+                engine = PuzzleKnightBishopCandidate(logger);
             }
             while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 
-        public static Engine NewPuzzleRookKing()
+        public static Engine NewPuzzleRookKing(LoggerBase logger)
         {
             Engine engine;
 
             do
             {
-                engine = PuzzleRookCandidate();
+                engine = PuzzleRookCandidate(logger);
             }
             while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 
-        public static Engine NewPuzzlePawnKing()
+        public static Engine NewPuzzlePawnKing(LoggerBase logger)
         {
             Engine engine;
 
             do
             {
-                engine = PuzzleKingPawnCandidate();
+                engine = PuzzleKingPawnCandidate(logger);
             }
             while (engine.IsGameOver() || engine.GetChecked(ChessPieceColor.Black) || engine.GetChecked(ChessPieceColor.White));
             return engine;
         }
 
-        private static Engine PuzzleKnightBishopCandidate()
+        private static Engine PuzzleKnightBishopCandidate(LoggerBase logger)
         {
-            Engine engine = new Engine(new BoardFactory().CreateEmptyBoard());
+            Engine engine = new Engine(new EmptyBoardFactory(logger).CreateBoard(), new Book(new FenHelper(), logger));
 
             Random random = new Random(DateTime.Now.Second);
 
@@ -88,9 +90,9 @@ namespace ChessEngine.Engine
             return engine;
         }
 
-        private static Engine PuzzleRookCandidate()
+        private static Engine PuzzleRookCandidate(LoggerBase logger)
         {
-            Engine engine = new Engine(new BoardFactory().CreateEmptyBoard());
+            Engine engine = new Engine(new EmptyBoardFactory(logger).CreateBoard(), new Book(new FenHelper(), logger));
 
             Random random = new Random(DateTime.Now.Second);
 
@@ -124,9 +126,9 @@ namespace ChessEngine.Engine
             return engine;
         }
 
-        private static Engine PuzzleKingPawnCandidate()
+        private static Engine PuzzleKingPawnCandidate(LoggerBase logger)
         {
-            Engine engine = new Engine(new BoardFactory().CreateEmptyBoard());
+            Engine engine = new Engine(new EmptyBoardFactory(logger).CreateBoard(), new Book(new FenHelper(), logger));
 
             Random random = new Random(DateTime.Now.Second);
 

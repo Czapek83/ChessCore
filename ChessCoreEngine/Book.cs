@@ -1,17 +1,26 @@
+using ChessCoreEngine.Board;
+using ChessEngine.Engine.Loggers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ChessEngine.Engine
 {
-    internal class Book
+    public class Book
     {
-        public static List<OpeningMove> LoadOpeningBook()
+        private readonly FenHelper _fenHelper;
+        private readonly LoggerBase _logger;
+        public Book(FenHelper fenHelper, LoggerBase logger)
+        {
+            _fenHelper = fenHelper;
+            _logger = logger;
+        }
+        public List<OpeningMove> LoadOpeningBook()
 		{
 			return PopulateOpeningBook();
         }
 
-        internal static List<OpeningMove> PopulateOpeningBook()
+        public List<OpeningMove> PopulateOpeningBook()
         {
             List<OpeningMove> openingBook = new List<OpeningMove>();
             string moveLine;
@@ -13861,7 +13870,7 @@ namespace ChessEngine.Engine
             return openingBook;
         }
 
-        internal static int ValidateOpeningBook(List<OpeningMove> openingBook)
+        public int ValidateOpeningBook(List<OpeningMove> openingBook)
         {
             int failed = 0;
 
@@ -13880,9 +13889,9 @@ namespace ChessEngine.Engine
 
         }
 
-        private static bool IsValidMove(byte srcPos, byte dstPos, string fen)
+        private bool IsValidMove(byte srcPos, byte dstPos, string fen)
         {
-            Board chessBoard = new BoardFactory().CreateBoardFromFen(fen);
+            Board chessBoard = new FenBoardFactory(_fenHelper, fen, _logger).CreateBoard();
             chessBoard.GenerateValidMoves();
 
 
@@ -13913,7 +13922,7 @@ namespace ChessEngine.Engine
         }
     }
 
-    internal class OpeningMove
+    public class OpeningMove
     {
         public string EndingFEN;
         public string StartingFEN;

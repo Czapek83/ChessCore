@@ -1,6 +1,8 @@
-﻿using ChessEngine.Engine;
+﻿using ChessCoreEngine.Board;
+using ChessEngine.Engine;
 using ChessEngine.Engine.Enums;
 using ChessEngine.Engine.Pieces;
+using ChessEngine.Tests;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
@@ -10,7 +12,7 @@ using System.Text;
 namespace ChessCoreEngine.Tests
 {
     [TestFixture]
-    public class EvaluationTests
+    public class EvaluationTests : TestsBase
     {
         ICoordinatesConverter converter = new CoordinatesConverter();
         PawnCountDictionary pawnCount;
@@ -184,7 +186,7 @@ namespace ChessCoreEngine.Tests
         [TestCase("r1bqkbnr/1ppp1ppp/p1n5/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 1 4", 20)]
         public void BoardEvaluationTest(string fen, int expectedScore)
         {
-            var board = new BoardFactory().CreateBoardFromFen(fen);
+            var board = new FenBoardFactory(new FenHelper(), fen, _logger).CreateBoard();
             var score = Evaluation.EvaluateBoardScore(board.GetEvaluationParameters(), board);
 
             score.Should().Be(expectedScore);
