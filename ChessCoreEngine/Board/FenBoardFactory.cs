@@ -55,107 +55,24 @@ namespace ChessEngine.Engine
 
                 if (index < 64 && spacers == 0)
                 {
-                    if (c == '1' && index < 63)
+                    var code = (byte)c;
+                    var isNumber = char.IsNumber(c);
+                    var charToUpper = char.ToUpper(c);
+
+                    if (isNumber)
                     {
-                        index++;
+                        byte charToByte = (byte)(code - 48);
+
+                        if (index < 64 - charToByte)
+                        {
+                            index += charToByte;
+                        }
                     }
-                    else if (c == '2' && index < 62)
+                    else if (charToUpper == 'P' || charToUpper == 'N' || charToUpper == 'B' ||
+                        charToUpper == 'R' || charToUpper == 'Q' || charToUpper == 'K')
                     {
-                        index += 2;
-                    }
-                    else if (c == '3' && index < 61)
-                    {
-                        index += 3;
-                    }
-                    else if (c == '4' && index < 60)
-                    {
-                        index += 4;
-                    }
-                    else if (c == '5' && index < 59)
-                    {
-                        index += 5;
-                    }
-                    else if (c == '6' && index < 58)
-                    {
-                        index += 6;
-                    }
-                    else if (c == '7' && index < 57)
-                    {
-                        index += 7;
-                    }
-                    else if (c == '8' && index < 56)
-                    {
-                        index += 8;
-                    }
-                    else if (c == 'P')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'N')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'B')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'R')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'Q')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'K')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.White);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'p')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Pawn, ChessPieceColor.Black);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'n')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Knight, ChessPieceColor.Black);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'b')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Bishop, ChessPieceColor.Black);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'r')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Rook, ChessPieceColor.Black);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'q')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.Queen, ChessPieceColor.Black);
-                        Squares[index].Piece.Moved = true;
-                        index++;
-                    }
-                    else if (c == 'k')
-                    {
-                        Squares[index].Piece = PieceFactory.CreatePieceByTypeAndColor(ChessPieceType.King, ChessPieceColor.Black);
+
+                        Squares[index].Piece = PieceFactory.CreatePieceByFenCode(c);
                         Squares[index].Piece.Moved = true;
                         index++;
                     }

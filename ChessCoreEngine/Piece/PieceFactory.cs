@@ -28,5 +28,28 @@ namespace ChessEngine.Engine.Pieces
                 default: throw new ArgumentException($"Invalid chessPieceType {chesspieceType}");
             }
         }
+
+        public static Piece CreatePieceByFenCode(char code)
+        {
+            var chessPieceColor = char.IsUpper(code) ? ChessPieceColor.White : ChessPieceColor.Black;
+            var converter = new CoordinatesConverter();
+
+            switch (char.ToUpper(code))
+            {
+                case 'B':
+                    return new Bishop(chessPieceColor, converter);
+                case 'N':
+                    return new Knight(chessPieceColor, converter);
+                case 'R':
+                    return new Rook(chessPieceColor, converter);
+                case 'Q':
+                    return new Queen(chessPieceColor, converter);
+                case 'K':
+                    return new King(chessPieceColor, converter);
+                case 'P':
+                    return new Pawn(chessPieceColor, converter);
+                default: throw new ArgumentException($"Invalid chesspieceCode {code}");
+            }
+        }
     }
 }
